@@ -1,25 +1,45 @@
 <!doctype html>
 <html lang="es" dir="ltr">
 <head>
+  <title>Vista General</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/fontawesome/css/all.css">
-  <title>Vista General</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../static/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../static/fontawesome/css/all.css">
+
+  <!-- JavaScript -->
+  <!-- Bootstrap y requeridos -->
+  <script src="../../static/js/jquery-3.3.1.min.js"></script>
+  <script src="../../static/js/popper.min.js"></script>
+  <script src="../../static/js/bootstrap.min.js"></script>
+
+  <!-- Datatables -->
+  <script type="text/javascript" language="javascript" src="../../static/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../static/js/dataTables.bootstrap4.min.js"></script>
+  <script type="text/javascript" class="init">
+  $(document).ready(function() {
+    $('#example').DataTable( {
+      "dom": '<"row justify-content-end"<"col-1"l><"col-8"p><"col-3"f>>ti'
+    } );
+  } );
+  </script>
+  <!-- Fin JavaScript -->
 </head>
-<body>
+<body class="pt-5">
   <!-- Nav -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-info">
     <a class="navbar-brand" href="#">Dirección de Medicina Ocupacional</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link" href="#"><i class="fas fa-user-circle"></i> Mi cuenta</a>
-        <a class="nav-item nav-link" href="#"><i class="fas fa-cog"></i> Configuración</a>
-        <a class="nav-item nav-link active" href="#"><i class="fas fa-users"></i> Aspirantes</a>
+        <a class="nav-item nav-link" href="#"><i class="fas pr-1 fa-user-circle"></i>Mi cuenta</a>
+        <a class="nav-item nav-link" href="#"><i class="fas pr-1 fa-cog"></i>Configuración</a>
+        <a class="nav-item nav-link active" href="#"><i class="fas pr-1 fa-users"></i>Aspirantes</a>
 
       </div>
     </div>
@@ -27,7 +47,7 @@
   <!-- Fin nav -->
 
   <!-- Contenedor Bootstrap -->
-  <div class="container-fluid mt-2">
+  <div class="container-fluid">
 
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
@@ -322,22 +342,6 @@
 
   </div>
   <!-- Fin contenedor Bootstrap -->
-
-  <!-- JavaScript -->
-  <script src="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/js/jquery-3.3.1.min.js"></script>
-  <script src="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/js/popper.min.js"></script>
-  <script src="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/js/bootstrap.min.js"></script>
-  <script type="text/javascript" language="javascript" src="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/js/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" language="javascript" src="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/js/dataTables.bootstrap4.min.js"></script>
-  <script type="text/javascript" class="init">
-  $(document).ready(function() {
-    $('#example').DataTable( {
-      "dom": '<"row justify-content-end"<"col-1"l><"col-8"p><"col-3"f>>ti'
-    } );
-  } );
-  </script>
-  <!-- Fin JavaScript -->
-
 
 </body>
 </html>

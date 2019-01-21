@@ -1,26 +1,26 @@
 <!doctype html>
 <html>
 <head>
+  <title>Nuevo aspirante</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/fontawesome/css/all.css">
-  <title>Nuevo aspirante</title>
-
+  <!-- CSS -->
+  <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../static/fontawesome/css/all.css">
   <!-- Padding para el espacio de los íconos -->
   <style>.fas{padding-right:2;}</style>
+
   <!-- JavaScript -->
   <!-- Bootstrap y requeridos -->
-  <script src="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/js/jquery-3.3.1.min.js"></script>
-  <script src="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/js/popper.min.js"></script>
-  <script src="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/js/bootstrap.min.js"></script>
+  <script src="../../static/js/jquery-3.3.1.min.js"></script>
+  <script src="../../static/js/popper.min.js"></script>
+  <script src="../../static/js/bootstrap.min.js"></script>
 
   <!-- Datetime picker -->
-  <script src="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/moment/min/moment.min.js"></script>
-  <script src="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/moment/min/locales.js"></script>
-  <script src="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-  <link rel="stylesheet" href="/media/guido/data/Varios/dev/proyectos/mlp/preocupacionales/desarrollo/static/tempusdominus/css/tempusdominus-bootstrap-4.min.css"/>
+  <script src="../../static/moment/min/moment.min.js"></script>
+  <script src="../../static/moment/min/locales.js"></script>
+  <script src="../../static/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+  <link rel="stylesheet" href="../../static/tempusdominus/css/tempusdominus-bootstrap-4.min.css"/>
   <script type="text/javascript">
   $(document).ready(function() {
     $('#inputTurnoPsicologico1').datetimepicker({
@@ -79,7 +79,8 @@
 
     <!-- Area botones y formulario -->
     <div class="row">
-      <div class="col-md-1"></div>
+      <div class="col-md-1">
+      </div>
 
       <div class="col-md-8 border rounded p-3 bg-light">
         <!-- Formulario -->
@@ -287,20 +288,18 @@
               <!-- Fin observaciones -->
             </div>
             <!-- Fin Preocupacionales -->
-
-
-
           </div>
         </div>
         <!-- Fin formulario -->
 
+        <!-- Area botones -->
         <div class="col-md-2">
           <div class="row">
             <div class="col">
               <div class="btn-group-vertical btn-block">
                 <button class="btn btn-info" type="button" name="buttonGuardar"><i class="fas pr-1 fa-save"></i>Guardar cambios</button>
                 <div class="btn-group">
-                  <button class="btn btn-info dropdown-toggle" type="button" id="dropdownCedula" data-toggle="dropdown"><i class="fas pr-1 fa-print"></i>Imprimir cédula</button>
+                  <button class="btn btn-info dropdown-toggle" type="button" id="dropdownCedula" data-toggle="dropdown"><i class="fas pr-1 fa-print"></i>Generar cédula</button>
                   <div class="dropdown-menu" aria-labelledby="dropdownCedula">
                     <a class="dropdown-item" href="#">Completa</a>
                     <a class="dropdown-item" href="#">Psicológico</a>
@@ -314,6 +313,7 @@
             </div>
           </div>
         </div>
+        <!-- Fin area botnes -->
       </form>
     </div>
     <!-- Fin area botones y formulario -->
