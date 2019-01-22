@@ -17,7 +17,121 @@
   <script src="../../static/js/popper.min.js"></script>
   <script src="../../static/js/bootstrap.min.js"></script>
 
-<!-- Fin JavaScript -->
+  <!-- Fullcalendar -->
+  <script src="../../static/moment/min/moment.min.js"></script>
+  <script src="../../static/fullcalendar/fullcalendar.min.js"></script>
+  <script src="../../static/fullcalendar/locale/es.js"></script>
+  <link rel="stylesheet" href="../../static/fullcalendar/fullcalendar.min.css">
+  <link rel="stylesheet" href="../../static/fullcalendar/fullcalendar.print.min.css" media="print">
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $('#buttonImprimir').on('click', function (){
+      window.print();
+    });
+  });
+  </script>
+  <script type="text/javascript" class="init">
+  $(document).ready(function() {
+    $('#calendar').fullCalendar({
+      weekends: false, // will hide Saturdays and Sundays
+      defaultView: 'month',
+      timezone: 'America/Argentina/Buenos_Aires',
+      locale: 'es',
+      eventRender: function(eventObj, $el) {
+        $el.popover({
+          title: eventObj.title,
+          content: eventObj.description,
+          trigger: 'hover',
+          placement: 'top',
+          container: 'body'
+        });
+      },
+      events: [
+        {
+          title  : 'Guido Valente DNI: 37151819',
+          start  : '2019-01-09T09:00:00',
+          end: '2019-01-09T09:30:00',
+          description: 'asd',
+          allDay : false
+        },
+        {
+          title  : 'Guido Valente DNI: 37151819',
+          start  : '2019-01-09T09:30:00',
+          end: '2019-01-09T10:00:00',
+          description: 'asd',
+          allDay : false
+        },
+        {
+          title  : 'Guido Valente DNI: 37151819',
+          start  : '2019-01-09T10:00:00',
+          end: '2019-01-09T10:30:00',
+          description: 'asd',
+          allDay : false
+        },
+        {
+          title  : 'Guido Valente DNI: 37151819',
+          start  : '2019-01-09T14:00:00',
+          end: '2019-01-09T14:30:00',
+          description: 'asd',
+          allDay : false
+        },
+        {
+          title  : 'Guido Valente DNI: 37151819',
+          start  : '2019-01-09T14:30:00',
+          end: '2019-01-09T15:00:00',
+          description: 'asd',
+          allDay : false
+        }
+      ],
+      navLinks: true,
+      weekNumbers: true,
+      header: {
+        left:   'title',
+        center: '',
+        right:  'today year,month,agendaWeek,agendaDay,day,list prev,next'
+      },
+      fixedWeekCount: false,
+      minTime: '08:00:00',
+      maxTime: '18:00:00',
+      slotLabelInterval: { minutes: 30},
+      slotLabelFormat: 'H:mm',
+      eventLimit: 5,
+      views: {
+        agendaWeek : {
+          columnHeaderFormat: 'DD/MM'
+        }
+      },
+      nowIndicator: true,
+      themeSystem: 'bootstrap4',
+      bootstrapFontAwesome: {
+        close: 'fas fa-times',
+        prev: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        prevYear: 'fas fa-angle-double-left',
+        nextYear: 'fas fa-angle-double-right'
+      }
+    });
+  } );
+  </script>
+  <!-- CSS de impresión -->
+  <style media="print">
+  @page {size: landscape}
+  .hidden-print {
+    display: none !important;
+  }
+  .col-md-8 {
+    width: 100%;
+    max-width: 100%;
+    flex: 100;
+  }
+  .col-md-2 {
+    flex: 0;
+  }
+  nav {
+    display:none !important;
+  }
+  </style>
+  <!-- Fin JavaScript -->
 </head>
 <body class="pt-5">
   <!-- Nav -->
@@ -48,6 +162,17 @@
       </ol>
     </nav>
     <!-- Fin breadcrumb -->
+
+    <div class="row">
+      <div class="col-md-2">
+        <div class="pt-5">
+        <button id="buttonImprimir" class="btn btn-block btn-info hidden-print">Imprimir</button>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div id="calendar"></div>
+      </div>
+    </div>
 
   </div>
   <!-- Fin contenedor Bootstrap -->
