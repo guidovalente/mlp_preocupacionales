@@ -1,0 +1,322 @@
+<!doctype html>
+<html>
+<head>
+  <title>Nuevo aspirante</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- CSS -->
+  <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../static/fontawesome/css/all.css">
+  <!-- Padding para el espacio de los íconos -->
+
+  <!-- JavaScript -->
+  <!-- Bootstrap y requeridos -->
+  <script src="../../static/js/jquery-3.3.1.min.js"></script>
+  <script src="../../static/js/popper.min.js"></script>
+  <script src="../../static/js/bootstrap.min.js"></script>
+
+  <!-- Datetime picker -->
+  <script src="../../static/moment/min/moment.min.js"></script>
+  <script src="../../static/moment/min/locales.js"></script>
+  <script src="../../static/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+  <link rel="stylesheet" href="../../static/tempusdominus/css/tempusdominus-bootstrap-4.min.css"/>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $('#inputTurnoPsicologico1').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+      locale: 'es',
+      stepping: 15
+    });
+    $('#inputTurnoPsicologico2').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+      locale: 'es',
+      stepping: 15
+    });
+    $('#inputTurnoClinico1').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+      locale: 'es',
+      stepping: 15
+    });
+    $('#inputTurnoClinico2').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+      locale: 'es',
+      stepping: 15
+    });
+  });
+</script>
+<!-- Fin JavaScript -->
+</head>
+<body class="pt-5">
+  <!-- Nav -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-info">
+    <a class="navbar-brand" href="#">Dirección de Medicina Ocupacional</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" href="#"><i class="fas pr-1 fa-user-circle"></i>Mi cuenta</a>
+        <a class="nav-item nav-link" href="#"><i class="fas pr-1 fa-cog"></i>Configuración</a>
+        <a class="nav-item nav-link active" href="#"><i class="fas pr-1 fa-users"></i>Aspirantes</a>
+
+      </div>
+    </div>
+  </nav>
+  <!-- Fin nav -->
+
+  <!-- Contenedor Bootstrap -->
+  <div class="container-fluid">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb bg-transparent">
+        <li class="breadcrumb-item"><a href="#">Aspirantes</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Nuevo aspirante</li>
+      </ol>
+    </nav>
+    <!-- Fin breadcrumb -->
+
+    <!-- Area botones y formulario -->
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+
+      <div class="col-md-8 border rounded p-3 bg-light">
+        <!-- Formulario -->
+        <form>
+          <div class="row">
+            <!-- Area datos -->
+            <div class="col-md-8">
+
+              <!-- Datos personales -->
+              <div>
+                <div class="form-row">
+                  <div class="form-group col-md-auto h5">
+                    Datos personales
+                  </div>
+                </div>
+                <div class="ml-2">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputNombre">Nombre</label>
+                      <input type="text" class="form-control" id="inputNombre" placeholder="Nombre(s)">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputApellido">Apellido</label>
+                      <input type="text" class="form-control" id="inputApellido" placeholder="Apellido(s)">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-3">
+                      <label for="inputDNI">DNI</label>
+                      <input type="text" class="form-control" id="inputDNI" placeholder="DNI">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="inputTelefono">Teléfono</label>
+                      <input type="text" class="form-control" id="inputTelefono" placeholder="Teléfono">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-auto h5">
+                      Domicilio
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-5">
+                      <label for="inputDomicilioCalle">Calle</label>
+                      <input type="text" class="form-control" id="inputDomicilioCalle" placeholder="Calle">
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label for="inputDomicilioNumero">Número</label>
+                      <input type="text" class="form-control" id="inputDomicilioNumero" placeholder="Número">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-2">
+                      <label for="inputDomicilioPiso">Piso</label>
+                      <input type="text" class="form-control" id="inputDomicilioPiso" placeholder="Piso">
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="inputDomicilioDepartamento">Departamento</label>
+                      <input type="text" class="form-control" id="inputDomicilioDepartamento" placeholder="Depto">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Fin datos personales -->
+
+              <!-- Datos municipales -->
+              <div>
+                <div class="form-row">
+                  <div class="form-group col-md-auto h4">
+                    Datos municipales
+                  </div>
+                </div>
+                <div class="ml-2">
+                  <div class="form-row">
+                    <div class="form-group col-md-3">
+                      <label for="inputLegajo">Legajo</label>
+                      <input type="text" class="form-control" id="inputLegajo" placeholder="Legajo">
+                    </div>
+                    <div class="form-group col-md-9">
+                      <label for="inputReparticion">Repartición</label>
+                      <input type="text" class="form-control" id="inputReparticion" placeholder="Repartición">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Fin datos municipales -->
+            </div>
+            <!-- Fin area datos -->
+
+
+            <!-- Los input de los preocupacionales se pueden llegar a escapar del bordered -->
+            <!-- En esos casos usar este css: <style> input { max-width: 100%; } </style> -->
+
+            <!-- Preocupacionales -->
+            <div class="col-md-4">
+              <!-- Preocupacional psicológico -->
+              <div class="form-row">
+                <div class="form-group col-md-auto">
+                  <div class="form-row">
+                    <div class="form-group h5">
+                      Preocupacional psicológico
+                    </div>
+                  </div>
+                  <div class="form-row form-inline">
+                    <div class="col-sm-3">
+                      <label for="inputTurnoPsicologico1">1º Turno</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <div class="input-group date" id="inputTurnoPsicologico1" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#inputTurnoPsicologico1" placeholder="-" />
+                        <div class="input-group-append" data-target="#inputTurnoPsicologico1" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row form-inline mt-2">
+                    <div class="col-sm-3">
+                      <label for="inputTurnoPsicologico2">2º Turno</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <div class="input-group date" id="inputTurnoPsicologico2" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#inputTurnoPsicologico2" placeholder="-" />
+                        <div class="input-group-append" data-target="#inputTurnoPsicologico2" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row form-inline mt-2">
+                    <div class="col-sm-3">
+                      <label for="inputAptoPsicologico">Apto</label>
+                    </div>
+                    <div class="col-sm-2">
+                      <select class="form-control" id="inputAptoPsicologico">
+                        <option>-</option>
+                        <option>Sí</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Fin preocupacional psicológico -->
+
+              <!-- Preocupacional clínico -->
+              <div class="form-row">
+                <div class="form-group col-md-auto">
+                  <div class="form-row">
+                    <div class="form-group h5">
+                      Preocupacional clínico
+                    </div>
+                  </div>
+                  <div class="form-row form-inline">
+                    <div class="col-sm-3">
+                      <label for="inputTurnoClinico1">1º Turno</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <div class="input-group date" id="inputTurnoClinico1" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#inputTurnoClinico1" placeholder="-" />
+                        <div class="input-group-append" data-target="#inputTurnoClinico1" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row form-inline mt-2">
+                    <div class="col-sm-3">
+                      <label for="inputTurnoClinico2">2º Turno</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <div class="input-group date" id="inputTurnoClinico2" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#inputTurnoClinico2" placeholder="-" />
+                        <div class="input-group-append" data-target="#inputTurnoClinico2" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row form-inline mt-2">
+                    <div class="col-sm-3">
+                      <label for="inputAptoClinico">Apto</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <select class="form-control" id="inputAptoClinico">
+                        <option>-</option>
+                        <option>Sí</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Fin preocupacional clínico -->
+
+              <!-- Observaciones -->
+              <div class="form-row">
+                <div class="col">
+                  <label class="h5" for="inputObservaciones">Observaciones</label>
+                  <div class="form-group col-md-auto">
+                    <textarea rows="5" class="form-control" id="inputObservaciones" style=""></textarea>
+                  </div>
+                </div>
+              </div>
+              <!-- Fin observaciones -->
+            </div>
+            <!-- Fin Preocupacionales -->
+          </div>
+        </div>
+        <!-- Fin formulario -->
+
+        <!-- Area botones -->
+        <div class="col-md-2">
+          <div class="row">
+            <div class="col">
+              <div class="btn-group-vertical btn-block">
+                <button class="btn btn-info" type="button" name="buttonGuardar"><i class="fas pr-1 fa-save"></i>Guardar cambios</button>
+                <div class="btn-group">
+                  <button class="btn btn-info dropdown-toggle" type="button" id="dropdownCedula" data-toggle="dropdown"><i class="fas pr-1 fa-print"></i>Generar cédula</button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownCedula">
+                    <a class="dropdown-item" href="#">Completa</a>
+                    <a class="dropdown-item" href="#">Psicológico</a>
+                    <a class="dropdown-item" href="#">Clínico</a>
+                  </div>
+                </div>
+                <button class="btn btn-danger" type="button" name="buttonEliminar"><i class="fas pr-1 fa-trash"></i>Eliminar</button>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Fin area botnes -->
+      </form>
+    </div>
+    <!-- Fin area botones y formulario -->
+  </div>
+  <!-- Fin contenedor Bootstrap -->
+</body>
+</html>
