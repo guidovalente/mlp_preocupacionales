@@ -9,17 +9,20 @@
   <link rel="stylesheet" href="../../static/fontawesome/css/all.css">
   <!-- Padding para el espacio de los íconos -->
 
-  <!-- JavaScript -->
+  <!-- JS+CSS -->
   <!-- Bootstrap y requeridos -->
   <script src="../../static/js/jquery-3.3.1.min.js"></script>
   <script src="../../static/js/popper.min.js"></script>
   <script src="../../static/js/bootstrap.min.js"></script>
 
+  <!-- Específico de la vista -->
   <!-- Datetime picker -->
   <script src="../../static/moment/min/moment.min.js"></script>
   <script src="../../static/moment/min/locales.js"></script>
   <script src="../../static/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
   <link rel="stylesheet" href="../../static/tempusdominus/css/tempusdominus-bootstrap-4.min.css"/>
+
+  <!-- JS datetime pickers -->
   <script type="text/javascript">
   $(document).ready(function() {
     $('#inputTurnoPsicologico1').datetimepicker({
@@ -43,8 +46,21 @@
       stepping: 15
     });
   });
-</script>
-<!-- Fin JavaScript -->
+  </script>
+
+  <!-- JS formulario -->
+  <!-- <script type="text/javascript">
+  $(document).ready(function() {
+    $("input").change(function(){
+      alert(document.getElementById('inputTurnoPsicologico1').value);
+    });
+    $("#inputTurnoPsicologico2").on("change.datetimepicker", function (e) {
+      alert(document.getElementById('inputTurnoPsicologico1').value);
+    });
+  }); -->
+
+  </script>
+  <!-- Fin JS+CSS -->
 </head>
 <body class="pt-5">
   <!-- Nav -->
@@ -188,8 +204,8 @@
                       <label for="inputTurnoPsicologico1">1º Turno</label>
                     </div>
                     <div class="col-sm-9">
-                      <div class="input-group date" id="inputTurnoPsicologico1" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#inputTurnoPsicologico1" placeholder="-" />
+                      <div class="input-group date" data-target-input="nearest">
+                        <input id="inputTurnoPsicologico1" type="text" class="form-control datetimepicker-input" data-target="#inputTurnoPsicologico1"/>
                         <div class="input-group-append" data-target="#inputTurnoPsicologico1" data-toggle="datetimepicker">
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -201,8 +217,8 @@
                       <label for="inputTurnoPsicologico2">2º Turno</label>
                     </div>
                     <div class="col-sm-9">
-                      <div class="input-group date" id="inputTurnoPsicologico2" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#inputTurnoPsicologico2" placeholder="-" />
+                      <div class="input-group date" data-target-input="nearest">
+                        <input type="text" id="inputTurnoPsicologico2" class="form-control datetimepicker-input" data-target="#inputTurnoPsicologico2" />
                         <div class="input-group-append" data-target="#inputTurnoPsicologico2" data-toggle="datetimepicker">
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -239,7 +255,7 @@
                     </div>
                     <div class="col-sm-9">
                       <div class="input-group date" id="inputTurnoClinico1" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#inputTurnoClinico1" placeholder="-" />
+                        <input type="text" class="form-control datetimepicker-input" data-target="#inputTurnoClinico1" />
                         <div class="input-group-append" data-target="#inputTurnoClinico1" data-toggle="datetimepicker">
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -252,7 +268,7 @@
                     </div>
                     <div class="col-sm-9">
                       <div class="input-group date" id="inputTurnoClinico2" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#inputTurnoClinico2" placeholder="-" />
+                        <input type="text" class="form-control datetimepicker-input" data-target="#inputTurnoClinico2" />
                         <div class="input-group-append" data-target="#inputTurnoClinico2" data-toggle="datetimepicker">
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -295,28 +311,20 @@
         <div class="col-md-2">
           <div class="row">
             <div class="col">
-              <div class="btn-group-vertical btn-block">
-                <button class="btn btn-info" type="button" name="buttonGuardar"><i class="fas pr-1 fa-save"></i>Guardar cambios</button>
+              <div class="btn-block">
+                <button class="btn btn-info btn-lg" type="submit" name="buttonGuardar"><i class="fas pr-1 fa-user"></i>Crear agente</button>
                 <div class="btn-group">
-                  <button class="btn btn-info dropdown-toggle" type="button" id="dropdownCedula" data-toggle="dropdown"><i class="fas pr-1 fa-print"></i>Generar cédula</button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownCedula">
-                    <a class="dropdown-item" href="#">Completa</a>
-                    <a class="dropdown-item" href="#">Psicológico</a>
-                    <a class="dropdown-item" href="#">Clínico</a>
-                  </div>
+
+
                 </div>
-                <button class="btn btn-danger" type="button" name="buttonEliminar"><i class="fas pr-1 fa-trash"></i>Eliminar</button>
-
-
               </div>
             </div>
           </div>
-        </div>
-        <!-- Fin area botnes -->
-      </form>
+          <!-- Fin area botnes -->
+        </form>
+      </div>
+      <!-- Fin area botones y formulario -->
     </div>
-    <!-- Fin area botones y formulario -->
-  </div>
-  <!-- Fin contenedor Bootstrap -->
-</body>
-</html>
+    <!-- Fin contenedor Bootstrap -->
+  </body>
+  </html>
