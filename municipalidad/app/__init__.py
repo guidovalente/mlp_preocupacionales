@@ -1,8 +1,6 @@
 import os
 
 from flask import Flask, render_template
-from flask.ext.sqlalchemy import SQLAlchemy
-
 
 def create_app(test_config=None):
     # create and configure the app
@@ -10,7 +8,7 @@ def create_app(test_config=None):
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
+        app.config.from_pyfile('config.py')
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
@@ -21,7 +19,8 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    db = SQLAlchemy(app)
+    from . import preocupacionales
+    app.register_blueprint(preocupacionales.bp)
 
     @app.errorhandler(404)
     def not_found(error):

@@ -1,4 +1,4 @@
-from app.modelos_base import db, Base
+from .modelos_base import db, Base
 
 class Agente(Base):
     __tablename__ = 'agentes'
@@ -21,9 +21,9 @@ class Agente(Base):
         backref='agente', lazy=True)
 
     def __init__(
-            self, nombre, apellido, dni, domicilio_calle=None,
+            self, nombre, apellido, reparticion, dni, domicilio_calle=None,
             domicilio_numero=None, domicilio_piso=None,
-            domicilio_depto=None, legajo=None, reparticion,
+            domicilio_depto=None, legajo=None,
             apto_psicologico=None, apto_medico=None,
             turnos=None):
 
@@ -67,3 +67,17 @@ class Turno(Base):
     ausente = db.Column(db.Boolean, nullable=False, default=False)
     id_agente = db.Column(db.Integer, db.ForeignKey('agentes.id'),
                             nullable=False)
+
+    # def __init__(
+    #         self, numero)
+
+class Simple(Base):
+    __tablename__ = "simples"
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+    def __repr__(self):
+        return "Simple: {}".format(self.nombre)
