@@ -19,13 +19,14 @@ class Agente(Base):
     apto_medico = db.Column(db.Boolean, nullable=True)
     turnos = db.relationship('Turno', cascade="all,delete",
         backref='agente', lazy=True)
+    observaciones = db.Column(db.Text, nullable=True)
 
     def __init__(
             self, nombre, apellido, reparticion, dni, domicilio_calle=None,
             domicilio_numero=None, domicilio_piso=None,
             domicilio_depto=None, legajo=None,
             apto_psicologico=None, apto_medico=None,
-            turnos=None):
+            turnos=[], observaciones=None):
 
         self.nombre = nombre
         self.apellido = apellido
@@ -39,6 +40,7 @@ class Agente(Base):
         self.apto_psicologico = apto_psicologico
         self.apto_medico = apto_medico
         self.turnos = turnos
+        self.observaciones = observaciones
 
     def __repr__(self):
         return "Agente {apellido}, {nombre} (DNI: {dni})".format(self.apellido, self.nombre, self.dni)
