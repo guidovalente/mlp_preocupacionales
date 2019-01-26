@@ -7,6 +7,7 @@ class Agente(Base):
     nombre = db.Column(db.String(128), nullable=False)
     apellido = db.Column(db.String(128), nullable=False)
     dni = db.Column(db.Integer, nullable=False, unique=True)
+    telefono = db.Column(db.String(70), nullable=True)
     domicilio_calle = db.Column(db.String(128), nullable=True)
     domicilio_numero = db.Column(db.String(128), nullable=True)
     domicilio_piso =  db.Column(db.String(128), nullable=True)
@@ -22,7 +23,8 @@ class Agente(Base):
     observaciones = db.Column(db.Text, nullable=True)
 
     def __init__(
-            self, nombre, apellido, reparticion, dni, domicilio_calle=None,
+            self, nombre, apellido, reparticion, dni,
+            telefono=None, domicilio_calle=None,
             domicilio_numero=None, domicilio_piso=None,
             domicilio_depto=None, legajo=None,
             apto_psicologico=None, apto_medico=None,
@@ -31,6 +33,7 @@ class Agente(Base):
         self.nombre = nombre
         self.apellido = apellido
         self.dni = dni
+        self.telefono = telefono
         self.domicilio_calle = domicilio_calle
         self.domicilio_numero = domicilio_numero
         self.domicilio_piso = domicilio_piso
@@ -60,7 +63,7 @@ class Reparticion(Base):
         self.nombre = nombre
 
     def __repr__(self):
-        return "Reparticion {}".format(self.nombre)
+        return self.nombre
 
 
 class Turno(Base):
