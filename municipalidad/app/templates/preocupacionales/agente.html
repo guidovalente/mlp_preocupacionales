@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+{% block extra_head %}
+  <script src="{{ url_for('static', filename='moment/js/moment.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='moment/js/locales.js')}}"></script>
+  <script src="{{ url_for('static', filename='tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+  <!-- JS datetime pickers -->
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $('#turno_psi_1').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+      locale: 'es',
+      stepping: 15
+    });
+    $('#turno_psi_2').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+      locale: 'es',
+      stepping: 15
+    });
+    $('#turno_med_1').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+      locale: 'es',
+      stepping: 15
+    });
+    $('#turno_med_2').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+      locale: 'es',
+      stepping: 15
+    });
+  });
+  </script>
+{% endblock %}
+{% block contenido %}
+<div class="row">
+
+  <div class="col-md-1"></div><!-- Columna vacía -->
+  <div class="col-md-8 border rounded p-3 bg-light">
+    <!-- Formulario -->
+    <form action="/preocupacionales/nuevo_agente" method="POST">
+      <div class="row">
+        <!-- Area datos -->
+        <div class="col-md-8">
+          <!-- Datos personales -->
+          <div>
+            <div class="form-row">
+              <div class="form-group col-md-auto h5">
+                Datos personales
+              </div>
+            </div>
+            <div class="ml-2">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  {{ form.nombre.label }}
+                  {{ form.nombre(class='form-control') }}
+                </div>
+                <div class="form-group col-md-6">
+                  {{ form.apellido.label }}
+                  {{ form.apellido(class='form-control') }}
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  {{ form.dni.label }}
+                  {{ form.dni(class='form-control') }}
+                </div>
+                <div class="form-group col-md-4">
+                  {{ form.telefono.label }}
+                  {{ form.telefono(class='form-control') }}
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-auto h5">
+                  Domicilio
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-5">
+                  {{ form.domicilio_calle.label }}
+                  {{ form.domicilio_calle(class='form-control') }}
+                </div>
+                <div class="form-group col-md-3">
+                  {{ form.domicilio_numero.label }}
+                  {{ form.domicilio_numero(class='form-control') }}
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-2">
+                  {{ form.domicilio_piso.label }}
+                  {{ form.domicilio_piso(class='form-control') }}
+                </div>
+                <div class="form-group col-md-2">
+                  {{ form.domicilio_depto.label }}
+                  {{ form.domicilio_depto(class='form-control') }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Fin datos personales -->
+          <!-- Datos municipales -->
+          <div>
+            <div class="form-row">
+              <div class="form-group col-md-auto h4">
+                Datos municipales
+              </div>
+            </div>
+            <div class="ml-2">
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  {{ form.legajo.label }}
+                  {{ form.legajo(class='form-control') }}
+                </div>
+                <div class="form-group col-md-9">
+                  {{ form.reparticion.label }}
+                  {{ form.reparticion(class='form-control') }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Fin datos municipales -->
+        </div>
+        <!-- Fin area datos -->
+
+        <!-- Preocupacionales -->
+        <div class="col-md-4">
+          <!-- Preocupacional psicológico -->
+          <div class="form-row">
+            <div class="form-group col-md-auto">
+              <div class="form-row">
+                <div class="form-group h5">
+                  Preocupacional psicológico
+                </div>
+              </div>
+              <div class="form-row form-inline">
+                <div class="col-sm-3">
+                  {{ form.turno_psi_1.label }}
+                </div>
+                <div class="col-sm-9">
+                  <div class="input-group date" data-target-input="nearest">
+                    {{ form.turno_psi_1(id='turno_psi_1', class='form-control datetimepicker-input') }}
+                    <div class="input-group-append" data-target="#turno_psi_1" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row form-inline mt-2">
+                <div class="col-sm-3">
+                  {{ form.turno_psi_2.label }}
+                </div>
+                <div class="col-sm-9">
+                  <div class="input-group date" data-target-input="nearest">
+                    {{ form.turno_psi_2(id='turno_psi_2', class='form-control datetimepicker-input') }}
+                    <div class="input-group-append" data-target="#turno_psi_2" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row form-inline mt-2">
+                <div class="col-sm-3">
+                  {{ form.apto_psi.label }}
+                </div>
+                <div class="col-sm-2">
+                  {{ form.apto_psi(class='form-control') }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Fin preocupacional psicológico -->
+
+          <!-- Preocupacional clínico -->
+          <div class="form-row">
+            <div class="form-group col-md-auto">
+              <div class="form-row">
+                <div class="form-group h5">
+                  Preocupacional clínico
+                </div>
+              </div>
+              <div class="form-row form-inline">
+                <div class="col-sm-3">
+                  {{ form.turno_med_1.label }}
+                </div>
+                <div class="col-sm-9">
+                  <div class="input-group date" data-target-input="nearest">
+                    {{ form.turno_med_1(id='turno_med_1', class='form-control datetimepicker-input') }}
+                    <div class="input-group-append" data-target="#turno_med_1" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row form-inline  mt-2">
+                <div class="col-sm-3">
+                  {{ form.turno_med_2.label }}
+                </div>
+                <div class="col-sm-9">
+                  <div class="input-group date" data-target-input="nearest">
+                    {{ form.turno_med_2(id='turno_med_2', class='form-control datetimepicker-input') }}
+                    <div class="input-group-append" data-target="#turno_med_2" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row form-inline mt-2">
+                <div class="col-sm-3">
+                  <label for="inputAptoPsicologico">{{ form.apto_med.label }}</label>
+                </div>
+                <div class="col-sm-2">
+                  {{ form.apto_med(class='form-control') }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Fin preocupacional clínico -->
+
+          <!-- Observaciones -->
+          <div class="form-row">
+            <div class="col">
+              <label class="h5" for="inputObservaciones">Observaciones</label>
+              <div class="form-group col-md-auto">
+                <textarea rows="5" class="form-control" id="inputObservaciones" style=""></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- Fin observaciones -->
+        </div>
+        <!-- Fin Preocupacionales -->
+
+      </div>
+    </form>
+    <!-- Fin formulario -->
+  </div>
+</div>
+{% endblock %}
