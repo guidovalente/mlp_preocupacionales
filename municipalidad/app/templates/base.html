@@ -6,7 +6,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- CSS -->
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.css') }}">
 
   <!-- JavaScript -->
   <!-- Bootstrap y requeridos -->
@@ -14,10 +16,12 @@
   <script src="{{ url_for('static', filename='bootstrap/js/popper.min.js')}}"></script>
   <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js')}}"></script>
   {% endblock %}
+  {% block extra_head %}
+  {% endblock %}
 </head>
 <body class="pt-5">
   <!-- Nav -->
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-info">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-info mb-5">
     <a class="navbar-brand" href="#">Dirección de Medicina Ocupacional</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -34,7 +38,7 @@
   <!-- Fin nav -->
 
   <!-- Contenedor Bootstrap -->
-  <div class="container-fluid">
+  <div class="container-fluid pt-3">
     {% block contenido %}
     {% endblock %}
   </div>
