@@ -19,23 +19,30 @@ class FormularioAgente(FlaskForm):
     https://wtforms.readthedocs.io/en/stable/fields.html#basic-fields
 
     """
-    nombre = StringField('nombre', validator=[InputRequired()])
-    apellido = StringField('apellido', validator=[InputRequired()])
-    dni = IntegerField('dni', validator=[InputRequired()])
-    domicilio_calle = StringField('domicilio_calle')
-    domicilio_numero = StringField('domicilio_numero')
-    domicilio_piso = StringField('domicilio_piso')
-    domicilio_depto = StringField('domicilio_depto')
-    legajo = IntegerField('dni')
-    reparticion = StringField('nombre', validator=[InputRequired()])
-    turno_psi_1 = DateTimeField('turno_psi_1', format='%d/%m/%Y %H:%M')
-    ausente_psi_1 = BooleanField('ausente_psi_1')
-    turno_psi_2 = DateTimeField('turno_psi_2', format='%d/%m/%Y %H:%M')
-    ausente_psi_2 = BooleanField('ausente_psi_2')
-    apto_psi = SelectField('apto_psi', choices=['-', 'Sí', 'No'])
-    turno_med_1 = DateTimeField('turno_med_1', format='%d/%m/%Y %H:%M')
-    ausente_med_1 = BooleanField('ausente_med_1')
-    turno_med_2 = DateTimeField('turno_med_2', format='%d/%m/%Y %H:%M')
-    ausente_med_2 = BooleanField('ausente_med_2')
-    apto_med = SelectField('apto_med', choices=['-', 'Sí', 'No'])
-    observaciones = StringField('observaciones')
+    nombre = StringField('Nombre', validators=[InputRequired()])
+    apellido = StringField('Apellido', validators=[InputRequired()])
+    dni = IntegerField('DNI', validators=[InputRequired()])
+    telefono = StringField('Telefono')
+    domicilio_calle = StringField('Calle')
+    domicilio_numero = StringField('Número')
+    domicilio_piso = StringField('Piso')
+    domicilio_depto = StringField('Departamento')
+    legajo = IntegerField('Legajo')
+    reparticion = StringField('Repartición', validators=[InputRequired()])
+    turno_psi_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M')
+    ausente_psi_1 = BooleanField('Ausente')
+    turno_psi_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M')
+    ausente_psi_2 = BooleanField('Ausente')
+    apto_psi = SelectField(
+        'Apto',
+        choices=[(None, '-'), (True, 'Sí'), (False, 'No')]
+    )
+    turno_med_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M')
+    ausente_med_1 = BooleanField('Ausente')
+    turno_med_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M')
+    ausente_med_2 = BooleanField('Ausente')
+    apto_med = SelectField(
+        'Apto',
+        choices=[(None, '-'), (True, 'Sí'), (False, 'No')]
+    )
+    observaciones = StringField('Observaciones')
