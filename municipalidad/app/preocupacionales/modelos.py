@@ -1,4 +1,4 @@
-from .modelos_base import db, Base
+from app.modelo_base import db, Base
 
 class Agente(Base):
     __tablename__ = 'agentes'
@@ -43,7 +43,11 @@ class Agente(Base):
         self.observaciones = observaciones
 
     def __repr__(self):
-        return "Agente {apellido}, {nombre} (DNI: {dni})".format(self.apellido, self.nombre, self.dni)
+        return "Agente {apellido}, {nombre} (DNI: {dni})".format(
+            apellido=self.apellido,
+            nombre=self.nombre,
+            dni=self.dni
+        )
 
 
 class Reparticion(Base):
