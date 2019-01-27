@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block extra_head %}
-  <script src="{{ url_for('static', filename='moment/js/moment.min.js')}}"></script>
-  <script src="{{ url_for('static', filename='moment/js/locales.js')}}"></script>
-  <script src="{{ url_for('static', filename='tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
-  <!-- JS datetime pickers -->
-  <script type="text/javascript">
+<script src="{{ url_for('static', filename='moment/js/moment.min.js')}}"></script>
+<script src="{{ url_for('static', filename='moment/js/locales.js')}}"></script>
+<script src="{{ url_for('static', filename='tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+<!-- JS datetime pickers -->
+<script type="text/javascript">
   $(document).ready(function() {
     $('#turno_psi_1').datetimepicker({
       format: 'DD/MM/YYYY HH:mm',
