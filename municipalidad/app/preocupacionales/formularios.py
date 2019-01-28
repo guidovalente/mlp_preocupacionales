@@ -5,11 +5,6 @@ from wtforms import (
 )
 from wtforms.validators import InputRequired, Optional
 
-class SimpleForm(FlaskForm):
-    # name = StringField('name', validators=[DataRequired()])
-    fecha = DateTimeField('fecha', format='%d/%m/%Y %H:%M')
-
-
 class FormularioAgente(FlaskForm):
     """
 
