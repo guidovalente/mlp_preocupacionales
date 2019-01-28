@@ -21,30 +21,6 @@ class Agente(Base):
     turnos = db.relationship('Turno', cascade="all,delete",
         backref='agente', lazy=True)
     observaciones = db.Column(db.Text, nullable=True)
-
-    def __init__(
-            self, nombre, apellido, reparticion, dni,
-            telefono=None, domicilio_calle=None,
-            domicilio_numero=None, domicilio_piso=None,
-            domicilio_depto=None, legajo=None,
-            apto_psicologico=None, apto_medico=None,
-            turnos=[], observaciones=None):
-
-        self.nombre = nombre
-        self.apellido = apellido
-        self.dni = dni
-        self.telefono = telefono
-        self.domicilio_calle = domicilio_calle
-        self.domicilio_numero = domicilio_numero
-        self.domicilio_piso = domicilio_piso
-        self.domicilio_depto = domicilio_depto
-        self.legajo = legajo
-        self.reparticion = reparticion
-        self.apto_psicologico = apto_psicologico
-        self.apto_medico = apto_medico
-        self.turnos = turnos
-        self.observaciones = observaciones
-
     def __repr__(self):
         return "Agente {apellido}, {nombre} (DNI: {dni})".format(
             apellido=self.apellido,
@@ -57,10 +33,7 @@ class Reparticion(Base):
     __tablename__ = 'reparticiones'
 
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(128), nullable=False)
-
-    def __init__(self, nombre):
-        self.nombre = nombre
+    nombre = db.Column(db.String(128), nullable=False, unique=True)
 
     def __repr__(self):
         return self.nombre
@@ -77,8 +50,6 @@ class Turno(Base):
     id_agente = db.Column(db.Integer, db.ForeignKey('agentes.id'),
                             nullable=False)
 
-    # def __init__(
-    #         self, numero)
 
 class Simple(Base):
     __tablename__ = "simples"
