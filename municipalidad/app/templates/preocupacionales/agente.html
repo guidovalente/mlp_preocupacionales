@@ -143,6 +143,9 @@
                     </div>
                   </div>
                 </div>
+                {% if 'turno_psi_1' in form.errors %}
+                {{ form.errors['turno_psi_1'][0]}}
+                {% endif %}
               </div>
               <div class="form-row form-inline mt-2">
                 <div class="col-sm-3">

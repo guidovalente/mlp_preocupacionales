@@ -1,7 +1,7 @@
 import functools
 
 from flask import (
-    Blueprint, render_template, url_for, redirect, flash
+    Blueprint, render_template, url_for, redirect, flash, current_app
 )
 
 bp = Blueprint('preocupacionales', __name__, url_prefix='/preocupacionales')
@@ -18,7 +18,8 @@ def nuevo_agente():
     # )
 
     from .formularios import FormularioAgente
-    form = FormularioAgente(meta={'locales': ['es_ES', 'es']})
+    form = FormularioAgente()
+    print(form.meta.get_translations(form))
     if form.validate_on_submit():
         # print(form.nombre.text)
         from .modelos import Agente, Reparticion, db
@@ -41,11 +42,9 @@ def nuevo_agente():
         db.session.add(nuevo_agente)
         db.session.commit()
         return redirect('/')
-    else:
-        if form.errors:
-            print(form.errors)
-            print("Validacion")
-            for field, value in form.errors.items():
-                print(field, value)
-                # for
+    elif form.errors:
+        print('turno_psi_1' in form.errors)
+        for field, errors in form.errors.items():
+            for error in errors:
+                print(field, error)
     return render_template('preocupacionales/nuevo_agente.html', form=form)

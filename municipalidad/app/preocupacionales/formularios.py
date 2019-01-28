@@ -46,3 +46,9 @@ class FormularioAgente(FlaskForm):
         choices=[('None', '-'), ('True', 'Sí'), ('False', 'No')]
     )
     observaciones = TextAreaField('Observaciones')
+
+    class Meta:
+        locales = ['es']
+
+        def get_translations(self, form):
+            return super(FlaskForm.Meta, self).get_translations(form)
