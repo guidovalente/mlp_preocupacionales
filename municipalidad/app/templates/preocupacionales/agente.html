@@ -31,11 +31,11 @@
 </script>
 {% endblock %}
 {% block contenido %}
-<div class="row">
-  <div class="col-md-1"></div><!-- Columna vacía -->
-  <div class="col-md-8 border rounded p-3 bg-light">
-    <!-- Formulario -->
-    <form action="/preocupacionales/nuevo_agente" method="POST" id="agente">
+<!-- Formulario -->
+<form action="/preocupacionales/nuevo_agente" method="POST" id="agente">
+  <div class="row">
+    <div class="col-md-1"></div><!-- Columna vacía -->
+    <div class="col-md-8 border rounded p-3 bg-light">
       {{ form.csrf_token }}
       <div class="row">
         <!-- Area datos -->
@@ -137,6 +137,7 @@
                 <div class="col-sm-9">
                   <div class="input-group date" data-target-input="nearest">
                     {{ form.turno_psi_1(id='turno_psi_1', class='form-control datetimepicker-input') }}
+                    {{ form.ausente_psi_1 }}
                     <div class="input-group-append" data-target="#turno_psi_1" data-toggle="datetimepicker">
                       <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
@@ -150,6 +151,7 @@
                 <div class="col-sm-9">
                   <div class="input-group date" data-target-input="nearest">
                     {{ form.turno_psi_2(id='turno_psi_2', class='form-control datetimepicker-input') }}
+                    {{ form.ausente_psi_2 }}
                     <div class="input-group-append" data-target="#turno_psi_2" data-toggle="datetimepicker">
                       <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
@@ -183,6 +185,7 @@
                 <div class="col-sm-9">
                   <div class="input-group date" data-target-input="nearest">
                     {{ form.turno_med_1(id='turno_med_1', class='form-control datetimepicker-input') }}
+                    {{ form.ausente_med_1 }}
                     <div class="input-group-append" data-target="#turno_med_1" data-toggle="datetimepicker">
                       <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
@@ -196,6 +199,7 @@
                 <div class="col-sm-9">
                   <div class="input-group date" data-target-input="nearest">
                     {{ form.turno_med_2(id='turno_med_2', class='form-control datetimepicker-input') }}
+                    {{ form.ausente_med_2 }}
                     <div class="input-group-append" data-target="#turno_med_2" data-toggle="datetimepicker">
                       <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
@@ -204,7 +208,7 @@
               </div>
               <div class="form-row form-inline mt-2">
                 <div class="col-sm-3">
-                  <label for="inputAptoPsicologico">{{ form.apto_med.label }}</label>
+                  {{ form.apto_med.label }}
                 </div>
                 <div class="col-sm-2">
                   {{ form.apto_med(class='form-control') }}
@@ -217,33 +221,30 @@
           <!-- Observaciones -->
           <div class="form-row">
             <div class="col">
-              <label class="h5" for="inputObservaciones">Observaciones</label>
+              {{ form.observaciones.label }}
               <div class="form-group col-md-auto">
-                <textarea rows="5" class="form-control" id="inputObservaciones" style=""></textarea>
+                {{ form.observaciones(rows='5', class='form-control')}}
               </div>
             </div>
           </div>
           <!-- Fin observaciones -->
         </div>
         <!-- Fin Preocupacionales -->
-
-
       </div>
-
     </div>
-  </form>
-  <!-- Fin formulario -->
-  <!-- Area botones -->
-  <div class="col-md-2">
-    <div class="row">
-      <div class="col">
-        <div class="btn-block">
-          {% block botones %}
-          {% endblock %}
+    <!-- Fin formulario -->
+    <!-- Area botones -->
+    <div class="col-md-2">
+      <div class="row">
+        <div class="col">
+          <div class="btn-block">
+            {% block botones %}
+            {% endblock %}
+          </div>
         </div>
       </div>
     </div>
+    <!-- Fin area bootnes -->
   </div>
-  <!-- Fin area bootnes -->
-</div>
+</form>
 {% endblock %}
