@@ -1,9 +1,19 @@
 from flask_wtf import FlaskForm
 from wtforms import (
     StringField, IntegerField, DateTimeField, BooleanField, SelectField,
-    TextAreaField
+    TextAreaField, ValidationError
 )
 from wtforms.validators import InputRequired, Optional
+
+def opcion_obligatoria(message=None):
+    if not message:
+        message = 'Debe elegir una opción válida.'
+    def _opcion_obligatoria(form, field):
+        if field.data == 0:
+            raise ValidationError(message)
+
+    return _opcion_obligatoria
+
 
 class FormularioAgente(FlaskForm):
     """
@@ -24,7 +34,7 @@ class FormularioAgente(FlaskForm):
     domicilio_piso = StringField('Piso')
     domicilio_depto = StringField('Departamento')
     legajo = IntegerField('Legajo', validators=[Optional()])
-    reparticion = StringField('Repartición', validators=[InputRequired()])
+    reparticion = SelectField('Repartición', coerce=int, validators=[InputRequired(), opcion_obligatoria()])
     turno_psi_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
     ausente_psi_1 = BooleanField('Ausente')
