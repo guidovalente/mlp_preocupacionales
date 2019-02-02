@@ -43,6 +43,9 @@ def reparticiones_formulario(default="-"):
     reparticiones de la base de datos, correspondientes al modelo
     Repartición de la app.
 
+    El placeholder siempre debe tener el valor cero (0) ya que luego
+    será validado por el validador opcion_obligatoria
+
     """
 
     from .modelos import Reparticion
