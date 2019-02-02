@@ -40,6 +40,14 @@ class Reparticion(Base):
 
 
 class Turno(Base):
+    """
+    Modelo de turnos para preocupacionales
+
+    TODO: agregar campo de Google Calendar para relacionar cada turno
+    con su equivalente en Google. De este modo podremos realizar
+    modificaciones en los eventos del GCal y almacenar los errores de
+    sincronización para reintentar más adelante.
+    """
     __tablename__ = 'turnos'
 
     id = db.Column(db.Integer, primary_key=True)
