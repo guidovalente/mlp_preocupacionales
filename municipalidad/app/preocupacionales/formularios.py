@@ -5,6 +5,12 @@ from wtforms import (
 )
 from wtforms.validators import InputRequired, Optional
 
+opciones_aptitud = [
+    ('None', '-'),
+    ('True', 'Sí'),
+    ('False', 'No')
+]
+
 def opcion_obligatoria(message=None):
     """
     Validador de SelectField
@@ -61,20 +67,14 @@ class FormularioAgente(FlaskForm):
     turno_psi_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
     ausente_psi_2 = BooleanField('Ausente')
-    apto_psi = SelectField(
-        'Apto',
-        choices=[('None', '-'), ('True', 'Sí'), ('False', 'No')]
-    )
+    apto_psi = SelectField('Apto', choices=opciones_aptitud)
     turno_med_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
     ausente_med_1 = BooleanField('Ausente')
     turno_med_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
     ausente_med_2 = BooleanField('Ausente')
-    apto_med = SelectField(
-        'Apto',
-        choices=[('None', '-'), ('True', 'Sí'), ('False', 'No')]
-    )
+    apto_med = SelectField('Apto', choices=opciones_aptitud)
     observaciones = TextAreaField('Observaciones')
 
     class Meta:
