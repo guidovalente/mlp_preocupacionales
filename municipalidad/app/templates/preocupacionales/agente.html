@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/floating-labels.css')}}">
 <script src="{{ url_for('static', filename='moment/js/moment.min.js')}}"></script>
 <script src="{{ url_for('static', filename='moment/js/locales.js')}}"></script>
 <script src="{{ url_for('static', filename='tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
@@ -49,71 +50,70 @@
             </div>
             <div class="ml-2">
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  {{ form.nombre.label }}
+                <div class="col-md-6 form-label-group">
                   {% if 'nombre' in form.errors %}
-                    {{ form.nombre(autocomplete='off', class='form-control is-invalid') }}
+                    {{ form.nombre(autocomplete='off', class='form-control is-invalid', placeholder=form.nombre.name) }}
                     <div class="invalid-tooltip">
                       {{ form.errors['nombre'][0]}}
                     </div>
                   {% else %}
-                      {{ form.nombre(autocomplete='off', class='form-control') }}
+                      {{ form.nombre(autocomplete='off', class='form-control', placeholder=form.nombre.name) }}
                   {% endif %}
-
+                  {{ form.nombre.label }}
                 </div>
-                <div class="form-group col-md-6">
-                  {{ form.apellido.label }}
+                <div class="form-label-group col-md-6">
                   {% if 'apellido' in form.errors %}
-                    {{ form.apellido(autocomplete='off', class='form-control is-invalid') }}
+                    {{ form.apellido(autocomplete='off', class='form-control is-invalid', placeholder=form.apellido.name) }}
                     <div class="invalid-tooltip">
                       {{ form.errors['apellido'][0]}}
                     </div>
                   {% else %}
-                      {{ form.apellido(autocomplete='off', class='form-control') }}
+                      {{ form.apellido(autocomplete='off', class='form-control', placeholder=form.apellido.name) }}
                   {% endif %}
+                  {{ form.apellido.label }}
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col-md-3">
-                  {{ form.dni.label }}
+                <div class="form-label-group col-md-3">
                   {% if 'dni' in form.errors %}
-                    {{ form.dni(autocomplete='off', class='form-control is-invalid') }}
+                    {{ form.dni(autocomplete='off', class='form-control is-invalid', placeholder=form.dni.name) }}
                     <div class="invalid-tooltip">
                       {{ form.errors['dni'][0]}}
                     </div>
                   {% else %}
-                      {{ form.dni(autocomplete='off', class='form-control') }}
+                      {{ form.dni(autocomplete='off', class='form-control', placeholder=form.dni.name) }}
                   {% endif %}
+                  {{ form.dni.label }}
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-label-group col-md-6">
+                  {{ form.telefono(autocomplete='off', class='form-control', placeholder=form.telefono.name) }}
                   {{ form.telefono.label }}
-                  {{ form.telefono(autocomplete='off', class='form-control') }}
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col-md-auto h5">
+                <div class="form-label-group col-md-auto h5">
                   Domicilio
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col-md-5">
+                <div class="form-label-group col-md-5">
+                  {{ form.domicilio_calle(autocomplete='off', class='form-control', placeholder=form.domicilio_calle.name) }}
                   {{ form.domicilio_calle.label }}
-                  {{ form.domicilio_calle(autocomplete='off', class='form-control') }}
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-label-group col-md-3">
+                  {{ form.domicilio_numero(autocomplete='off', class='form-control', placeholder=form.domicilio_numero.name) }}
                   {{ form.domicilio_numero.label }}
-                  {{ form.domicilio_numero(autocomplete='off', class='form-control') }}
-                </div>
+                  </div>
               </div>
               <div class="form-row">
-                <div class="form-group col-md-2">
+                <div class="form-label-group col-md-4">
+                  {{ form.domicilio_piso(autocomplete='off', class='form-control', placeholder=form.domicilio_piso.name) }}
                   {{ form.domicilio_piso.label }}
-                  {{ form.domicilio_piso(autocomplete='off', class='form-control') }}
-                </div>
-                <div class="form-group col-md-2">
+                  </div>
+                <div class="form-label-group col-md-4">
+                  {{ form.domicilio_depto(autocomplete='off', class='form-control', placeholder=form.domicilio_depto.name) }}
                   {{ form.domicilio_depto.label }}
-                  {{ form.domicilio_depto(autocomplete='off', class='form-control') }}
-                </div>
+                  </div>
               </div>
             </div>
           </div>
@@ -121,25 +121,25 @@
           <!-- Datos municipales -->
           <div>
             <div class="form-row">
-              <div class="form-group col-md-auto h4">
+              <div class="form-group col-md-auto h5">
                 Datos municipales
               </div>
             </div>
             <div class="ml-2">
               <div class="form-row">
-                <div class="form-group col-md-3">
+                <div class="form-label-group col-md-3">
                   {{ form.legajo.label }}
                   {% if 'legajo' in form.errors %}
-                    {{ form.legajo(autocomplete='off', class='form-control is-invalid') }}
+                    {{ form.legajo(autocomplete='off', class='form-control is-invalid', placeholder=form.legajo.name) }}
                     <div class="invalid-tooltip">
                       {{ form.errors['legajo'][0]}}
                     </div>
                   {% else %}
-                      {{ form.legajo(autocomplete='off', class='form-control') }}
+                      {{ form.legajo(autocomplete='off', class='form-control', placeholder=form.legajo.name) }}
                   {% endif %}
                 </div>
                 <div class="form-group col-md-9">
-                  {{ form.reparticion.label }}
+                  <!-- {{ form.reparticion.label }} -->
                   {% if 'reparticion' in form.errors %}
                     {{ form.reparticion(autocomplete='off', class='form-control is-invalid') }}
                     <div class="invalid-tooltip">
