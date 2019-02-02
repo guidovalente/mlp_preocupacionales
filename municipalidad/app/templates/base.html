@@ -39,9 +39,15 @@
 
   <!-- Contenedor Bootstrap -->
   <div class="container-fluid pt-3">
-    {% for message in get_flashed_messages() %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes">
+        {% for category, message in messages %}
+          <div class="{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
     {% block contenido %}
     {% endblock %}
   </div>
