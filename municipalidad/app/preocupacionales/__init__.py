@@ -23,8 +23,10 @@ def nuevo_agente():
         flash('No existen reparticiones cargadas, por lo que no podrá guardar nuevos agentes.')
     form.reparticion.choices = reparticiones
     if form.validate_on_submit():
+        from .modelos import Agente, db
         nuevo_agente = Agente()
         form.populate_obj(nuevo_agente)
+        nuevo_agente.reparticion = db.session.query(Reparticion).filter_by(id=form.reparticion.data).first()
 
         db.session.add(nuevo_agente)
         db.session.commit()
