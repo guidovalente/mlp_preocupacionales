@@ -28,12 +28,14 @@ def opcion_obligatoria(message=None):
 
 class FormularioAgente(FlaskForm):
     """
-
     Formulario para carga y actualización del agente
 
     Para pasar las opciones dinámicamente al SelectField, ver la
     documentación de WTForms:
     https://wtforms.readthedocs.io/en/stable/fields.html#basic-fields
+
+    TODO: agregar campos de calendarios Google Calendar, para asignar un
+    calendario a cada turno.
 
     """
     nombre = StringField('Nombre', validators=[InputRequired()])
