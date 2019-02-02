@@ -6,6 +6,17 @@ from wtforms import (
 from wtforms.validators import InputRequired, Optional
 
 def opcion_obligatoria(message=None):
+    """
+    Validador de SelectField
+
+    Esta función valida que haya sido elegido un opción con valor distinto
+    a cero (0) en un SelectField.
+    En los formularios de esta aplicación, asignamos valor 0 al valor por
+    defecto, representado por un guión. De este modo el Select no inicia
+    con la primera opción.
+    Si la opción seleccionada tiene valor cero, se eleva la ValidationError.
+
+    """
     if not message:
         message = 'Debe elegir una opción válida.'
     def _opcion_obligatoria(form, field):
