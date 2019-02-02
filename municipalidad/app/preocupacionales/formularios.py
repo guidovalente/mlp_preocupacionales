@@ -23,6 +23,7 @@ def opcion_obligatoria(message=None):
     Si la opción seleccionada tiene valor cero, se eleva la ValidationError.
 
     """
+
     if not message:
         message = 'Debe elegir una opción válida.'
     def _opcion_obligatoria(form, field):
@@ -67,6 +68,7 @@ class FormularioAgente(FlaskForm):
     calendario a cada turno.
 
     """
+
     nombre = StringField('Nombre', validators=[InputRequired()])
     apellido = StringField('Apellido', validators=[InputRequired()])
     dni = IntegerField('DNI', validators=[InputRequired()])
