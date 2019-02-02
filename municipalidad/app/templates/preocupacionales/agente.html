@@ -128,7 +128,6 @@
             <div class="ml-2">
               <div class="form-row">
                 <div class="form-label-group col-md-3">
-                  {{ form.legajo.label }}
                   {% if 'legajo' in form.errors %}
                     {{ form.legajo(autocomplete='off', class='form-control is-invalid', placeholder=form.legajo.name) }}
                     <div class="invalid-tooltip">
@@ -137,6 +136,7 @@
                   {% else %}
                       {{ form.legajo(autocomplete='off', class='form-control', placeholder=form.legajo.name) }}
                   {% endif %}
+                  {{ form.legajo.label }}
                 </div>
                 <div class="form-group col-md-9">
                   <!-- {{ form.reparticion.label }} -->
