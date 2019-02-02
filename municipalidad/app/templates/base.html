@@ -15,6 +15,13 @@
   <script src="{{ url_for('static', filename='bootstrap/js/jquery-3.3.1.min.js')}}"></script>
   <script src="{{ url_for('static', filename='bootstrap/js/popper.min.js')}}"></script>
   <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js')}}"></script>
+  <style media="screen">
+  @media only screen and (max-width: 416px) {
+    .pt-5 {
+      padding-top: 5rem !important;
+    }
+  }
+  </style>
   {% endblock %}
   {% block extra_head %}
   {% endblock %}
