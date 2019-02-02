@@ -20,7 +20,6 @@ def nuevo_agente():
         nuevo_agente = Agente()
         form.populate_obj(nuevo_agente)
         nuevo_agente.reparticion = db.session.query(Reparticion).filter_by(id=form.reparticion.data).first()
-
         db.session.add(nuevo_agente)
         db.session.commit()
         return redirect('/')
