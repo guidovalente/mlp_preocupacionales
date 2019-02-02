@@ -47,7 +47,14 @@ class FormularioAgente(FlaskForm):
     domicilio_piso = StringField('Piso')
     domicilio_depto = StringField('Departamento')
     legajo = IntegerField('Legajo', validators=[Optional()])
-    reparticion = SelectField('Repartición', coerce=int, validators=[InputRequired(), opcion_obligatoria()])
+    reparticion = SelectField(
+        'Repartición',
+        coerce=int,
+        validators=[
+            InputRequired(),
+            opcion_obligatoria(message="Debe seleccionar una repartición")
+        ]
+    )
     turno_psi_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
     ausente_psi_1 = BooleanField('Ausente')
