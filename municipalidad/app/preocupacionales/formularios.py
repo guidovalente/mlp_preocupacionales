@@ -32,6 +32,29 @@ def opcion_obligatoria(message=None):
     return _opcion_obligatoria
 
 
+def reparticiones_formulario(default="-"):
+    """
+    Obtiene la lista de reparticiones de la base de datos.
+
+    Esta función se utiliza para poblar el select de repartición
+    del FormularioAgente. Se inserta una opción por defecto que
+    se utiliza como placeholder, y luego se insertan la lista de
+    reparticiones de la base de datos, correspondientes al modelo
+    Repartición de la app.
+
+    """
+
+    from .modelos import Reparticion
+    reparticiones = [(0, default)] + Reparticion.query.with_entities(
+        Reparticion.id,
+        Reparticion.nombre
+    ).all()
+    # if len(reparticiones) > 0:
+    #     from flask import flash
+    #     flash("Hay reparticiones")
+    return reparticiones
+
+
 class FormularioAgente(FlaskForm):
     """
     Formulario para carga y actualización del agente
@@ -59,7 +82,8 @@ class FormularioAgente(FlaskForm):
         validators=[
             InputRequired(),
             opcion_obligatoria(message="Debe seleccionar una repartición")
-        ]
+        ],
+        choices=reparticiones_formulario(default="Elija una repartición...")
     )
     turno_psi_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
