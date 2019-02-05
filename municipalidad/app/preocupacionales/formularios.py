@@ -33,44 +33,32 @@ def opcion_obligatoria(message=None):
     return _opcion_obligatoria
 
 
-def reparticiones_formulario(default="-"):
-    """
-    Obtiene la lista de reparticiones de la base de datos.
-
-    Esta función se utiliza para poblar el select de repartición
-    del FormularioAgente. Se inserta una opción por defecto que
-    se utiliza como placeholder, y luego se insertan la lista de
-    reparticiones de la base de datos, correspondientes al modelo
-    Repartición de la app.
-
-    El placeholder siempre debe tener el valor cero (0) ya que luego
-    será validado por el validador opcion_obligatoria
-
-    """
-
-    from .modelos import Reparticion
-    reparticiones = [(0, default)] + Reparticion.query.with_entities(
-        Reparticion.id,
-        Reparticion.nombre
-    ).all()
-    # if len(reparticiones) > 0:
-    #     from flask import flash
-    #     flash("Hay reparticiones")
-    return reparticiones
-
-
 class FormularioAgente(FlaskForm):
-    """
-    Formulario para carga y actualización del agente
-
-    Para pasar las opciones dinámicamente al SelectField, ver la
-    documentación de WTForms:
-    https://wtforms.readthedocs.io/en/stable/fields.html#basic-fields
+    """Formulario para carga y actualización del agente
 
     TODO: agregar campos de calendarios Google Calendar, para asignar un
     calendario a cada turno.
-
     """
+
+    def reparticiones_formulario(default="-"):
+        """Obtiene la lista de reparticiones de la base de datos.
+
+        Esta función se utiliza para poblar el select de repartición
+        del FormularioAgente. Se inserta una opción por defecto que
+        se utiliza como placeholder, y luego se insertan la lista de
+        reparticiones de la base de datos, correspondientes al modelo
+        Repartición de la app.
+
+        El placeholder siempre debe tener el valor cero (0) ya que luego
+        será validado por el validador opcion_obligatoria
+        """
+
+        from .modelos import Reparticion
+        reparticiones = [(0, default)] + Reparticion.query.with_entities(
+            Reparticion.id,
+            Reparticion.nombre
+        ).all()
+        return reparticiones
 
     nombre = StringField('Nombre', validators=[InputRequired()])
     apellido = StringField('Apellido', validators=[InputRequired()])
