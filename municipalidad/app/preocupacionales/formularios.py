@@ -81,7 +81,7 @@ class FormularioAgente(FlaskForm):
     domicilio_piso = StringField('Piso')
     domicilio_depto = StringField('Departamento')
     legajo = IntegerField('Legajo', validators=[Optional()])
-    reparticion = SelectField(
+    reparticion_id = SelectField(
         'Repartición',
         coerce=int,
         validators=[
