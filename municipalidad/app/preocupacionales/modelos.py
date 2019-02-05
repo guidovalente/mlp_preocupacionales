@@ -18,8 +18,6 @@ class Agente(Base):
     reparticion = db.relationship('Reparticion')
     apto_psicologico = db.Column(db.Boolean, nullable=True)
     apto_medico = db.Column(db.Boolean, nullable=True)
-    turnos = db.relationship('Turno', cascade="all,delete",
-        backref='agente', lazy=True)
     observaciones = db.Column(db.Text, nullable=True)
     def __repr__(self):
         return "Agente {apellido}, {nombre} (DNI: {dni})".format(
@@ -57,3 +55,4 @@ class Turno(Base):
     ausente = db.Column(db.Boolean, nullable=False, default=False)
     id_agente = db.Column(db.Integer, db.ForeignKey('agentes.id'),
                             nullable=False)
+    agente = db.relationship('Agente', backref='turnos', lazy=True)
