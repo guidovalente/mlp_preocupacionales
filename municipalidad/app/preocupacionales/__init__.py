@@ -1,8 +1,7 @@
-import functools
-
 from flask import (
     Blueprint, render_template, url_for, redirect, flash, current_app
 )
+from sqlalchemy.exc import IntegrityError
 
 bp = Blueprint('preocupacionales', __name__, url_prefix='/preocupacionales')
 
@@ -10,17 +9,18 @@ bp = Blueprint('preocupacionales', __name__, url_prefix='/preocupacionales')
 def nuevo_agente():
     from .formularios import FormularioAgente
     from .modelos import Reparticion
-
-    # Inicializamos el formulario y luego le asignamos las opciones
-    # de repartición.
     form = FormularioAgente()
-    # form.reparticion.choices = FormularioAgente.reparticiones_formulario(default="Elija una repartición...")
+
     if form.validate_on_submit():
         from .modelos import Agente, db
         nuevo_agente = Agente()
         form.populate_obj(nuevo_agente)
-        nuevo_agente.reparticion = db.session.query(Reparticion).filter_by(id=form.reparticion.data).first()
         db.session.add(nuevo_agente)
-        db.session.commit()
-        return redirect('/')
+        try:
+            db.session.commit()
+            flash('Agente creado', "border text-center text-success mb-3")
+            return redirect('/exito')
+        except IntegrityError: # si el dni ya existe en la tabla de agentes
+            db.session.rollback()
+            flash("Ya existe un agente con ese DNI", "border text-center text-danger mb-3")
     return render_template('preocupacionales/nuevo_agente.html', form=form)
