@@ -5,6 +5,7 @@ from wtforms import (
 )
 from wtforms.validators import InputRequired, Optional
 
+# Listado de opciones para los campos de apto médico y psicológico
 opciones_aptitud = [
     ('None', '-'),
     ('True', 'Sí'),
@@ -93,6 +94,14 @@ class FormularioAgente(FlaskForm):
     ausente_med_2 = BooleanField('Ausente')
     apto_med = SelectField('Apto', choices=opciones_aptitud)
     observaciones = TextAreaField('Observaciones')
+
+    # def __init__(self, **kwargs):
+    #     agente = kwargs['obj']
+    #     from datetime import datetime
+    #     print(datetime.now())
+    #     agente.turno_med_1=datetime.now()
+    #     kwargs['obj'] = agente
+    #     super().__init__(**kwargs)
 
     class Meta:
         locales = ['es']

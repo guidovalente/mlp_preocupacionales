@@ -27,6 +27,10 @@ def create_app(test_config=None):
     from . import preocupacionales
     app.register_blueprint(preocupacionales.bp)
 
+    @app.route('/exito')
+    def exito():
+        return render_template('exito.html')
+
     @app.errorhandler(404)
     def not_found(error):
         return render_template('404.html'), 404

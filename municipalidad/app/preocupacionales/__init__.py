@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, render_template, url_for, redirect, flash, current_app
+    Blueprint, render_template, url_for, redirect, flash, current_app, abort
 )
 from sqlalchemy.exc import IntegrityError
 
@@ -23,4 +23,18 @@ def nuevo_agente():
         except IntegrityError: # si el dni ya existe en la tabla de agentes
             db.session.rollback()
             flash("Ya existe un agente con ese DNI", "border text-center text-danger mb-3")
+    return render_template('preocupacionales/nuevo_agente.html', form=form)
+
+@bp.route('/agente/<int:id>')
+def editar_agente(id):
+    from .modelos import Agente
+    agente = Agente.query.filter_by(id=id).first()
+    # print(agente.turno_psi_1)
+
+    if agente is None:
+        abort(404)
+
+    from .formularios import FormularioAgente
+    form = FormularioAgente(obj=agente)
+
     return render_template('preocupacionales/nuevo_agente.html', form=form)

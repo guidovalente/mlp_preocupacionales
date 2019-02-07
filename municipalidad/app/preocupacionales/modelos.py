@@ -19,6 +19,17 @@ class Agente(Base):
     apto_psicologico = db.Column(db.Boolean, nullable=True)
     apto_medico = db.Column(db.Boolean, nullable=True)
     observaciones = db.Column(db.Text, nullable=True)
+
+    # campos de relaciones con turnos
+    turno_psi_1 = db.relationship('Turno',
+        primaryjoin='and_(Agente.id==Turno.agente_id, Turno.tipo==1, Turno.numero==1)')
+    # turno_psi_2 = db.relationship('Turno',
+    #     primaryjoin='and_(Agente.id==Turno.agente_id, Turno.tipo==1, Turno.numero==2)')
+    # turno_med_1 = db.relationship('Turno',
+    #     primaryjoin='and_(Agente.id==Turno.agente_id, Turno.tipo==2, Turno.numero==1)')
+    # turno_med_2 = db.relationship('Turno',
+    #     primaryjoin='and_(Agente.id==Turno.agente_id, Turno.tipo==2, Turno.numero==2)')
+
     def __repr__(self):
         return "Agente {apellido}, {nombre} (DNI: {dni})".format(
             apellido=self.apellido,
@@ -36,7 +47,6 @@ class Reparticion(Base):
     def __repr__(self):
         return self.nombre
 
-
 class Turno(Base):
     """
     Modelo de turnos para preocupacionales
@@ -49,10 +59,13 @@ class Turno(Base):
     __tablename__ = 'turnos'
 
     id = db.Column(db.Integer, primary_key=True)
-    numero = db.Column(db.Integer, nullable=False)
     tipo = db.Column(db.Integer, nullable=False)
+    numero = db.Column(db.Integer, nullable=False)
     fecha = db.Column(db.DateTime, nullable=True, unique=True)
     ausente = db.Column(db.Boolean, nullable=False, default=False)
-    id_agente = db.Column(db.Integer, db.ForeignKey('agentes.id'),
+    agente_id = db.Column(db.Integer, db.ForeignKey('agentes.id'),
                             nullable=False)
-    agente = db.relationship('Agente', backref='turnos', lazy=True)
+    agente = db.relationship('Agente', backref='turnos', lazy=True, uselist=False)
+
+    # def __repr__(self):
+    #     return self.fecha.strftime('%d/%m/%y %H:%M')
