@@ -61,6 +61,24 @@ class FormularioAgente(FlaskForm):
         ).all()
         return reparticiones
 
+    def asignar_turnos(self, turnos):
+        """Función que asigna los valores de los campos de turnos
+
+        Esta función recibe como argumento los turnos de un agente, y con
+        esos datos puebla los campos correspondiente del formulario.
+        """
+        for turno in turnos:
+            if turno.tipo == 1:
+                if turno.numero == 1:
+                    self.turno_psi_1.data = turno.fecha
+                elif turno.numero == 2:
+                    self.turno_psi_2.data = turno.fecha
+            elif turno.tipo == 2:
+                if turno.numero == 1:
+                    self.turno_med_1.data = turno.fecha
+                elif turno.numero == 2:
+                    self.turno_med_2.data = turno.fecha
+
     nombre = StringField('Nombre', validators=[InputRequired()])
     apellido = StringField('Apellido', validators=[InputRequired()])
     dni = IntegerField('DNI', validators=[InputRequired()])
