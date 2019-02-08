@@ -20,16 +20,6 @@ class Agente(Base):
     apto_medico = db.Column(db.Boolean, nullable=True)
     observaciones = db.Column(db.Text, nullable=True)
 
-    # campos de relaciones con turnos
-    turno_psi_1 = db.relationship('Turno',
-        primaryjoin='and_(Agente.id==Turno.agente_id, Turno.tipo==1, Turno.numero==1)')
-    # turno_psi_2 = db.relationship('Turno',
-    #     primaryjoin='and_(Agente.id==Turno.agente_id, Turno.tipo==1, Turno.numero==2)')
-    # turno_med_1 = db.relationship('Turno',
-    #     primaryjoin='and_(Agente.id==Turno.agente_id, Turno.tipo==2, Turno.numero==1)')
-    # turno_med_2 = db.relationship('Turno',
-    #     primaryjoin='and_(Agente.id==Turno.agente_id, Turno.tipo==2, Turno.numero==2)')
-
     def __repr__(self):
         return "Agente {apellido}, {nombre} (DNI: {dni})".format(
             apellido=self.apellido,
@@ -66,6 +56,3 @@ class Turno(Base):
     agente_id = db.Column(db.Integer, db.ForeignKey('agentes.id'),
                             nullable=False)
     agente = db.relationship('Agente', backref='turnos', lazy=True, uselist=False)
-
-    # def __repr__(self):
-    #     return self.fecha.strftime('%d/%m/%y %H:%M')
