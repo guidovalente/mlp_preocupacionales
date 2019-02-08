@@ -139,11 +139,10 @@
                   {{ form.legajo.label }}
                 </div>
                 <div class="form-group col-md-9">
-                  <!-- {{ form.reparticion_id.label }} -->
-                  {% if 'reparticion' in form.errors %}
+                  {% if 'reparticion_id' in form.errors %}
                     {{ form.reparticion_id(autocomplete='off', class='form-control is-invalid') }}
                     <div class="invalid-tooltip">
-                      {{ form.errors['reparticion'][0]}}
+                      {{ form.errors['reparticion_id'][0]}}
                     </div>
                   {% else %}
                       {{ form.reparticion_id(autocomplete='off', class='form-control') }}
