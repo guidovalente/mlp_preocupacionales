@@ -36,5 +36,4 @@ def editar_agente(id):
 
     from .formularios import FormularioAgente
     form = FormularioAgente(obj=agente)
-
     return render_template('preocupacionales/nuevo_agente.html', form=form)
