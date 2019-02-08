@@ -113,13 +113,24 @@ class FormularioAgente(FlaskForm):
     apto_med = SelectField('Apto', choices=opciones_aptitud)
     observaciones = TextAreaField('Observaciones')
 
-    # def __init__(self, **kwargs):
-    #     agente = kwargs['obj']
-    #     from datetime import datetime
-    #     print(datetime.now())
-    #     agente.turno_med_1=datetime.now()
-    #     kwargs['obj'] = agente
-    #     super().__init__(**kwargs)
+    def __init__(self, **kwargs):
+        """Sobreescritura del método init para asignar turnos
+
+        Solamente nos interesa modificar este método si el llamado al
+        formulario se hizo desde la vista de editar_agente. En este caso
+        habrá un argumento en kwargs llamado 'obj'. De no haberlo, no
+        modificaremos el comportamiento del método y simplemente dejaremos
+        que siga su curso.
+        """
+
+        super().__init__(**kwargs)
+        if 'obj' in kwargs:
+            agente = kwargs['obj']
+            self.asignar_turnos(agente.turnos)
+
+    def populate_obj(self, **kwargs):
+        print(kwargs)
+
 
     class Meta:
         locales = ['es']
