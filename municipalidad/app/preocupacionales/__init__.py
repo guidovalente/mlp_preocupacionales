@@ -22,7 +22,8 @@ def nuevo_agente():
             return redirect(url_for('home.exito', id=nuevo_agente.id))
         except IntegrityError as e:
             db.session.rollback()
-            agente_existente = Agente.query.filter_by(dni=nuevo_agente.dni).first()
+            agente_existente = Agente.query.filter_by(
+                dni=nuevo_agente.dni).first()
             if agente_existente is not None:
                 error = 'Ya existe un agente con el DNI {} ({} {})'.format(
                     nuevo_agente.dni, agente_existente.nombre,
@@ -53,7 +54,8 @@ def editar_agente(id):
                 'border text-center text-success mb-3')
         except IntegrityError as e:
             db.session.rollback()
-            agente_existente = Agente.query.filter_by(dni=form.dni.data).first()
+            agente_existente = Agente.query.filter_by(
+                dni=form.dni.data).first()
             if agente_existente is not None:
                 error = 'Ya existe un agente con el DNI {} ({} {})'.format(
                     form.dni.data, agente_existente.nombre,
@@ -65,4 +67,5 @@ def editar_agente(id):
             flash(error, 'border text-center text-danger mb-3')
     elif form.errors:
         flash(form.errors)
-    return render_template('preocupacionales/editar_agente.html', form=form, id=id)
+    return render_template('preocupacionales/editar_agente.html', form=form,
+        id=id)
