@@ -33,7 +33,7 @@
 {% endblock %}
 {% block contenido %}
 <!-- Formulario -->
-<form action="/preocupacionales/nuevo_agente" method="POST" id="agente" class="needs-validation" novalidate>
+<form action="{% block form_action %}{% endblock %}" method="POST" id="agente" class="needs-validation" novalidate>
   <div class="row">
     <div class="col-md-1"></div><!-- Columna vacía -->
     <div class="col-md-9 border rounded p-3 bg-light">
