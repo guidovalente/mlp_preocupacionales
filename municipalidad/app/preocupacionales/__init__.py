@@ -69,3 +69,9 @@ def editar_agente(id):
         flash(form.errors)
     return render_template('preocupacionales/editar_agente.html', form=form,
         id=id)
+
+@bp.route('/')
+def lista():
+    from .modelos import Agente
+    agentes = Agente.query.all()
+    return render_template('preocupacionales/lista.html', agentes=agentes)
