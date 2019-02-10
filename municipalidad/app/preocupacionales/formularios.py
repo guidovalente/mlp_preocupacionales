@@ -53,7 +53,6 @@ class FormularioAgente(FlaskForm):
         El placeholder siempre debe tener el valor cero (0) ya que luego
         será validado por el validador opcion_obligatoria
         """
-
         from .modelos import Reparticion
         reparticiones = [(0, default)] + Reparticion.query.with_entities(
             Reparticion.id,
@@ -61,80 +60,40 @@ class FormularioAgente(FlaskForm):
         ).all()
         return reparticiones
 
-    def poblar_turnos(self, turnos):
+    def poblar_turnos(self, agente):
         """Función que asigna los valores de los campos de turnos
 
-        Esta función recibe como argumento los turnos de un agente, y con
-        esos datos puebla los campos correspondiente del formulario.
+        Esta función recibe como argumento la instancia del agente y crea
+        un atributo para cada turno del formulario. Al ser llamada desde el
+        constructor __init__ antes de que se cree la instancia, al momento
+        de llenar el formulario con los datos del objeto el mismo ya tendrá
+        como atributos los datos sobre los turnos (fecha y ausente).
         """
+        turnos = agente.turnos
+        tipo = lambda x: 'psi' if x == 1 else 'med'
         for turno in turnos:
-            if turno.tipo == 1:
-                if turno.numero == 1:
-                    self.turno_psi_1.data = turno.fecha
-                    self.ausente_psi_1.data = turno.ausente
-                elif turno.numero == 2:
-                    self.turno_psi_2.data = turno.fecha
-                    self.ausente_psi_2.data = turno.ausente
-            elif turno.tipo == 2:
-                if turno.numero == 1:
-                    self.turno_med_1.data = turno.fecha
-                    self.ausente_med_1.data = turno.ausente
-                elif turno.numero == 2:
-                    self.turno_med_2.data = turno.fecha
-                    self.ausente_med_2.data = turno.ausente
+            setattr(agente,
+                'turno_{}_{}'.format(tipo(turno.tipo), turno.numero),
+                turno.fecha)
+            setattr(agente,
+                'ausente_{}_{}'.format(tipo(turno.tipo), turno.numero),
+                turno.ausente)
 
     def guardar_turnos(self, agente):
-        """Crea los objetos de turnos en base al formulario y los anexa
+        """Guarda los turnos en la instancia de Agente
 
         Esta función toma los campos de turnos y los anexa al objeto Agente
         para que sean guardados como sus respectivos turnos en la base de
         datos.
         """
-        from .modelos import Turno, db
-        # turno_psi_1
-        if agente.turno_psi_1 is None:
-            agente.turno_psi_1 = Turno(tipo=1, numero=1,
-                fecha=self.turno_psi_1.data, ausente=self.ausente_psi_1.data)
-        else:
-            agente.turno_psi_1.fecha = self.turno_psi_1
-            agente.turno_psi_1.ausente = self.ausente_psi_1
-        
-        if agente.turno_psi_2 is None:
-            agente.turno_psi_2 = Turno(tipo=1, numero=1,
-                fecha=self.turno_psi_2.data, ausente=self.ausente_psi_2.data)
-        else:
-            agente.turno_psi_2.fecha = self.turno_psi_1
-            agente.turno_psi_2.ausente = self.ausente_psi_2
-        if agente.turno_psi_1 is None:
-            agente.turno_psi_1 = Turno(tipo=1, numero=1,
-                fecha=self.turno_psi_1.data, ausente=self.ausente_psi_1.data)
-        else:
-            agente.turno_psi_1.fecha = self.turno_psi_1
-            agente.turno_psi_1.ausente = self.ausente_psi_1
-        if agente.turno_psi_1 is None:
-            agente.turno_psi_1 = Turno(tipo=1, numero=1,
-                fecha=self.turno_psi_1.data, ausente=self.ausente_psi_1.data)
-        else:
-            agente.turno_psi_1.fecha = self.turno_psi_1
-            agente.turno_psi_1.ausente = self.ausente_psi_1
-
-
-        # agente.turnos.append(Turno(tipo=1, numero=1,
-        #     fecha=self.turno_psi_1.data,
-        #     ausente=self.ausente_psi_1.data, agente_id=agente.id
-        # ))
-        # agente.turnos.append(Turno(tipo=1, numero=2,
-        #     fecha=self.turno_psi_2.data,
-        #     ausente=self.ausente_psi_2.data, agente_id=agente.id
-        # ))
-        # agente.turnos.append(Turno(tipo=2, numero=1,
-        #     fecha=self.turno_med_1.data,
-        #     ausente=self.ausente_med_1.data, agente_id=agente.id
-        # ))
-        # agente.turnos.append(Turno(tipo=2, numero=2,
-        #     fecha=self.turno_med_2.data,
-        #     ausente=self.ausente_med_2.data, agente_id=agente.id
-        # ))
+        agente.psi_1.fecha = self.turno_psi_1.data
+        agente.psi_1.ausente = self.ausente_psi_1.data
+        agente.psi_2.fecha = self.turno_psi_2.data
+        agente.psi_2.ausente = self.ausente_psi_2.data
+        agente.med_1.fecha = self.turno_med_1.data
+        agente.med_1.ausente = self.ausente_med_1.data
+        agente.med_2.fecha = self.turno_med_2.data
+        agente.med_2.ausente = self.ausente_med_2.data
 
     def __init__(self, **kwargs):
         """Sobreescritura del método init para asignar turnos
@@ -145,19 +104,14 @@ class FormularioAgente(FlaskForm):
         modificaremos el comportamiento del método y simplemente dejaremos
         que siga su curso.
         """
-
-        super().__init__(**kwargs)
         if 'obj' in kwargs:
-            agente = kwargs['obj']
-            self.poblar_turnos(agente.turnos)
+            self.poblar_turnos(kwargs['obj'])
+        super().__init__(**kwargs)
 
-    def populate_obj(self, obj, agente_existente=False):
+    def populate_obj(self, obj, agente_nuevo=False):
         super().populate_obj(obj)
-        # if agente_existente:
-        #     pass
-        # else:
-        #     self.guardar_turnos(obj)
-        self.guardar_turnos(obj)
+        if agente_nuevo:
+            self.guardar_turnos(obj)
 
     class Meta:
             locales = ['es']
