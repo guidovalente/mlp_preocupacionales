@@ -1,0 +1,16 @@
+{% extends "preocupacionales/agente.html" %}
+{% block form_action %}{{ url_for('preocupacionales.editar_agente', id=id) }}{% endblock %}
+{% block botones %}
+<div class="btn-group-vertical">
+<button class="btn btn-info" type="submit" name="buttonGuardar"><i class="fas pr-1 fa-save"></i>Guardar cambios</button>
+<div class="btn-group">
+  <button class="btn btn-info dropdown-toggle" type="button" id="dropdownCedula" data-toggle="dropdown"><i class="fas pr-1 fa-print"></i>Generar cédula</button>
+  <div class="dropdown-menu" aria-labelledby="dropdownCedula">
+    <a class="dropdown-item" href="#">Completa</a>
+    <a class="dropdown-item" href="#">Psicológico</a>
+    <a class="dropdown-item" href="#">Clínico</a>
+  </div>
+</div>
+<button class="btn btn-danger" type="button" name="buttonEliminar"><i class="fas pr-1 fa-trash"></i>Eliminar</button>
+</div>
+{% endblock %}
