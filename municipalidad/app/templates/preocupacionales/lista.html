@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='datatables/css/dataTables.bootstrap4.min.css')}}">
+<script type="text/javascript" src="{{ url_for('static', filename='datatables/js/jquery.dataTables.min.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='datatables/js/dataTables.bootstrap4.min.js')}}"></script>
+<script type="text/javascript" class="init">
+  $(document).ready(function() {
+    $('#example').DataTable( {
+      "dom": '<"row justify-content-end"<"col-1"l><"col-8"p><"col-3"f>>ti'
+    } );
+  } );
+</script>
+{% endblock %}
+{% block contenido %}
+<div class="mt-3">
+  <a href="#" class="btn btn-info"><i class="fas fa-user-plus"></i> Nuevo aspirante</a>
+  <a href="#" class="btn btn-info"><i class="fas fa-file-export"></i> Exportar listado</a>
+</div>
+<div class="mt-3">
+  <table id="example" class="table text-center table-striped table-bordered table-hover table-sm" width="100%">
+    <thead class="thead-light ">
+      <tr>
+        <th scope="col" colspan="6">Datos</th>
+        <th scope="col" colspan="2">Preocupacional</th>
+        <th scope="col" colspan="1"></th>
+      </tr>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">DNI</th>
+        <th scope="col">Teléfono</th>
+        <th scope="col">Nº Legajo</th>
+        <th scope="col">Repartición</th>
+        <th scope="col">Apto</th>
+        <th scope="col">Apto</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for agente in agentes %}
+      <tr>
+        <td>{{ agente.nombre }}</td>
+        <td>{{ agente.apellido }}</td>
+        <td>{{ agente.dni }}</td>
+        <td>{{ agente.telefono }}</td>
+        <td>{{ agente.legajo or '-' }}</td>
+        <td>{{ agente.reparticion }}</td>
+        <td>{{ agente.apto_psi or '-' }}</td>
+        <td>{{ agente.apto_med or '-' }}</td>
+        <td><a class="text-body" href="{{ url_for('preocupacionales.editar_agente', id=agente.id) }}"><i class="fas fa-eye"></i></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
