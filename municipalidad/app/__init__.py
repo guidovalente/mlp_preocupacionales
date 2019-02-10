@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, Blueprint
 
 def create_app(test_config=None):
     # create and configure the app
@@ -27,9 +27,12 @@ def create_app(test_config=None):
     from . import preocupacionales
     app.register_blueprint(preocupacionales.bp)
 
-    @app.route('/exito')
-    def exito():
-        return render_template('exito.html')
+    home_bp = Blueprint('home', __name__, url_prefix='')
+    @home_bp.route('/exito/<int:id>')
+    def exito(id):
+        return render_template('exito.html', id=id)
+
+    app.register_blueprint(home_bp)
 
     @app.errorhandler(404)
     def not_found(error):
