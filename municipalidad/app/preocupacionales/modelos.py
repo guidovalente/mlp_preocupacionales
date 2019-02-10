@@ -20,6 +20,19 @@ class Agente(Base):
     apto_medico = db.Column(db.Boolean, nullable=True)
     observaciones = db.Column(db.Text, nullable=True)
 
+    psi_1 = db.relationship('Turno',
+        primaryjoin='and_(Agente.id==Turno.agente_id, '
+        'Turno.tipo==1, Turno.numero==1)', uselist=False)
+    psi_2 = db.relationship('Turno',
+        primaryjoin='and_(Agente.id==Turno.agente_id, '
+        'Turno.tipo==1, Turno.numero==2)', uselist=False)
+    med_1 = db.relationship('Turno',
+        primaryjoin='and_(Agente.id==Turno.agente_id, '
+        'Turno.tipo==2, Turno.numero==1)', uselist=False)
+    med_2 = db.relationship('Turno',
+        primaryjoin='and_(Agente.id==Turno.agente_id, '
+        'Turno.tipo==2, Turno.numero==2)', uselist=False)
+
     def __repr__(self):
         return "Agente {apellido}, {nombre} (DNI: {dni})".format(
             apellido=self.apellido,
