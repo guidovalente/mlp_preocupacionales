@@ -40,6 +40,18 @@ class Agente(Base):
             dni=self.dni
         )
 
+    @classmethod
+    def con_turnos(cls):
+        agente = cls()
+        turnos = [
+            Turno(tipo=1, numero=1, fecha=None, ausente=False),
+            Turno(tipo=1, numero=2, fecha=None, ausente=False),
+            Turno(tipo=2, numero=1, fecha=None, ausente=False),
+            Turno(tipo=2, numero=2, fecha=None, ausente=False)
+        ]
+        agente.turnos.extend(turnos)
+        return agente
+
 
 class Reparticion(Base):
     __tablename__ = 'reparticiones'
@@ -49,6 +61,7 @@ class Reparticion(Base):
 
     def __repr__(self):
         return self.nombre
+
 
 class Turno(Base):
     """
