@@ -87,3 +87,33 @@ def lista():
     from .modelos import Agente
     agentes = Agente.query.all()
     return render_template('preocupacionales/lista.html', agentes=agentes)
+
+@bp.route('/cedula/<any("completa","psi","med"):tipo_cedula>/<int:id_agente>')
+def cedula(tipo_cedula, id_agente):
+    from .modelos import Agente
+    agente = Agente.query.filter_by(id=id_agente).first()
+
+    if agente is None:
+        abort(404)
+
+    turno_psi = agente.psi_2.fecha or agente.psi_1.fecha
+    turno_med = agente.med_2.fecha or agente.med_1.fecha
+
+    error = None
+    if tipo_cedula == 'completa':
+        if turno_psi is None or turno_med is None:
+            error = ('Falta alguno de los turnos para generar '
+            'una cédula completa.')
+    elif tipo_cedula == 'psi':
+        if turno_psi is None:
+            error = ('No puede imprimirse la cédula ya que no hay turno de '
+            'preocupacional psicológico asignado para este agente.')
+    elif tipo_cedula == 'med':
+        if turno_med is None:
+            error = ('No puede imprimirse la cédula ya que no hay turnos de '
+            'preocupacional clínico asignado para este agente.')
+    if error:
+        return render_template('error.html', mensaje=error)
+
+    return render_template('preocupacionales/cedula.html', agente=agente,
+        tipo_cedula=tipo_cedula, hospital='asd')

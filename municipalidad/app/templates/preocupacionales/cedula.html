@@ -1,0 +1,12 @@
+<p>Agente: {{ agente.apellido }}, {{ agente.nombre }}</p>
+{% set turno_psi = agente.psi_2.fecha or agente.psi_1.fecha %}
+{% set turno_med = agente.med_2.fecha or agente.med_1.fecha %}
+<p>Deberá presentarse en la DGP para su examen preocupacional</p>
+{% if tipo_cedula == 'completa' %}
+<p>Deberá presentarse el día {{ turno_psi.strftime('%d/%m/%Y') }} a las {{ turno_psi.strftime('%H:%M') }} para el examen psicológico.</p>
+<p>También deberá presentarse el día {{ turno_med.strftime('%d/%m/%Y') }} a las {{ turno_med.strftime('%H:%M') }} para el examen médico.</p>
+{% elif tipo_cedula == 'psi' %}
+<p>Deberá presentarse el día {{ turno_psi.strftime('%d/%m/%Y') }} a las {{ turno_psi.strftime('%H:%M') }} para el examen psicológico.</p>
+{% elif tipo_cedula == 'med' %}
+<p>Deberá presentarse el día {{ turno_med.strftime('%d/%m/%Y') }} a las {{ turno_med.strftime('%H:%M') }} para el examen médico.</p>
+{% endif %}

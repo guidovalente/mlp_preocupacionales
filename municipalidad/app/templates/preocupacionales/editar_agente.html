@@ -6,9 +6,9 @@
 <div class="btn-group">
   <button class="btn btn-info dropdown-toggle" type="button" id="dropdownCedula" data-toggle="dropdown"><i class="fas pr-1 fa-print"></i>Generar cédula</button>
   <div class="dropdown-menu" aria-labelledby="dropdownCedula">
-    <a class="dropdown-item" href="#">Completa</a>
-    <a class="dropdown-item" href="#">Psicológico</a>
-    <a class="dropdown-item" href="#">Clínico</a>
+    <a class="dropdown-item" target="_blank" href="{{ url_for('preocupacionales.cedula', tipo_cedula='completa', id_agente=id) }}">Completa</a>
+    <a class="dropdown-item" target="_blank" href="{{ url_for('preocupacionales.cedula', tipo_cedula='psi', id_agente=id) }}">Psicológico</a>
+    <a class="dropdown-item" target="_blank" href="{{ url_for('preocupacionales.cedula', tipo_cedula='med', id_agente=id) }}">Clínico</a>
   </div>
 </div>
 <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modalEliminar"><i class="fas pr-1 fa-trash"></i>Eliminar agente</button>
