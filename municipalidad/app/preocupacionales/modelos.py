@@ -1,6 +1,11 @@
 from app.modelo_base import db, Base
 
 class Agente(Base):
+    """Modelo de agentes de la municipalidad
+
+    Se relaciona con la reparticion a través del campo reparticion_id, y
+    con los turnos a través de los campos de turnos.
+    """
     __tablename__ = 'agentes'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -22,6 +27,8 @@ class Agente(Base):
     turnos = db.relationship('Turno', backref='agente',
         cascade='all, delete-orphan')
 
+    # Los nombres de los turnos no llevan turno_ delante para evitar
+    # conflictos de nombre con los campos de turno del formulario
     psi_1 = db.relationship('Turno',
         primaryjoin='and_(Agente.id==Turno.agente_id, '
         'Turno.tipo==1, Turno.numero==1)', uselist=False)
@@ -56,6 +63,7 @@ class Agente(Base):
 
 
 class Reparticion(Base):
+    """Modelo de reparticiones de la Municipalidad"""
     __tablename__ = 'reparticiones'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -66,8 +74,7 @@ class Reparticion(Base):
 
 
 class Turno(Base):
-    """
-    Modelo de turnos para preocupacionales
+    """Modelo de turnos para preocupacionales
 
     TODO: agregar campo de Google Calendar para relacionar cada turno
     con su equivalente en Google. De este modo podremos realizar
