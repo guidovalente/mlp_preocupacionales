@@ -28,34 +28,55 @@
 <body class="pt-5">
   <!-- Nav -->
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-info mb-5">
-    <a class="navbar-brand" href="#">Dirección de Medicina Ocupacional</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="{{ url_for('preocupacionales.lista') }}">Dirección de Medicina Ocupacional</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-item nav-link" href="#"><i class="fas pr-1 fa-user-circle"></i>Mi cuenta</a>
-        <a class="nav-item nav-link" href="#"><i class="fas pr-1 fa-cog"></i>Configuración</a>
-        <a class="nav-item nav-link active" href="#"><i class="fas pr-1 fa-users"></i>Aspirantes</a>
 
-      </div>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" href="#">Agentes</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{{ url_for('preocupacionales.lista') }}">Listado</a>
+            <a class="dropdown-item" href="{{ url_for('preocupacionales.nuevo_agente') }}">Nuevo Agente</a>
+            <a class="dropdown-item" href="#">Calendario</a>
+          </div>
+        </li>
+      </ul>
+
     </div>
-  </nav>
-  <!-- Fin nav -->
 
-  <!-- Contenedor Bootstrap -->
-  <div class="container-fluid pt-3">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div class="flashes">
-        {% for category, message in messages %}
-          <div class="{{ category }}">{{ message }}</div>
-        {% endfor %}
-      </div>
-      {% endif %}
-    {% endwith %}
-    {% block contenido %}{% endblock %}
+
+
+
+    <!-- <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+    <a class="nav-item nav-link" href="#"><i class="fas pr-1 fa-user-circle"></i>Mi cuenta</a>
+    <a class="nav-item nav-link" href="#"><i class="fas pr-1 fa-cog"></i>Configuración</a>
+    <div class="">
+
   </div>
-  <!-- Fin contenedor Bootstrap -->
+  <a class="nav-item nav-link active" href="#"><i class="fas pr-1 fa-users"></i>Agentes</a>
+
+</div>
+</div> -->
+</nav>
+<!-- Fin nav -->
+
+<!-- Contenedor Bootstrap -->
+<div class="container-fluid pt-3">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flashes">
+    {% for category, message in messages %}
+    <div class="{{ category }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+  {% block contenido %}{% endblock %}
+</div>
+<!-- Fin contenedor Bootstrap -->
 </body>
 </html>
