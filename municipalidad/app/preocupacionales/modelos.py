@@ -79,7 +79,7 @@ class Turno(Base):
     id = db.Column(db.Integer, primary_key=True)
     tipo = db.Column(db.Integer, nullable=False)
     numero = db.Column(db.Integer, nullable=False)
-    fecha = db.Column(db.DateTime, nullable=True, unique=True)
+    fecha = db.Column(db.DateTime, nullable=True)
     ausente = db.Column(db.Boolean, nullable=False, default=False)
     agente_id = db.Column(db.Integer, db.ForeignKey('agentes.id'),
                             nullable=False)

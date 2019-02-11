@@ -4,3 +4,7 @@ Formularios:
     -Convertir el select de repartición en un input que sugiera la repartición
     -Complejizar la validación para poder realizarla con los turnos (si ya
     hay un turno asignado, etc)
+Modelos:
+  Turno:
+    -Construir UniqueConstraint para que no se repita la fecha de los con_turnos
+      con_turnos que son del mismo tipo
