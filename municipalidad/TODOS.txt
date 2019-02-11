@@ -6,5 +6,5 @@ Formularios:
     hay un turno asignado, etc)
 Modelos:
   Turno:
-    -Construir UniqueConstraint para que no se repita la fecha de los con_turnos
-      con_turnos que son del mismo tipo
+    -Construir UniqueConstraint para que no se repita la fecha de los turnos
+      con turnos que son del mismo tipo
