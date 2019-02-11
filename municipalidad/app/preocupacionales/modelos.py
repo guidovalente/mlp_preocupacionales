@@ -19,6 +19,8 @@ class Agente(Base):
     apto_psicologico = db.Column(db.Boolean, nullable=True)
     apto_medico = db.Column(db.Boolean, nullable=True)
     observaciones = db.Column(db.Text, nullable=True)
+    turnos = db.relationship('Turno', backref='agente',
+        cascade='all, delete-orphan')
 
     psi_1 = db.relationship('Turno',
         primaryjoin='and_(Agente.id==Turno.agente_id, '
@@ -81,4 +83,3 @@ class Turno(Base):
     ausente = db.Column(db.Boolean, nullable=False, default=False)
     agente_id = db.Column(db.Integer, db.ForeignKey('agentes.id'),
                             nullable=False)
-    agente = db.relationship('Agente', backref='turnos', lazy=True, uselist=False)
