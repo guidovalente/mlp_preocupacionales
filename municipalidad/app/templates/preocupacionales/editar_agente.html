@@ -2,7 +2,7 @@
 {% block form_action %}{{ url_for('preocupacionales.editar_agente', id=id) }}{% endblock %}
 {% block botones %}
 <div class="btn-group-vertical">
-<button class="btn btn-info" type="submit" name="buttonGuardar"><i class="fas pr-1 fa-save"></i>Guardar cambios</button>
+<button class="btn btn-info" type="submit" name="action" value="guardar"><i class="fas pr-1 fa-save"></i>Guardar cambios</button>
 <div class="btn-group">
   <button class="btn btn-info dropdown-toggle" type="button" id="dropdownCedula" data-toggle="dropdown"><i class="fas pr-1 fa-print"></i>Generar cédula</button>
   <div class="dropdown-menu" aria-labelledby="dropdownCedula">
@@ -11,6 +11,26 @@
     <a class="dropdown-item" href="#">Clínico</a>
   </div>
 </div>
-<button class="btn btn-danger" type="button" name="buttonEliminar"><i class="fas pr-1 fa-trash"></i>Eliminar</button>
+<button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modalEliminar"><i class="fas pr-1 fa-trash"></i>Eliminar agente</button>
+<!-- Modal -->
+<div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Eliminar agente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Quiere eliminar el agente {{ form.nombre.data }} {{ form.apellido.data }}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-danger" name="action" value="eliminar">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 {% endblock %}
