@@ -1,12 +1,115 @@
-<p>Agente: {{ agente.apellido }}, {{ agente.nombre }}</p>
-{% set turno_psi = agente.psi_2.fecha or agente.psi_1.fecha %}
-{% set turno_med = agente.med_2.fecha or agente.med_1.fecha %}
-<p>Deberá presentarse en la DGP para su examen preocupacional</p>
-{% if tipo_cedula == 'completa' %}
-<p>Deberá presentarse el día {{ turno_psi.strftime('%d/%m/%Y') }} a las {{ turno_psi.strftime('%H:%M') }} para el examen psicológico.</p>
-<p>También deberá presentarse el día {{ turno_med.strftime('%d/%m/%Y') }} a las {{ turno_med.strftime('%H:%M') }} para el examen médico.</p>
-{% elif tipo_cedula == 'psi' %}
-<p>Deberá presentarse el día {{ turno_psi.strftime('%d/%m/%Y') }} a las {{ turno_psi.strftime('%H:%M') }} para el examen psicológico.</p>
-{% elif tipo_cedula == 'med' %}
-<p>Deberá presentarse el día {{ turno_med.strftime('%d/%m/%Y') }} a las {{ turno_med.strftime('%H:%M') }} para el examen médico.</p>
-{% endif %}
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Cédula</title>
+  <style>
+    body {
+      width: 210mm;
+      height: 297mm;
+      color: rgb(65, 65, 65);
+      font-family: Arial;
+      font-size: 18px;
+    }
+    p {
+      text-indent: 30%;
+      text-align: justify;
+    }
+    .black {
+      color: black;
+    }
+    .header-mlp {
+      max-width: 97%;
+    }
+    .cedula {
+      margin: auto;
+      width: 50%;
+      text-align: center;
+      border: solid 0.02px rgb(125, 125, 125, 0.25);
+      margin-bottom: 1cm;
+    }
+    .cedula-texto {
+      padding-top: 1mm;
+      padding-bottom: 1mm;
+    }
+    .texto-derecha {
+      text-align: right !important;
+    }
+    .row {
+      display: flex;
+    }
+    .column {
+      flex: 50%;
+      margin-left: 10%;
+    }
+    .footer {
+      bottom: 0;
+      position: fixed;
+      text-align: center !important;
+    }
+  </style>
+</head>
+<body>
+  <img class="header-mlp" src="{{ url_for('static', filename='imgs/header_mlp.png') }}">
+  <div class="cedula">
+    <div class="cedula-texto">
+      <span class="black">CÉDULA</span>
+    </div>
+  </div>
+  <div class="">
+    <p class="black texto-derecha">
+      {{ agente.apellido.upper() }}, {{ agente.nombre.upper() }}{% if agente.domicilio_calle %}<br>
+      {{ 'Calle ' + agente.domicilio_calle }}{{ (' Nº ' + agente.domicilio_numero) if agente.domicilio_numero else '' }}{{ (' piso ' + agente.domicilio_piso if agente.domicilio_piso else '') }}{{ (' depto. ' + agente.domicilio_depto) if agente.domicilio_depto else '' }}{% endif %}
+    </p>
+  </div>
+  <br>
+  <p class="texto-derecha">
+    Ref.: Exámenes preocupacionales<br>
+    La Plata, {{ fecha }}
+  </p>
+  {% set turno_psi = agente.psi_2.fecha or agente.psi_1.fecha %}
+  {% set turno_med = agente.med_2.fecha or agente.med_1.fecha %}
+  {% if tipo_cedula == 'completa' %}
+  <p>
+    Notifico a usted que deberá presentarse ante el Departamento de Carpetas Médicas, sito en calle 12 e/ 50 y 51, Torre 1, Piso 3, el día  {{ turno_psi.strftime('%d/%m/%Y') }}, a las {{ turno_psi.strftime('%H:%M') }}, a los fines de mantener la entrevista psicológica correspondiente a los exámenes preocupacionales de ingreso a este municipio.
+  </p>
+  <p>
+    Asimismo, deberá presentarse ante el laboratorio central del área “A”, Consultorios Externos, del HOSPITAL SAN JUAN DE DIOS, sito en calle 27 y 70, Planta Baja, el {{ turno_med.strftime('%d/%m/%Y') }}, a las {{ turno_med.strftime('%H:%M') }}, a los fines de realizar la evaluación clínica relacionada a los exámenes preocupacionales de ingreso a este municipio.
+  </p>
+  {% elif tipo_cedula == 'psi' %}
+  <p>
+    Notifico a usted que deberá presentarse el día {{ turno_psi.strftime('%d/%m/%Y') }} a las {{ turno_psi.strftime('%H:%M') }} para el examen psicológico.
+  </p>
+  {% elif tipo_cedula == 'med' %}
+  <p>
+    Notifico a usted que deberá presentarse ante el Departamento de Carpetas Médicas, sito en calle 12 e/ 50 y 51, Torre 1, Piso 3, el día  {{ turno_psi.strftime('%d/%m/%Y') }}, a las {{ turno_psi.strftime('%H:%M') }}, a los fines de mantener la entrevista psicológica correspondiente a los exámenes preocupacionales de ingreso a este municipio.
+  </p>
+  {% endif %}
+  <p>
+    Tenga en cuenta que la presencia a dichas citaciones es OBLIGATORIA y justificará la ausencia a su puesto de trabajo en caso de superposición horaria. Por tal motivo la inasistencia injustificada será sancionada.
+  </p>
+  <p>QUEDA UD. NOTIFICADO.</p>
+  <div class="row" style="margin-top: 3cm;">
+    <div style="" class="column">
+      {% if tipo_cedula in ('completa', 'med') %}
+      Concurrir al examen físico con:<br>
+      *1er orina de la mañana<br>
+      *Ayunas de 12 horas
+      {% endif %}
+    </div>
+    <div style="" class="column">
+      Firma:<br>
+      Aclaración:<br>
+      D.N.I.:
+    </div>
+  </div>
+  <div class="footer">
+    <!-- <p> -->
+      Dirección General de Personal y Capital Humano<br>
+      Municipalidad de La Plata<br>
+      12 e/50 y 51 - Torre I - Piso 3<br>
+      221-4295224 / 4295469
+    <!-- </p> -->
+  </div>
+</body>
+</html>

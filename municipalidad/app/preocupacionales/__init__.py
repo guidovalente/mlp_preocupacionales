@@ -114,6 +114,6 @@ def cedula(tipo_cedula, id_agente):
             'preocupacional clínico asignado para este agente.')
     if error:
         return render_template('error.html', mensaje=error)
-
+    from datetime import datetime
     return render_template('preocupacionales/cedula.html', agente=agente,
-        tipo_cedula=tipo_cedula, hospital='asd')
+        tipo_cedula=tipo_cedula, fecha=datetime.now().strftime('%d/%m/%Y'))
