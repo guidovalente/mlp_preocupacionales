@@ -108,9 +108,9 @@ class FormularioAgente(FlaskForm):
             self.poblar_turnos(kwargs['obj'])
         super().__init__(**kwargs)
 
-    def populate_obj(self, obj, agente_nuevo=False):
+    def populate_obj(self, obj, edicion=False):
         super().populate_obj(obj)
-        if agente_nuevo:
+        if edicion:
             self.guardar_turnos(obj)
 
     class Meta:

@@ -50,7 +50,7 @@ def editar_agente(id):
         if request.form['action'] == 'guardar':
             if form.validate():
                 db.session.add(agente)
-                form.populate_obj(agente, agente_nuevo=True)
+                form.populate_obj(agente, edicion=True)
                 try:
                     db.session.commit()
                     flash('Los cambios fueron guardados',

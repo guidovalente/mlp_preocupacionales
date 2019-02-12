@@ -19,7 +19,7 @@
       color: black;
     }
     .header-mlp {
-      max-width: 97%;
+      max-width: 100%;
     }
     .cedula {
       margin: auto;
@@ -75,7 +75,7 @@
   {% set turno_med = agente.med_2.fecha or agente.med_1.fecha %}
   {% if tipo_cedula == 'completa' %}
   <p>
-    Notifico a usted que deberá presentarse ante el Departamento de Carpetas Médicas, sito en calle 12 e/ 50 y 51, Torre I, Piso 3, el día <span class="black">{{ turno_psi.strftime('%d/%m/%Y') }}</span>, a las <span class="black">{{ turno_psi.strftime('%H:%M') }}</span>, a los fines de mantener la entrevista psicológica correspondiente a los exámenes preocupacionales de ingreso a este municipio.
+    Notifico a usted que deberá presentarse ante el Departamento de Carpetas Médicas, sito en calle 12 entre 50 y 51, Torre I, Piso 3, el día <span class="black">{{ turno_psi.strftime('%d/%m/%Y') }}</span>, a las <span class="black">{{ turno_psi.strftime('%H:%M') }}</span>, a los fines de mantener la entrevista psicológica correspondiente a los exámenes preocupacionales de ingreso a este municipio.
   </p>
   <p>
     Asimismo, deberá presentarse ante el laboratorio central del área “A”, Consultorios Externos, del HOSPITAL SAN JUAN DE DIOS, sito en calle 27 y 70, Planta Baja, el <span class="black">{{ turno_med.strftime('%d/%m/%Y') }}</span>, a las <span class="black">{{ turno_med.strftime('%H:%M') }}</span>, a los fines de realizar la evaluación clínica relacionada a los exámenes preocupacionales de ingreso a este municipio.
