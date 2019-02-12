@@ -7,9 +7,9 @@ from wtforms.validators import InputRequired, Optional
 
 # Listado de opciones para los campos de apto médico y psicológico
 opciones_aptitud = [
-    ('None', '-'),
-    ('True', 'Sí'),
-    ('False', 'No')
+    (0, 'Pendiente'),
+    (1, 'Sí'),
+    (2, 'No')
 ]
 
 def opcion_obligatoria(message=None):
@@ -138,17 +138,19 @@ class FormularioAgente(FlaskForm):
         choices=reparticiones_formulario(default="Elija una repartición...")
     )
     turno_psi_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
-        validators=[Optional()])
+        validators=[Optional(strip_whitespace=False)])
     ausente_psi_1 = BooleanField('Ausente')
     turno_psi_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
     ausente_psi_2 = BooleanField('Ausente')
-    apto_psi = SelectField('Apto', choices=opciones_aptitud)
+    apto_psicologico = SelectField('Apto', choices=opciones_aptitud,
+        coerce=int)
     turno_med_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
     ausente_med_1 = BooleanField('Ausente')
     turno_med_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
     ausente_med_2 = BooleanField('Ausente')
-    apto_med = SelectField('Apto', choices=opciones_aptitud)
-    observaciones = TextAreaField('Observaciones')
+    apto_medico = SelectField('Apto', choices=opciones_aptitud,
+        coerce=int)
+    observaciones = TextAreaField('Observaciones', validators=[Prueba(), InputRequired()])

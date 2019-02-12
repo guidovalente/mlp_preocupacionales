@@ -38,6 +38,20 @@
     </thead>
     <tbody>
       {% for agente in agentes %}
+      {% if agente.apto_psicologico == 1 %}
+      {% set apto_psicologico = 'Sí' %}
+      {% elif agente.apto_psicologico == 2 %}
+      {% set apto_psicologico = 'No' %}
+      {% else %}
+      {% set apto_psicologico = '-' %}
+      {% endif %}
+      {% if agente.apto_medico == 1 %}
+      {% set apto_medico = 'Sí' %}
+      {% elif agente.apto_medico == 2 %}
+      {% set apto_medico = 'No' %}
+      {% else %}
+      {% set apto_medico = '-' %}
+      {% endif %}
       <tr>
         <td>{{ agente.nombre }}</td>
         <td>{{ agente.apellido }}</td>
@@ -45,8 +59,8 @@
         <td>{{ agente.telefono or '-' }}</td>
         <td>{{ agente.legajo or '-' }}</td>
         <td>{{ agente.reparticion }}</td>
-        <td>{{ agente.apto_psi or '-' }}</td>
-        <td>{{ agente.apto_med or '-' }}</td>
+        <td>{{ apto_psicologico }}</td>
+        <td>{{ apto_medico }}</td>
         <td><a class="text-body" href="{{ url_for('preocupacionales.editar_agente', id=agente.id) }}"><i class="fas fa-eye"></i></a></td>
       </tr>
       {% endfor %}
