@@ -4,15 +4,7 @@ from wtforms import (
     TextAreaField, ValidationError
 )
 from wtforms.validators import InputRequired, Optional
-
-
-# Listado de opciones para los campos de apto médico y psicológico
-opciones_aptitud = [
-    (0, 'Pendiente'),
-    (1, 'Sí'),
-    (2, 'No')
-]
-
+from .modelos import Reparticion
 
 def opcion_obligatoria(message=None):
     """
@@ -136,6 +128,14 @@ class FormularioAgente(FlaskForm):
             def get_translations(self, form):
                 return super(FlaskForm.Meta, self).get_translations(form)
 
+    # Listado de opciones para los campos de apto médico y psicológico
+    opciones_aptitud = [
+        (0, 'Pendiente'),
+        (1, 'Sí'),
+        (2, 'No')
+    ]
+
+    # campos del formulario
     nombre = StringField('Nombre', validators=[InputRequired()])
     apellido = StringField('Apellido', validators=[InputRequired()])
     dni = IntegerField('DNI', validators=[InputRequired()])
