@@ -5,12 +5,14 @@ from wtforms import (
 )
 from wtforms.validators import InputRequired, Optional
 
+
 # Listado de opciones para los campos de apto médico y psicológico
 opciones_aptitud = [
     (0, 'Pendiente'),
     (1, 'Sí'),
     (2, 'No')
 ]
+
 
 def opcion_obligatoria(message=None):
     """
