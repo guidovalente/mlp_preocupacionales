@@ -140,7 +140,7 @@ class FormularioAgente(FlaskForm):
         choices=reparticiones_formulario(default="Elija una repartición...")
     )
     turno_psi_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
-        validators=[Optional(strip_whitespace=False)])
+        validators=[Optional()])
     ausente_psi_1 = BooleanField('Ausente')
     turno_psi_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
@@ -155,4 +155,4 @@ class FormularioAgente(FlaskForm):
     ausente_med_2 = BooleanField('Ausente')
     apto_medico = SelectField('Apto', choices=opciones_aptitud,
         coerce=int)
-    observaciones = TextAreaField('Observaciones', validators=[Prueba(), InputRequired()])
+    observaciones = TextAreaField('Observaciones')
