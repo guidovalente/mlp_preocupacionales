@@ -122,13 +122,13 @@ class FormularioAgente(FlaskForm):
         campos de turnos son completados por el usuario.
         De este modo no queda ningún turno cargado sin calendario asignado.
         """
-        super().validate()
-        print(self.apto_psicologico.data)
-        print(self.apto_psicologico != 0, not self.turno_psi_1.data)
         if self.apto_psicologico.data != 0 and not self.turno_psi_1.data:
             self.turno_psi_1.errors.append('Debe llenar una fecha')
             return False
-        return True
+        if super().validate():
+            return True
+        return False
+
 
     class Meta:
             locales = ['es']
