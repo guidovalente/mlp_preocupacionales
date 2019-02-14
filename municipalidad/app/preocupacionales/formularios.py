@@ -103,6 +103,12 @@ class FormularioAgente(FlaskForm):
         super().__init__(**kwargs)
 
     def populate_obj(self, obj, edicion=False):
+        """Sobreescritura del método para guardado de turnos
+
+        Cuando se puebla el objeto en base a los datos del formulario,
+        realizamos el guardado de los turnos, ya que pertenecen a una
+        clase diferente.
+        """
         super().populate_obj(obj)
         if edicion:
             self.guardar_turnos(obj)
