@@ -1,5 +1,176 @@
-{% extends "preocupacionales/agente.html" %}
-{% block form_action %}/preocupacionales/nuevo_agente{% endblock %}
-{% block botones %}
-<button form="agente" class="btn btn-info btn-lg" type="submit" name="buttonGuardar"><i class="fas pr-1 fa-user"></i>Crear agente</button>
+{% extends "base.html" %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/floating-labels.css')}}">
+<script src="{{ url_for('static', filename='moment/js/moment.min.js')}}"></script>
+<script src="{{ url_for('static', filename='moment/js/locales.js')}}"></script>
+<script src="{{ url_for('static', filename='tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+<!-- JS datetime pickers -->
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#turno_psi_1').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+      locale: 'es',
+      stepping: 15
+    });
+    $('#turno_psi_2').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+      locale: 'es',
+      stepping: 15
+    });
+    $('#turno_med_1').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+      locale: 'es',
+      stepping: 10
+    });
+    $('#turno_med_2').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+      locale: 'es',
+      stepping: 10
+    });
+  });
+</script>
+{% endblock %}
+{% block contenido %}
+<!-- Formulario -->
+<form action="{{ url_for('preocupacionales.nuevo_agente') }}" method="POST" id="agente" class="needs-validation" novalidate>
+  <div class="row">
+    <div class="col-md-3"></div><!-- Columna vacía -->
+    <div class="col-md-6 border rounded p-3 bg-light">
+      {{ form.csrf_token }}
+      <div class="row">
+        <!-- Area datos -->
+        <div class="col-md-12">
+          <!-- Datos personales -->
+          <div>
+            <div class="form-row">
+              <div class="form-group col-md-auto h5">
+                Datos personales
+              </div>
+            </div>
+            <div class="ml-2">
+              <div class="form-row">
+                <div class="col-md-6 form-label-group">
+                  {% if 'nombre' in form.errors %}
+                  {{ form.nombre(autocomplete='off', class='form-control is-invalid', placeholder=form.nombre.name) }}
+                  <div class="invalid-tooltip">
+                    {{ form.errors['nombre'][0]}}
+                  </div>
+                  {% else %}
+                  {{ form.nombre(autocomplete='off', class='form-control', placeholder=form.nombre.name) }}
+                  {% endif %}
+                  {{ form.nombre.label }}
+                </div>
+                <div class="form-label-group col-md-6">
+                  {% if 'apellido' in form.errors %}
+                  {{ form.apellido(autocomplete='off', class='form-control is-invalid', placeholder=form.apellido.name) }}
+                  <div class="invalid-tooltip">
+                    {{ form.errors['apellido'][0]}}
+                  </div>
+                  {% else %}
+                  {{ form.apellido(autocomplete='off', class='form-control', placeholder=form.apellido.name) }}
+                  {% endif %}
+                  {{ form.apellido.label }}
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-label-group col-md-4">
+                  {% if 'dni' in form.errors %}
+                  {{ form.dni(autocomplete='off', class='form-control is-invalid', placeholder=form.dni.name) }}
+                  <div class="invalid-tooltip">
+                    {{ form.errors['dni'][0]}}
+                  </div>
+                  {% else %}
+                  {{ form.dni(autocomplete='off', class='form-control', placeholder=form.dni.name) }}
+                  {% endif %}
+                  {{ form.dni.label }}
+                </div>
+                <div class="form-label-group col-md-6">
+                  {{ form.telefono(autocomplete='off', class='form-control', placeholder=form.telefono.name) }}
+                  {{ form.telefono.label }}
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-label-group col-md-auto h5">
+                  Domicilio
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-label-group col-md-5">
+                  {{ form.domicilio_calle(autocomplete='off', class='form-control', placeholder=form.domicilio_calle.name) }}
+                  {{ form.domicilio_calle.label }}
+                </div>
+                <div class="form-label-group col-md-3">
+                  {{ form.domicilio_numero(autocomplete='off', class='form-control', placeholder=form.domicilio_numero.name) }}
+                  {{ form.domicilio_numero.label }}
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-label-group col-md-4">
+                  {{ form.domicilio_piso(autocomplete='off', class='form-control', placeholder=form.domicilio_piso.name) }}
+                  {{ form.domicilio_piso.label }}
+                </div>
+                <div class="form-label-group col-md-4">
+                  {{ form.domicilio_depto(autocomplete='off', class='form-control', placeholder=form.domicilio_depto.name) }}
+                  {{ form.domicilio_depto.label }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Fin datos personales -->
+          <!-- Datos municipales -->
+          <div>
+            <div class="form-row">
+              <div class="form-group col-md-auto h5">
+                Datos municipales
+              </div>
+            </div>
+            <div class="ml-2">
+              <div class="form-row">
+                <div class="form-label-group col-md-3">
+                  {% if 'legajo' in form.errors %}
+                  {{ form.legajo(autocomplete='off', class='form-control is-invalid', placeholder=form.legajo.name) }}
+                  <div class="invalid-tooltip">
+                    {{ form.errors['legajo'][0]}}
+                  </div>
+                  {% else %}
+                  {{ form.legajo(autocomplete='off', class='form-control', placeholder=form.legajo.name) }}
+                  {% endif %}
+                  {{ form.legajo.label }}
+                </div>
+                <div class="form-group col-md-9">
+                  {% if 'reparticion_id' in form.errors %}
+                  {{ form.reparticion_id(autocomplete='off', class='form-control is-invalid') }}
+                  <div class="invalid-tooltip">
+                    {{ form.errors['reparticion_id'][0]}}
+                  </div>
+                  {% else %}
+                  {{ form.reparticion_id(autocomplete='off', class='form-control') }}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Fin datos municipales -->
+        </div>
+        <!-- Fin area datos -->
+      </div>
+    </div>
+    <!-- Fin formulario -->
+    <!-- Area botones -->
+    <div class="col-md-3">
+      <div class="container">
+        <div class="row pt-3 justify-content-center">
+          <div class="col">
+            <div class="btn-block">
+              <button form="agente" class="btn btn-info btn-lg" type="submit" name="buttonGuardar"><i class="fas pr-1 fa-user"></i>Crear agente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- Fin area bootnes -->
+  </div>
+</form>
 {% endblock %}
