@@ -89,4 +89,15 @@ class Turno(Base):
     fecha = db.Column(db.DateTime, nullable=True)
     ausente = db.Column(db.Boolean, nullable=False, default=False)
     agente_id = db.Column(db.Integer, db.ForeignKey('agentes.id'),
-                            nullable=False)
+        nullable=False)
+    calendario_id = db.Column(db.Integer,
+        db.ForeignKey('calendarios.id'), nullable=False)
+    calendario = db.relationship('Calendario', backref='turnos')
+
+
+class Calendario(Base):
+    __tablename__ = 'calendarios'
+    id = db.Column(db.Integer, primary_key=True)
+    tipo = db.Column(db.Integer, nullable=False)
+    nombre = db.Column(db.String(128), nullable=False)
+    color = db.Column(db.String(6), nullable=False, default="000000")

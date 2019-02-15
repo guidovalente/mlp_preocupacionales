@@ -127,7 +127,6 @@ class FormularioAgente(FlaskForm):
             return True
         return False
 
-
     class Meta:
             locales = ['es']
 
@@ -162,6 +161,7 @@ class FormularioAgente(FlaskForm):
     )
     turno_psi_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
+    cal_psi_1 = SelectField(choices=calendarios_formulario())
     ausente_psi_1 = BooleanField('Ausente')
     turno_psi_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
