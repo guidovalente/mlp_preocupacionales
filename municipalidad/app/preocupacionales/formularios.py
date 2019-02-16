@@ -35,7 +35,51 @@ class FormularioAgente(FlaskForm):
     calendario a cada turno.
     """
 
-    def reparticiones_formulario(default="-"):
+    class Meta:
+            locales = ['es']
+
+            def get_translations(self, form):
+                return super(FlaskForm.Meta, self).get_translations(form)
+
+    def __init__(self, **kwargs):
+        """Sobreescritura del método init para asignar turnos
+
+        Solamente nos interesa modificar este método si el llamado al
+        formulario se hizo desde la vista de editar_agente. En este caso
+        habrá un argumento en kwargs llamado 'obj'. De no haberlo, no
+        modificaremos el comportamiento del método y simplemente dejaremos
+        que siga su curso.
+        """
+        if 'obj' in kwargs:
+            self.poblar_turnos(kwargs['obj'])
+        super().__init__(**kwargs)
+
+    def populate_obj(self, obj, edicion=False):
+        """Sobreescritura del método para guardado de turnos
+
+        Cuando se puebla el objeto en base a los datos del formulario,
+        realizamos el guardado de los turnos, ya que pertenecen a una
+        clase diferente.
+        """
+        super().populate_obj(obj)
+        if edicion:
+            self.guardar_turnos(obj)
+
+    def validate(self):
+        """Sobreescritura de validate para validar turnos y calendarios
+
+        Este método verifica que haya un calendario seleccionado si los
+        campos de turnos son completados por el usuario.
+        De este modo no queda ningún turno cargado sin calendario asignado.
+        """
+        if self.apto_psicologico.data != 0 and not self.turno_psi_1.data:
+            self.turno_psi_1.errors.append('Debe llenar una fecha')
+            return False
+        if super().validate():
+            return True
+        return False
+
+    def opciones_reparticiones(default="-"):
         """Obtiene la lista de reparticiones de la base de datos.
 
         Esta función se utiliza para poblar el select de repartición
@@ -89,50 +133,6 @@ class FormularioAgente(FlaskForm):
         agente.med_2.fecha = self.turno_med_2.data
         agente.med_2.ausente = self.ausente_med_2.data
 
-    def __init__(self, **kwargs):
-        """Sobreescritura del método init para asignar turnos
-
-        Solamente nos interesa modificar este método si el llamado al
-        formulario se hizo desde la vista de editar_agente. En este caso
-        habrá un argumento en kwargs llamado 'obj'. De no haberlo, no
-        modificaremos el comportamiento del método y simplemente dejaremos
-        que siga su curso.
-        """
-        if 'obj' in kwargs:
-            self.poblar_turnos(kwargs['obj'])
-        super().__init__(**kwargs)
-
-    def populate_obj(self, obj, edicion=False):
-        """Sobreescritura del método para guardado de turnos
-
-        Cuando se puebla el objeto en base a los datos del formulario,
-        realizamos el guardado de los turnos, ya que pertenecen a una
-        clase diferente.
-        """
-        super().populate_obj(obj)
-        if edicion:
-            self.guardar_turnos(obj)
-
-    def validate(self):
-        """Sobreescritura de validate para validar turnos y calendarios
-
-        Este método verifica que haya un calendario seleccionado si los
-        campos de turnos son completados por el usuario.
-        De este modo no queda ningún turno cargado sin calendario asignado.
-        """
-        if self.apto_psicologico.data != 0 and not self.turno_psi_1.data:
-            self.turno_psi_1.errors.append('Debe llenar una fecha')
-            return False
-        if super().validate():
-            return True
-        return False
-
-    class Meta:
-            locales = ['es']
-
-            def get_translations(self, form):
-                return super(FlaskForm.Meta, self).get_translations(form)
-
     # Listado de opciones para los campos de apto médico y psicológico
     opciones_aptitud = [
         (0, 'Pendiente'),
@@ -157,7 +157,7 @@ class FormularioAgente(FlaskForm):
             InputRequired(),
             opcion_valida(message="Debe seleccionar una repartición")
         ],
-        choices=reparticiones_formulario(default="Elija una repartición...")
+        choices=opciones_reparticiones(default="Elija una repartición...")
     )
     turno_psi_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
