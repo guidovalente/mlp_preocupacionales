@@ -158,29 +158,17 @@ class FormularioEditarAgente(FormularioAgente):
         agente.med_2.ausente = self.ausente_med_2.data
 
     def opciones_calendarios(tipo):
+        """Método para obtener los calendarios y mostrarlos en un SelectField
+
+        TODO: debe modificarse este método para traer tuples que tenga el
+        siguiente formato: (id_calendario, nombre_calendario).
+        También deben tener una opción vacía adelante para la validación.
+        """
         calendarios = {
-            1: [
-                {
-                    'nombre': 'Hospital San Juan de Dios',
-                    'direccion': 'calle 27 y 70'
-                },
-                {
-                    'nombre': 'UPA Los Hornos',
-                    'direccion': 'calle 144 y no me acuerdo'
-                }
-                ],
-            2: [
-                {
-                    'nombre': 'Mañana',
-                    'direccion': 'Torre I, calle 12 entre 51 y 53, piso 3'
-                },
-                {
-                    'nombre': 'Tarde',
-                    'direccion': 'Torre I, calle 12 entre 51 y 53, piso 3'
-                }
-            ]
+            1: [('1', 'Mañana'), ('2', 'Tarde')],
+            2: [('3', 'UPA Los Hornos'), ('4', 'San Juan')]
         }
-        return calendarios[tipo]
+        return [('0', '-')] + calendarios[tipo]
 
     # Listado de opciones para los campos de apto médico y psicológico
     opciones_aptitud = [
@@ -196,13 +184,19 @@ class FormularioEditarAgente(FormularioAgente):
     ausente_psi_1 = BooleanField('Ausente')
     turno_psi_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
+    cal_psi_2 = SelectField(choices=opciones_calendarios(1),
+        validators=[Optional()])
     ausente_psi_2 = BooleanField('Ausente')
     apto_psicologico = SelectField('Apto', choices=opciones_aptitud,
         coerce=int)
     turno_med_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
+    cal_med_1 = SelectField(choices=opciones_calendarios(2),
+        validators=[Optional()])
     ausente_med_1 = BooleanField('Ausente')
     turno_med_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
+        validators=[Optional()])
+    cal_med_2 = SelectField(choices=opciones_calendarios(2),
         validators=[Optional()])
     ausente_med_2 = BooleanField('Ausente')
     apto_medico = SelectField('Apto', choices=opciones_aptitud,
