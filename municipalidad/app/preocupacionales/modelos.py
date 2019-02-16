@@ -91,7 +91,7 @@ class Turno(Base):
     agente_id = db.Column(db.Integer, db.ForeignKey('agentes.id'),
         nullable=False)
     calendario_id = db.Column(db.Integer,
-        db.ForeignKey('calendarios.id'), nullable=False)
+        db.ForeignKey('calendarios.id'), nullable=True)
     calendario = db.relationship('Calendario', backref='turnos')
 
 
