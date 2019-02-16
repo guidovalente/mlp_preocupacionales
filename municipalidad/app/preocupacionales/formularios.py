@@ -6,7 +6,7 @@ from wtforms import (
 from wtforms.validators import InputRequired, Optional
 from .modelos import Reparticion
 
-def opcion_obligatoria(message=None):
+def opcion_valida(message=None):
     """
     Validador de SelectField
 
@@ -21,11 +21,11 @@ def opcion_obligatoria(message=None):
 
     if not message:
         message = 'Debe elegir una opción válida.'
-    def _opcion_obligatoria(form, field):
+    def _opcion_valida(form, field):
         if field.data == 0:
             raise ValidationError(message)
 
-    return _opcion_obligatoria
+    return _opcion_valida
 
 
 class FormularioAgente(FlaskForm):
@@ -45,7 +45,7 @@ class FormularioAgente(FlaskForm):
         Repartición de la app.
 
         El placeholder siempre debe tener el valor cero (0) ya que luego
-        será validado por el validador opcion_obligatoria
+        será validado por el validador opcion_valida
         """
         from .modelos import Reparticion
         reparticiones = [(0, default)] + Reparticion.query.with_entities(
@@ -155,7 +155,7 @@ class FormularioAgente(FlaskForm):
         coerce=int,
         validators=[
             InputRequired(),
-            opcion_obligatoria(message="Debe seleccionar una repartición")
+            opcion_valida(message="Debe seleccionar una repartición")
         ],
         choices=reparticiones_formulario(default="Elija una repartición...")
     )
