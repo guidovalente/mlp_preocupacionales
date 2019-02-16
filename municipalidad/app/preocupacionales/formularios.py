@@ -29,10 +29,10 @@ def opcion_valida(message=None):
 
 
 class FormularioAgente(FlaskForm):
-    """Formulario para carga y actualización del agente
+    """Formulario base para carga y actualización del agente
 
-    TODO: agregar campos de calendarios Google Calendar, para asignar un
-    calendario a cada turno.
+    Luego será extendido por las subclases respectivas (de creación
+    y de edición de agente).
     """
 
     class Meta:
@@ -40,44 +40,6 @@ class FormularioAgente(FlaskForm):
 
             def get_translations(self, form):
                 return super(FlaskForm.Meta, self).get_translations(form)
-
-    def __init__(self, **kwargs):
-        """Sobreescritura del método init para asignar turnos
-
-        Solamente nos interesa modificar este método si el llamado al
-        formulario se hizo desde la vista de editar_agente. En este caso
-        habrá un argumento en kwargs llamado 'obj'. De no haberlo, no
-        modificaremos el comportamiento del método y simplemente dejaremos
-        que siga su curso.
-        """
-        if 'obj' in kwargs:
-            self.poblar_turnos(kwargs['obj'])
-        super().__init__(**kwargs)
-
-    def populate_obj(self, obj, edicion=False):
-        """Sobreescritura del método para guardado de turnos
-
-        Cuando se puebla el objeto en base a los datos del formulario,
-        realizamos el guardado de los turnos, ya que pertenecen a una
-        clase diferente.
-        """
-        super().populate_obj(obj)
-        if edicion:
-            self.guardar_turnos(obj)
-
-    def validate(self):
-        """Sobreescritura de validate para validar turnos y calendarios
-
-        Este método verifica que haya un calendario seleccionado si los
-        campos de turnos son completados por el usuario.
-        De este modo no queda ningún turno cargado sin calendario asignado.
-        """
-        if self.apto_psicologico.data != 0 and not self.turno_psi_1.data:
-            self.turno_psi_1.errors.append('Debe llenar una fecha')
-            return False
-        if super().validate():
-            return True
-        return False
 
     def opciones_reparticiones(default="-"):
         """Obtiene la lista de reparticiones de la base de datos.
@@ -97,6 +59,68 @@ class FormularioAgente(FlaskForm):
             Reparticion.nombre
         ).all()
         return reparticiones
+
+    # campos del formulario
+    nombre = StringField('Nombre', validators=[InputRequired()])
+    apellido = StringField('Apellido', validators=[InputRequired()])
+    dni = IntegerField('DNI', validators=[InputRequired()])
+    telefono = StringField('Telefono')
+    domicilio_calle = StringField('Calle')
+    domicilio_numero = StringField('Número')
+    domicilio_piso = StringField('Piso')
+    domicilio_depto = StringField('Departamento')
+    legajo = IntegerField('Legajo', validators=[Optional()])
+    reparticion_id = SelectField(
+        'Repartición',
+        coerce=int,
+        validators=[
+            InputRequired(),
+            opcion_valida(message="Debe seleccionar una repartición")
+        ],
+        choices=opciones_reparticiones(default="Elija una repartición...")
+    )
+    observaciones = TextAreaField('Observaciones')
+
+class FormularioEditarAgente(FormularioAgente):
+    """DOCSTRING DEL FORMULARIO
+
+    """
+
+    def __init__(self, **kwargs):
+        """Sobreescritura del método init para asignar turnos
+
+        Solamente nos interesa modificar este método si el llamado al
+        formulario se hizo desde la vista de editar_agente. En este caso
+        habrá un argumento en kwargs llamado 'obj'. De no haberlo, no
+        modificaremos el comportamiento del método y simplemente dejaremos
+        que siga su curso.
+        """
+        self.poblar_turnos(kwargs['obj'])
+        super().__init__(**kwargs)
+
+    def populate_obj(self, obj, edicion=False):
+        """Sobreescritura del método para guardado de turnos
+
+        Cuando se puebla el objeto en base a los datos del formulario,
+        realizamos el guardado de los turnos, ya que pertenecen a una
+        clase diferente.
+        """
+        super().populate_obj(obj)
+        self.guardar_turnos(obj)
+
+    def validate(self):
+        """Sobreescritura de validate para validar turnos y calendarios
+
+        Este método verifica que haya un calendario seleccionado si los
+        campos de turnos son completados por el usuario.
+        De este modo no queda ningún turno cargado sin calendario asignado.
+        """
+        if self.apto_psicologico.data != 0 and not self.turno_psi_1.data:
+            self.turno_psi_1.errors.append('Debe llenar una fecha')
+            return False
+        if super().validate():
+            return True
+        return False
 
     def poblar_turnos(self, agente):
         """Función que asigna los valores de los campos de turnos
@@ -133,6 +157,31 @@ class FormularioAgente(FlaskForm):
         agente.med_2.fecha = self.turno_med_2.data
         agente.med_2.ausente = self.ausente_med_2.data
 
+    def opciones_calendarios(tipo):
+        calendarios = {
+            1: [
+                {
+                    'nombre': 'Hospital San Juan de Dios',
+                    'direccion': 'calle 27 y 70'
+                },
+                {
+                    'nombre': 'UPA Los Hornos',
+                    'direccion': 'calle 144 y no me acuerdo'
+                }
+                ],
+            2: [
+                {
+                    'nombre': 'Mañana',
+                    'direccion': 'Torre I, calle 12 entre 51 y 53, piso 3'
+                },
+                {
+                    'nombre': 'Tarde',
+                    'direccion': 'Torre I, calle 12 entre 51 y 53, piso 3'
+                }
+            ]
+        }
+        return calendarios[tipo]
+
     # Listado de opciones para los campos de apto médico y psicológico
     opciones_aptitud = [
         (0, 'Pendiente'),
@@ -140,28 +189,10 @@ class FormularioAgente(FlaskForm):
         (2, 'No')
     ]
 
-    # campos del formulario
-    nombre = StringField('Nombre', validators=[InputRequired()])
-    apellido = StringField('Apellido', validators=[InputRequired()])
-    dni = IntegerField('DNI', validators=[InputRequired()])
-    telefono = StringField('Telefono')
-    domicilio_calle = StringField('Calle')
-    domicilio_numero = StringField('Número')
-    domicilio_piso = StringField('Piso')
-    domicilio_depto = StringField('Departamento')
-    legajo = IntegerField('Legajo', validators=[Optional()])
-    reparticion_id = SelectField(
-        'Repartición',
-        coerce=int,
-        validators=[
-            InputRequired(),
-            opcion_valida(message="Debe seleccionar una repartición")
-        ],
-        choices=opciones_reparticiones(default="Elija una repartición...")
-    )
     turno_psi_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
-    cal_psi_1 = SelectField(choices=calendarios_formulario())
+    cal_psi_1 = SelectField(choices=opciones_calendarios(1),
+        validators=[Optional()])
     ausente_psi_1 = BooleanField('Ausente')
     turno_psi_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
@@ -176,4 +207,3 @@ class FormularioAgente(FlaskForm):
     ausente_med_2 = BooleanField('Ausente')
     apto_medico = SelectField('Apto', choices=opciones_aptitud,
         coerce=int)
-    observaciones = TextAreaField('Observaciones')

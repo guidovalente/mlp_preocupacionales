@@ -43,8 +43,8 @@ def editar_agente(id):
     if agente is None:
         abort(404)
 
-    from .formularios import FormularioAgente
-    form = FormularioAgente(obj=agente)
+    from .formularios import FormularioEditarAgente
+    form = FormularioEditarAgente(obj=agente)
     if request.method == 'POST':
         from .modelos import db
         if request.form['action'] == 'guardar':
