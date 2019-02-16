@@ -194,8 +194,15 @@
                     </div>
                   </div>
                 </div>
-                <div class="mb-2 mr-sm-2">
-                  {{ form.cal_psi_1(class='form-control calendario-app') }}
+                <div class="input-group mb-2 mr-sm-2"">
+                  {% if 'cal_psi_1' in form.errors %}
+                  {{ form.cal_psi_1(class='form-control calendario-app is-invalid') }}
+                  <div class="invalid-tooltip">
+                    {{ form.errors['cal_psi_1'][0]}}
+                  </div>
+                  {% else %}
+                    {{ form.cal_psi_1(class='form-control calendario-app') }}
+                  {% endif %}
                 </div>
                 <div class="form-check mb-3 mr-sm-2">
                   {{ form.ausente_psi_1(class='form-check-input') }}{{ form.ausente_psi_1.label(class='form-check-label') }}
@@ -218,16 +225,23 @@
                     </div>
                   </div>
                 </div>
-                <div class="mb-2 mr-sm-2">
-                  {{ form.cal_psi_2(class='form-control calendario-app') }}
+                <div class="input-group mb-2 mr-sm-2"">
+                  {% if 'cal_psi_2' in form.errors %}
+                  {{ form.cal_psi_2(class='form-control calendario-app is-invalid') }}
+                  <div class="invalid-tooltip">
+                    {{ form.errors['cal_psi_2'][0]}}
+                  </div>
+                  {% else %}
+                    {{ form.cal_psi_2(class='form-control calendario-app') }}
+                  {% endif %}
                 </div>
                 <div class="form-check mb-2 mr-sm-2">
                   {{ form.ausente_psi_2(class='form-check-input') }}{{ form.ausente_psi_2.label(class='form-check-label') }}
                 </div>
               </div>
               <div class="form-inline mt-2">
-                {{ form.apto_psicologico.label(class='mb-2 mr-sm-2') }}
-                {{ form.apto_psicologico(autocomplete='off', class='form-control mb-2 mr-sm-2') }}
+                {{ form.apto_psi.label(class='mb-2 mr-sm-2') }}
+                {{ form.apto_psi(autocomplete='off', class='form-control mb-2 mr-sm-2') }}
               </div>
             </div>
           </div>
@@ -286,8 +300,8 @@
                 </div>
               </div>
               <div class="form-inline mt-2">
-                {{ form.apto_medico.label(class='mb-2 mr-sm-2') }}
-                {{ form.apto_medico(autocomplete='off', class='form-control mb-2 mr-sm-2') }}
+                {{ form.apto_med.label(class='mb-2 mr-sm-2') }}
+                {{ form.apto_med(autocomplete='off', class='form-control mb-2 mr-sm-2') }}
               </div>
             </div>
           </div>

@@ -21,8 +21,8 @@ class Agente(Base):
     reparticion_id = db.Column(db.Integer,
         db.ForeignKey('reparticiones.id'), nullable=False)
     reparticion = db.relationship('Reparticion')
-    apto_psicologico = db.Column(db.Integer, nullable=True)
-    apto_medico = db.Column(db.Integer, nullable=True)
+    apto_psi = db.Column(db.Integer, nullable=True)
+    apto_med = db.Column(db.Integer, nullable=True)
     observaciones = db.Column(db.Text, nullable=True)
     turnos = db.relationship('Turno', backref='agente',
         cascade='all, delete-orphan')

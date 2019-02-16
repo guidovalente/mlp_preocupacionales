@@ -81,6 +81,7 @@ class FormularioAgente(FlaskForm):
     )
     observaciones = TextAreaField('Observaciones')
 
+
 class FormularioEditarAgente(FormularioAgente):
     """DOCSTRING DEL FORMULARIO
 
@@ -114,13 +115,38 @@ class FormularioEditarAgente(FormularioAgente):
         Este método verifica que haya un calendario seleccionado si los
         campos de turnos son completados por el usuario.
         De este modo no queda ningún turno cargado sin calendario asignado.
+
+        NOTE: la llamada al método de validación original hay que hacerla al
+        principio para que se generen las listas de errores a los que luego
+        vamos a anexar los errores que ocurran en la validación realizada
+        en la Sobreescritura. De lo contrario el método append dará error.
         """
-        if self.apto_psicologico.data != 0 and not self.turno_psi_1.data:
-            self.turno_psi_1.errors.append('Debe llenar una fecha')
+        if not super().validate():
             return False
-        if super().validate():
-            return True
-        return False
+        turnos = [
+            self.turno_psi_1,
+            self.turno_psi_2,
+            self.turno_med_1,
+            self.turno_med_2
+        ]
+        calendarios = [
+            self.cal_psi_1,
+            self.cal_psi_2,
+            self.cal_med_1,
+            self.cal_med_2
+        ]
+        error_status = False
+        for i in range(len(turnos)):
+            if turnos[i].data and calendarios[i].data == 0:
+                error_status = True
+                calendarios[i].errors.append('Debe asignar un calendario.')
+            if calendarios[i].data != 0 and not turnos[i].data:
+                error_status = True
+                calendarios[i].errors.append('Quite el calendario'
+                ' para borrar el turno')
+        if error_status:
+            return False
+        return True
 
     def poblar_turnos(self, agente):
         """Función que asigna los valores de los campos de turnos
@@ -140,6 +166,9 @@ class FormularioEditarAgente(FormularioAgente):
             setattr(agente,
                 'ausente_{}_{}'.format(tipo(turno.tipo), turno.numero),
                 turno.ausente)
+            setattr(agente,
+                'cal_{}_{}'.format(tipo(turno.tipo), turno.numero),
+                turno.calendario_id)
 
     def guardar_turnos(self, agente):
         """Guarda los turnos en la instancia de Agente
@@ -150,12 +179,16 @@ class FormularioEditarAgente(FormularioAgente):
         """
         agente.psi_1.fecha = self.turno_psi_1.data
         agente.psi_1.ausente = self.ausente_psi_1.data
+        agente.psi_1.calendario_id = self.cal_psi_1.data
         agente.psi_2.fecha = self.turno_psi_2.data
         agente.psi_2.ausente = self.ausente_psi_2.data
+        agente.psi_2.calendario_id = self.cal_psi_2.data
         agente.med_1.fecha = self.turno_med_1.data
         agente.med_1.ausente = self.ausente_med_1.data
+        agente.med_1.calendario_id = self.cal_med_1.data
         agente.med_2.fecha = self.turno_med_2.data
         agente.med_2.ausente = self.ausente_med_2.data
+        agente.med_2.calendario_id = self.cal_med_2.data
 
     def opciones_calendarios(tipo):
         """Método para obtener los calendarios y mostrarlos en un SelectField
@@ -165,10 +198,10 @@ class FormularioEditarAgente(FormularioAgente):
         También deben tener una opción vacía adelante para la validación.
         """
         calendarios = {
-            1: [('1', 'Mañana'), ('2', 'Tarde')],
-            2: [('3', 'UPA Los Hornos'), ('4', 'San Juan')]
+            1: [(1, 'Mañana'), (2, 'Tarde')],
+            2: [(3, 'UPA Los Hornos'), (4, 'San Juan')]
         }
-        return [('0', '-')] + calendarios[tipo]
+        return [(0, '-')] + calendarios[tipo]
 
     # Listado de opciones para los campos de apto médico y psicológico
     opciones_aptitud = [
@@ -180,24 +213,24 @@ class FormularioEditarAgente(FormularioAgente):
     turno_psi_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
     cal_psi_1 = SelectField(choices=opciones_calendarios(1),
-        validators=[Optional()])
+        validators=[Optional()], coerce=int)
     ausente_psi_1 = BooleanField('Ausente')
     turno_psi_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
     cal_psi_2 = SelectField(choices=opciones_calendarios(1),
-        validators=[Optional()])
+        validators=[Optional()], coerce=int)
     ausente_psi_2 = BooleanField('Ausente')
-    apto_psicologico = SelectField('Apto', choices=opciones_aptitud,
+    apto_psi = SelectField('Apto', choices=opciones_aptitud,
         coerce=int)
     turno_med_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
     cal_med_1 = SelectField(choices=opciones_calendarios(2),
-        validators=[Optional()])
+        validators=[Optional()], coerce=int)
     ausente_med_1 = BooleanField('Ausente')
     turno_med_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional()])
     cal_med_2 = SelectField(choices=opciones_calendarios(2),
-        validators=[Optional()])
+        validators=[Optional()], coerce=int)
     ausente_med_2 = BooleanField('Ausente')
-    apto_medico = SelectField('Apto', choices=opciones_aptitud,
+    apto_med = SelectField('Apto', choices=opciones_aptitud,
         coerce=int)
