@@ -19,8 +19,8 @@ class Agente(Base):
     telefono = db.Column(db.String(70), nullable=True)
     domicilio_calle = db.Column(db.String(128), nullable=True)
     domicilio_numero = db.Column(db.String(128), nullable=True)
-    domicilio_piso =  db.Column(db.String(128), nullable=True)
-    domicilio_depto =  db.Column(db.String(128), nullable=True)
+    domicilio_piso = db.Column(db.String(128), nullable=True)
+    domicilio_depto = db.Column(db.String(128), nullable=True)
     legajo = db.Column(db.Integer, nullable=True)
     reparticion_id = db.Column(db.Integer,
         db.ForeignKey('reparticiones.id'), nullable=False)
