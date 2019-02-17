@@ -6,6 +6,10 @@ class Agente(Base):
     Se relaciona con la reparticion a través del campo reparticion_id, y
     con los turnos a través de los campos de turnos.
     """
+    def __init__(self, **kwargs):
+        """Inicializamos con atributos en caso de que sean indicados"""
+        self.__dict__.update(kwargs)
+
     __tablename__ = 'agentes'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -50,8 +54,15 @@ class Agente(Base):
         )
 
     @classmethod
-    def con_turnos(cls):
-        agente = cls()
+    def con_turnos(cls, **kwargs):
+        """Factory method que devuelve una instancia de Agente con turnos
+
+        Este método devuelve un agente con cuatro turnos, dos de cada tipo,
+        de modo tal que luego, al editar el agente, el guardado pueda ser
+        realizado sin necesidad de crear/eliminar turnos según los cambios
+        del formulario.
+        """
+        agente = cls(**kwargs)
         turnos = [
             Turno(tipo=1, numero=1, fecha=None, ausente=False),
             Turno(tipo=1, numero=2, fecha=None, ausente=False),
