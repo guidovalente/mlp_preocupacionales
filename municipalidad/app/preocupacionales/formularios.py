@@ -187,9 +187,12 @@ class FormularioEditarAgente(FormularioAgente):
         siguiente formato: (id_calendario, nombre_calendario).
         También deben tener una opción vacía adelante para la validación.
         """
+        from .modelos import Calendario
         calendarios = {
-            1: [(1, 'Mañana'), (2, 'Tarde')],
-            2: [(3, 'UPA Los Hornos'), (4, 'San Juan')]
+            1: Calendario.query.with_entities(Calendario.id,
+                Calendario.etiqueta).filter_by(tipo=1).all(),
+            2:Calendario.query.with_entities(Calendario.id,
+                Calendario.etiqueta).filter_by(tipo=2).all(),
         }
         return [(0, '-')] + calendarios[tipo]
 
