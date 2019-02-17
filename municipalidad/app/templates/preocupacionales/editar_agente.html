@@ -201,7 +201,7 @@
                     {{ form.errors['cal_psi_1'][0]}}
                   </div>
                   {% else %}
-                    {{ form.cal_psi_1(class='form-control calendario-app') }}
+                  {{ form.cal_psi_1(class='form-control calendario-app') }}
                   {% endif %}
                 </div>
                 <div class="form-check mb-3 mr-sm-2">
@@ -232,7 +232,7 @@
                     {{ form.errors['cal_psi_2'][0]}}
                   </div>
                   {% else %}
-                    {{ form.cal_psi_2(class='form-control calendario-app') }}
+                  {{ form.cal_psi_2(class='form-control calendario-app') }}
                   {% endif %}
                 </div>
                 <div class="form-check mb-2 mr-sm-2">
@@ -270,8 +270,15 @@
                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                   </div>
                 </div>
-                <div class="mb-2 mr-sm-2">
+                <div class="input-group mb-2 mr-sm-2"">
+                  {% if 'cal_med_1' in form.errors %}
+                  {{ form.cal_med_1(class='form-control calendario-app is-invalid') }}
+                  <div class="invalid-tooltip">
+                    {{ form.errors['cal_med_1'][0]}}
+                  </div>
+                  {% else %}
                   {{ form.cal_med_1(class='form-control calendario-app') }}
+                  {% endif %}
                 </div>
                 <div class="form-check mb-2 mr-sm-2">
                   {{ form.ausente_med_1(class='form-check-input') }}{{ form.ausente_med_1.label(class='form-check-label') }}
@@ -292,8 +299,15 @@
                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                   </div>
                 </div>
-                <div class="mb-2 mr-sm-2">
+                <div class="input-group mb-2 mr-sm-2"">
+                  {% if 'cal_med_2' in form.errors %}
+                  {{ form.cal_med_2(class='form-control calendario-app is-invalid') }}
+                  <div class="invalid-tooltip">
+                    {{ form.errors['cal_med_2'][0]}}
+                  </div>
+                  {% else %}
                   {{ form.cal_med_2(class='form-control calendario-app') }}
+                  {% endif %}
                 </div>
                 <div class="form-check mb-2 mr-sm-2">
                   {{ form.ausente_med_2(class='form-check-input') }}{{ form.ausente_med_2.label(class='form-check-label') }}

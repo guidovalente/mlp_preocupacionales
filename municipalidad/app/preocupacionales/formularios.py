@@ -16,9 +16,7 @@ def opcion_valida(message=None):
     defecto, representado por un guión. De este modo el Select no inicia
     con la primera opción.
     Si la opción seleccionada tiene valor cero, se eleva la ValidationError.
-
     """
-
     if not message:
         message = 'Debe elegir una opción válida.'
     def _opcion_valida(form, field):
@@ -83,10 +81,12 @@ class FormularioAgente(FlaskForm):
 
 
 class FormularioEditarAgente(FormularioAgente):
-    """DOCSTRING DEL FORMULARIO
+    """Clase de FormularioAgente extendida para edición
 
+    Este clase hereda el formulario de nuevo_agente y le agrega campos
+    y métodos para la edición de un agente, principalmente lo relacionado
+    a los turnos.
     """
-
     def __init__(self, **kwargs):
         """Sobreescritura del método init para asignar turnos
 
@@ -119,31 +119,21 @@ class FormularioEditarAgente(FormularioAgente):
         NOTE: la llamada al método de validación original hay que hacerla al
         principio para que se generen las listas de errores a los que luego
         vamos a anexar los errores que ocurran en la validación realizada
-        en la Sobreescritura. De lo contrario el método append dará error.
+        en la sobreescritura. De lo contrario el método append dará error.
         """
         if not super().validate():
             return False
-        turnos = [
-            self.turno_psi_1,
-            self.turno_psi_2,
-            self.turno_med_1,
-            self.turno_med_2
-        ]
-        calendarios = [
-            self.cal_psi_1,
-            self.cal_psi_2,
-            self.cal_med_1,
-            self.cal_med_2
-        ]
+        turnos = [ self.turno_psi_1, self.turno_psi_2,
+            self.turno_med_1, self.turno_med_2]
+        calendarios = [self.cal_psi_1, self.cal_psi_2,
+            self.cal_med_1, self.cal_med_2]
+        assert len(turnos) == len(calendarios),('La cantidad de campos de '
+            'turnos y calendarios debe ser igual.')
         error_status = False
         for i in range(len(turnos)):
             if turnos[i].data and calendarios[i].data == 0:
                 error_status = True
                 calendarios[i].errors.append('Debe asignar un calendario.')
-            if calendarios[i].data != 0 and not turnos[i].data:
-                error_status = True
-                calendarios[i].errors.append('Quite el calendario'
-                ' para borrar el turno')
         if error_status:
             return False
         return True

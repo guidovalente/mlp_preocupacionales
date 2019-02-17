@@ -26,7 +26,7 @@
       width: 50%;
       text-align: center;
       border: solid 0.02px rgb(125, 125, 125, 0.25);
-      margin-bottom: 1cm;
+      margin-bottom: 1.5cm;
     }
     .cedula-texto {
       padding-top: 1mm;
@@ -71,22 +71,24 @@
     Ref.: Exámenes preocupacionales<br>
     La Plata, {{ fecha }}
   </p>
-  {% set turno_psi = agente.psi_2.fecha or agente.psi_1.fecha %}
-  {% set turno_med = agente.med_2.fecha or agente.med_1.fecha %}
+  <!-- {% set turno_psi = agente.psi_2.fecha or agente.psi_1.fecha %} -->
+  {% set turno_psi = agente.psi_2 if agente.psi_2.fecha else None or agente.psi_1 if agente.psi_1.fecha else None %}
+  <!-- {% set turno_med = agente.med_2.fecha or agente.med_1.fecha %} -->
+  {% set turno_med = agente.med_2 if agente.med_2.fecha else None or agente.med_1 if agente.med_1.fecha else None %}
   {% if tipo_cedula == 'completa' %}
   <p>
-    Notifico a usted que deberá presentarse ante el Departamento de Carpetas Médicas, sito en calle 12 entre 50 y 51, Torre I, Piso 3, el día <span class="black">{{ turno_psi.strftime('%d/%m/%Y') }}</span>, a las <span class="black">{{ turno_psi.strftime('%H:%M') }}</span>, a los fines de mantener la entrevista psicológica correspondiente a los exámenes preocupacionales de ingreso a este municipio.
+    Notifico a usted que deberá presentarse ante {{ turno_psi.calendario.nombre }}, sito en {{ turno_psi.calendario.direccion }}, el día <span class="black">{{ turno_psi.fecha.strftime('%d/%m/%Y') }}</span>, a las <span class="black">{{ turno_psi.fecha.strftime('%H:%M') }}</span>, a los fines de mantener la entrevista psicológica correspondiente a los exámenes preocupacionales de ingreso a este municipio.
   </p>
   <p>
-    Asimismo, deberá presentarse ante el laboratorio central del área “A”, Consultorios Externos, del HOSPITAL SAN JUAN DE DIOS, sito en calle 27 y 70, Planta Baja, el <span class="black">{{ turno_med.strftime('%d/%m/%Y') }}</span>, a las <span class="black">{{ turno_med.strftime('%H:%M') }}</span>, a los fines de realizar la evaluación clínica relacionada a los exámenes preocupacionales de ingreso a este municipio.
+    Asimismo, deberá presentarse ante {{ turno_med.calendario.nombre }}, sito en {{ turno_med.calendario.direccion}}, el <span class="black">{{ turno_med.fecha.strftime('%d/%m/%Y') }}</span>, a las <span class="black">{{ turno_med.fecha.strftime('%H:%M') }}</span>, a los fines de realizar la evaluación clínica relacionada a los exámenes preocupacionales de ingreso a este municipio.
   </p>
   {% elif tipo_cedula == 'psi' %}
   <p>
-    Notifico a usted que deberá presentarse ante el Departamento de Carpetas Médicas, sito en calle 12 entre 50 y 51, Torre I, Piso 3, el día <span class="black">{{ turno_psi.strftime('%d/%m/%Y') }}</span>, a las <span class="black">{{ turno_psi.strftime('%H:%M') }}</span>, a los fines de mantener la entrevista psicológica correspondiente a los exámenes preocupacionales de ingreso a este municipio.
+    Notifico a usted que deberá presentarse ante {{ turno_psi.calendario.nombre }}, sito en {{ turno_psi.calendario.direccion }}, el día <span class="black">{{ turno_psi.fecha.strftime('%d/%m/%Y') }}</span>, a las <span class="black">{{ turno_psi.fecha.strftime('%H:%M') }}</span>, a los fines de mantener la entrevista psicológica correspondiente a los exámenes preocupacionales de ingreso a este municipio.
   </p>
   {% elif tipo_cedula == 'med' %}
   <p>
-    Notifico a usted que deberá presentarse ante el Departamento de Carpetas Médicas, sito en calle 12 e/ 50 y 51, Torre 1, Piso 3, el día span <span class="black">{{ turno_psi.strftime('%d/%m/%Y') }}</span>, a las <span class="black">{{ turno_psi.strftime('%H:%M') }}</span>, a los fines de mantener la entrevista psicológica correspondiente a los exámenes preocupacionales de ingreso a este municipio.
+    Notifico a usted que deberá presentarse ante {{ turno_med.calendario.nombre }}, sito en {{ turno_med.calendario.direccion }}, el día <span class="black">{{ turno_med.fecha.strftime('%d/%m/%Y') }}</span>, a las <span class="black">{{ turno_med.fecha.strftime('%H:%M') }}</span>, a los fines de realizar la evaluación clínica relacionada a los exámenes preocupacionales de ingreso a este municipio.
   </p>
   {% endif %}
   <p>
