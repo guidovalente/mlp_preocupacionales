@@ -21,8 +21,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from .modelo_base import db
+    from .modelo_base import db, register_commands
     db.init_app(app)
+    register_commands(app)
 
     from . import preocupacionales
     app.register_blueprint(preocupacionales.bp)
