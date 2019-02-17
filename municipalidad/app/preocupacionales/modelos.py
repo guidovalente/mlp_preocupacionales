@@ -100,4 +100,6 @@ class Calendario(Base):
     id = db.Column(db.Integer, primary_key=True)
     tipo = db.Column(db.Integer, nullable=False)
     nombre = db.Column(db.String(128), nullable=False)
+    direccion = db.Column(db.String(128), nullable=False)
+    etiqueta = db.Column(db.String(50), nullable=False)
     color = db.Column(db.String(6), nullable=False, default="000000")
