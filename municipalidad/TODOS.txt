@@ -4,6 +4,9 @@ Formularios:
     -Convertir el select de repartición en un input que sugiera la repartición
     -Complejizar la validación para poder realizarla con los turnos (si ya
     hay un turno asignado, etc)
+      HECHO: LA VALIDACIÓN NO DEJA ASIGNAR TURNOS SIN CALENDARIO ASIGNADO.
+      LA VALIDACIÓN DE REPETICIÓN LA VAMOS A REALIZAR DESDE EL MODELO CON
+      EL UNIQUECONSTRAINT
 Modelos:
   Turno:
     -Construir UniqueConstraint para que no se repita la fecha de los turnos
