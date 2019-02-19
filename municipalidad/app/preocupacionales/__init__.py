@@ -121,8 +121,19 @@ def cedula(tipo_cedula, id_agente):
 @bp.route('/calendario/')
 @bp.route('/calendario/<any("psi", "med"):tipo>/')
 def calendario(tipo='psi'):
+    """Vista de calendario
+
+    Esta ruta permite visualizar los turnos en formato de calendario.
+    El template incluye botones para elegir turnos psicológicos o médicos.
+    La query trae el turno del número más alto de cada tipo para cada agente;
+    de este modo si el agente tiene dos turnos asignados, sólo se mostrará el
+    segundo, ya que se entiende que si le fue asignado un segundo turno es
+    porque no pudo hacerse presente en el primero y, por ende, ese espacio
+    queda liberado.
+    """
     from .modelos import db, Turno
     from sqlalchemy import func
+
     # obtenemos los turnos, esta consulta equivale a:
     # select id, tipo, max(numero), fecha from turnos where fecha is not null
     # and tipo = (1 o 2 segun psi o med) group by agente_id, tipo
