@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 
 bp = Blueprint('preocupacionales', __name__, url_prefix='/preocupacionales')
 
-@bp.route('/nuevo_agente', methods=('GET', 'POST'))
+@bp.route('/nuevo_agente/', methods=('GET', 'POST'))
 def nuevo_agente():
     from .formularios import FormularioAgente
     from .modelos import Reparticion
@@ -35,7 +35,7 @@ def nuevo_agente():
             flash(error, 'border text-center text-danger mb-3')
     return render_template('preocupacionales/nuevo_agente.html', form=form)
 
-@bp.route('/agente/<int:id>', methods=('GET', 'POST'))
+@bp.route('/agente/<int:id>/', methods=('GET', 'POST'))
 def editar_agente(id):
     from .modelos import Agente
     agente = Agente.query.filter_by(id=id).first()
@@ -88,7 +88,7 @@ def lista():
     agentes = Agente.query.all()
     return render_template('preocupacionales/lista.html', agentes=agentes)
 
-@bp.route('/cedula/<any("completa","psi","med"):tipo_cedula>/<int:id_agente>')
+@bp.route('/cedula/<any("completa","psi","med"):tipo_cedula>/<int:id_agente>/')
 def cedula(tipo_cedula, id_agente):
     from .modelos import Agente
     agente = Agente.query.filter_by(id=id_agente).first()
@@ -117,3 +117,23 @@ def cedula(tipo_cedula, id_agente):
     from datetime import datetime
     return render_template('preocupacionales/cedula.html', agente=agente,
         tipo_cedula=tipo_cedula, fecha=datetime.now().strftime('%d/%m/%Y'))
+
+@bp.route('/calendario/')
+@bp.route('/calendario/<any("psi", "med"):tipo>/')
+def calendario(tipo='psi'):
+    from .modelos import db, Turno
+    from sqlalchemy import func
+    # obtenemos los turnos, esta consulta equivale a:
+    # select id, tipo, max(numero), fecha from turnos where fecha is not null
+    # and tipo = (1 o 2 segun psi o med) group by agente_id, tipo
+    id_turnos = db.session.query(
+        Turno.agente_id, Turno.tipo, func.max(Turno.numero), Turno.fecha
+    ).filter(
+        Turno.fecha != None, Turno.tipo == (1 if tipo == 'psi' else 2)
+    ).group_by(Turno.agente_id, Turno.tipo).with_entities(Turno.id).all()
+
+    # query equivalente:
+    # select * from turnos where id in (id_turnos)
+    turnos = Turno.query.filter(Turno.id.in_([id[0] for id in id_turnos]))
+    return render_template('preocupacionales/calendario.html', turnos=turnos,
+        tipo=tipo)

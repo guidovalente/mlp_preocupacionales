@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='fullcalendar/css/fullcalendar.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='fullcalendar/css/fullcalendar.print.min.css') }}" media="print">
+<script src="{{ url_for('static', filename='moment/js/moment.min.js')}}"></script>
+<script src="{{ url_for('static', filename='moment/js/locales.js')}}"></script>
+<script src="{{ url_for('static', filename='fullcalendar/js/fullcalendar.min.js') }}"></script>
+<script src="{{ url_for('static', filename='fullcalendar/js/locale/es.js') }}"></script>
+<script type="text/javascript" class="init">
+  $(document).ready(function() {
+    $('#calendar').fullCalendar({
+      weekends: false, // will hide Saturdays and Sundays
+      defaultView: 'agendaWeek',
+      timezone: 'America/Argentina/Buenos_Aires',
+      locale: 'es',
+      eventRender: function(eventObj, $el) {
+        $el.popover({
+          title: eventObj.title,
+          content: eventObj.description,
+          trigger: 'hover',
+          placement: 'top',
+          container: 'body'
+        });
+      },
+      events: [
+      {% for turno in turnos %}{
+        title: '{{ turno.agente.nombre }} {{ turno.agente.apellido }} DNI: {{ turno.agente.dni }}',
+        start: '{{ turno.fecha }}',
+        end: '{{ turno.fecha|add_time(minutes=30 if tipo == 'psi' else 10) }}',
+        description: '{{ turno.calendario.nombre }}',
+        allDay: false
+      }{% if not loop.last %},{% endif %}{% endfor %}
+      ],
+      height: 650,
+      navLinks: true,
+      weekNumbers: true,
+      header: {
+        left:   'title',
+        center: '',
+        right:  'today month,agendaWeek,agendaDay,day,list prev,next'
+      },
+      fixedWeekCount: false,
+      minTime: '{{ '07' if tipo == 'med' else '08' }}:00:00',
+      maxTime: '{{ '10' if tipo == 'med' else '17' }}:00:00',
+      slotLabelInterval: { minutes: {{ '10' if tipo == 'med' else '30' }} },
+      slotDuration: '00:{{ '10' if tipo == 'med' else '30' }}:00',
+      slotLabelFormat: 'H:mm',
+      eventLimit: 5,
+      views: {
+        agendaWeek : {
+          columnHeaderFormat: 'DD/MM',
+          titleFormat: 'DD [de] MMMM [de] YYYY'
+        }
+      },
+      allDaySlot: false,
+      nowIndicator: true,
+      themeSystem: 'bootstrap4',
+      bootstrapFontAwesome: {
+        close: 'fas fa-times',
+        prev: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        prevYear: 'fas fa-angle-double-left',
+        nextYear: 'fas fa-angle-double-right'
+      }
+    });
+  } );
+</script>
+{% endblock %}
+{% block contenido %}
+<div class="row">
+  <div class="col-md-2">
+    <div class="pt-5">
+      <div class="border rounded bg-light p-2 mb-2">
+        <div class="h5 text-center pl-1 text-size-small">Calendarios</div>
+        <div class="btn-group-vertical btn-block">
+          <a class="btn btn-info {{ 'active' if tipo == 'psi' else ''}}" href="{{ url_for('preocupacionales.calendario', tipo='psi') }}">Turnos psicológicos</a>
+          <a class="btn btn-info {{ 'active' if tipo == 'med' else ''}}" href="{{ url_for('preocupacionales.calendario', tipo='med') }}">Turnos médicos</a>
+        </div>
+      </div>
+      <button id="buttonImprimir" class="btn btn-block btn-info hidden-print"><i class="fas pr-1 fa-print"></i>Imprimir</button>
+    </div>
+  </div>
+  <div class="col-md-10">
+    <div id="calendar"></div>
+  </div>
+</div>
+{% endblock %}
