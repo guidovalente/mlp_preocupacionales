@@ -26,6 +26,23 @@ def opcion_valida(message=None):
     return _opcion_valida
 
 
+class Weekday(object):
+    def __init__(self, message=None):
+        self.message = message
+
+    def __call__(self, form, field):
+        import datetime
+        if field.data.weekday() > 4:
+            print(field.data.weekday())
+            if self.message is None:
+                message = "Debe seleccionar un día de la semana"
+            else:
+                message = self.message
+            field.errors[:] = []
+            raise ValidationError(message)
+
+
+
 class FormularioAgente(FlaskForm):
     """Formulario base para carga y actualización del agente
 
@@ -204,24 +221,24 @@ class FormularioEditarAgente(FormularioAgente):
     ]
 
     turno_psi_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
-        validators=[Optional()])
+        validators=[Optional(), Weekday()])
     cal_psi_1 = SelectField(choices=opciones_calendarios(1),
         validators=[Optional()], coerce=int)
     ausente_psi_1 = BooleanField('Ausente')
     turno_psi_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
-        validators=[Optional()])
+        validators=[Optional(), Weekday()])
     cal_psi_2 = SelectField(choices=opciones_calendarios(1),
         validators=[Optional()], coerce=int)
     ausente_psi_2 = BooleanField('Ausente')
     apto_psi = SelectField('Apto', choices=opciones_aptitud,
         coerce=int)
     turno_med_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
-        validators=[Optional()])
+        validators=[Optional(), Weekday()])
     cal_med_1 = SelectField(choices=opciones_calendarios(2),
         validators=[Optional()], coerce=int)
     ausente_med_1 = BooleanField('Ausente')
     turno_med_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
-        validators=[Optional()])
+        validators=[Optional(), Weekday()])
     cal_med_2 = SelectField(choices=opciones_calendarios(2),
         validators=[Optional()], coerce=int)
     ausente_med_2 = BooleanField('Ausente')
