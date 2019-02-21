@@ -28,8 +28,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from .modelo_base import db, register_commands
+    from .modelo_base import db
     db.init_app(app)
+
+    from .helpers import register_commands
     register_commands(app)
 
     from . import preocupacionales
