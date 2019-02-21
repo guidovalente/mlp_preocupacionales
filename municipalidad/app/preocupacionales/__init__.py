@@ -6,6 +6,7 @@ from sqlalchemy.exc import IntegrityError
 
 bp = Blueprint('preocupacionales', __name__, url_prefix='/preocupacionales')
 
+
 @bp.route('/nuevo_agente/', methods=('GET', 'POST'))
 def nuevo_agente():
     from .formularios import FormularioAgente
@@ -34,6 +35,7 @@ def nuevo_agente():
                 error = e
             flash(error, 'border text-center text-danger mb-3')
     return render_template('preocupacionales/nuevo_agente.html', form=form)
+
 
 @bp.route('/agente/<int:id>/', methods=('GET', 'POST'))
 def editar_agente(id):
@@ -82,11 +84,13 @@ def editar_agente(id):
     return render_template('preocupacionales/editar_agente.html', form=form,
         id=id)
 
+
 @bp.route('/')
 def lista():
     from .modelos import Agente
     agentes = Agente.query.all()
     return render_template('preocupacionales/lista.html', agentes=agentes)
+
 
 @bp.route('/cedula/<any("completa","psi","med"):tipo_cedula>/<int:id_agente>/')
 def cedula(tipo_cedula, id_agente):
@@ -118,6 +122,7 @@ def cedula(tipo_cedula, id_agente):
     return render_template('preocupacionales/cedula.html', agente=agente,
         tipo_cedula=tipo_cedula, fecha=datetime.now().strftime('%d/%m/%Y'))
 
+
 @bp.route('/calendario/')
 @bp.route('/calendario/<any("psi", "med"):tipo>/')
 def calendario(tipo='psi'):
@@ -138,7 +143,7 @@ def calendario(tipo='psi'):
     # select id, tipo, max(numero), fecha from turnos where fecha is not null
     # and tipo = (1 o 2 segun psi o med) group by agente_id, tipo
     id_turnos = db.session.query(
-        Turno.agente_id, Turno.tipo, func.max(Turno.numero), Turno.fecha
+        Turno.agente_id, Turno.tipo, func.max(Turno.numero)
     ).filter(
         Turno.fecha != None, Turno.tipo == (1 if tipo == 'psi' else 2)
     ).group_by(Turno.agente_id, Turno.tipo).with_entities(Turno.id).all()
