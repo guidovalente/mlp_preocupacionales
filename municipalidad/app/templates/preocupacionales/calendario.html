@@ -22,14 +22,23 @@
           container: 'body'
         });
       },
+      eventClick : function(event) {
+        if (event.url) {
+          window.open(event.url, "_blank");
+          return false;
+        }
+      },
       events: [
       {% for turno in turnos %}{
         title: '{{ turno.agente.nombre }} {{ turno.agente.apellido }} DNI: {{ turno.agente.dni }}',
         start: '{{ turno.fecha }}',
         end: '{{ turno.fecha|add_time(minutes=30 if tipo == 'psi' else 10) }}',
-        description: '{{ turno.calendario.nombre }}',
+        description: '{{ turno.calendario.etiqueta }}',
+        color: '{{ turno.calendario.color }}',
+        url: '{{ url_for('preocupacionales.editar_agente', id=turno.agente.id) }}',
         allDay: false
-      }{% if not loop.last %},{% endif %}{% endfor %}
+      }{% if not loop.last %},
+      {% endif %}{% endfor %}
       ],
       height: 650,
       navLinks: true,
@@ -37,7 +46,7 @@
       header: {
         left:   'title',
         center: '',
-        right:  'today month,agendaWeek,agendaDay,day,list prev,next'
+        right:  'today month,agendaWeek,agendaDay,day,list prevYear,prev,next,nextYear'
       },
       fixedWeekCount: false,
       minTime: '{{ '07' if tipo == 'med' else '08' }}:00:00',
@@ -45,7 +54,7 @@
       slotLabelInterval: { minutes: {{ '10' if tipo == 'med' else '30' }} },
       slotDuration: '00:{{ '10' if tipo == 'med' else '30' }}:00',
       slotLabelFormat: 'H:mm',
-      eventLimit: 5,
+      eventLimit: 4,
       views: {
         agendaWeek : {
           columnHeaderFormat: 'DD/MM',
@@ -71,16 +80,23 @@
   <div class="col-md-2">
     <div class="pt-5">
       <div class="border rounded bg-light p-2 mb-2">
-        <div class="h5 text-center pl-1 text-size-small">Calendarios</div>
+        <div class="h5 text-center pl-1">Calendarios</div>
         <div class="btn-group-vertical btn-block">
           <a class="btn btn-primary {{ 'active' if tipo == 'psi' else ''}}" href="{{ url_for('preocupacionales.calendario', tipo='psi') }}">Turnos psicológicos</a>
           <a class="btn btn-primary {{ 'active' if tipo == 'med' else ''}}" href="{{ url_for('preocupacionales.calendario', tipo='med') }}">Turnos médicos</a>
         </div>
       </div>
       <button id="buttonImprimir" class="btn btn-block btn-primary hidden-print"><i class="fas pr-1 fa-print"></i>Imprimir</button>
+      <div class="pt-3">
+        <div class="border rounded bg-light p-2 mb-2">
+          <div class="ml-2">
+            <h5 class="pb-1">Referencias</h5>
+            {% for calendario in calendarios %}
+            <i class="fas fa-circle pr-1" style="color: {{ calendario.color }}"></i>{{ calendario.etiqueta }}<br>
+            {% endfor %}
+          </div>
         </div>
       </div>
-      <button id="buttonImprimir" class="btn btn-block btn-info hidden-print"><i class="fas pr-1 fa-print"></i>Imprimir</button>
     </div>
   </div>
   <div class="col-md-10">
