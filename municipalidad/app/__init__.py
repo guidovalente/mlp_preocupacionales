@@ -39,4 +39,16 @@ def create_app(test_config=None):
     register_commands(app)
     app.jinja_env.filters['add_time'] = add_time
 
+    # shell context
+    @app.shell_context_processor
+    def make_shell_context():
+        return {
+            'db': db,
+            'Usuario': Usuario,
+            'Agente': Agente,
+            'Reparticion': Reparticion,
+            'Turno': Turno,
+            'Calendario': Calendario
+        }
+
     return app
