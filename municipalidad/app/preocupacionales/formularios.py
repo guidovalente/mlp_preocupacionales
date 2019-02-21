@@ -205,10 +205,6 @@ class FormularioEditarAgente(FormularioAgente):
 
     def opciones_calendarios(self, tipo):
         """Método para obtener los calendarios y mostrarlos en un SelectField
-
-        TODO: debe modificarse este método para traer tuples que tenga el
-        siguiente formato: (id_calendario, nombre_calendario).
-        También deben tener una opción vacía adelante para la validación.
         """
         calendarios = {
             1: Calendario.query.with_entities(Calendario.id,
