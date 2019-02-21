@@ -19,11 +19,11 @@ def init_db_command():
         etiqueta='Tarde'),
         Calendario(tipo=2, nombre='la UPA de Los Hornos',
         direccion='calle 44 y ciento algo',
-        etiqueta='UPA'),
+        etiqueta='UPA Los Hornos'),
         Calendario(tipo=2, nombre=('el laboratorio central del área "A", '
             'consultorios externos, del Hospital San Juan de Dios'),
         direccion='calle 27 y 70, Planta Baja',
-        etiqueta='San Juan')
+        etiqueta='Hospital San Juan de Dios')
     ]
     db.session.add(reparticion)
     db.session.commit()
