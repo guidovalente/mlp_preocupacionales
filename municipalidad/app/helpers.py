@@ -1,13 +1,14 @@
 import click
 from flask.cli import with_appcontext
-
+from app.preocupacionales.modelos import (
+    Agente, Turno, Reparticion, Calendario
+)
+import random
+from .preocupacionales.modelos import Agente, Reparticion
 
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
-    from app.preocupacionales.modelos import (
-        Agente, Turno, Reparticion, Calendario
-    )
     db.create_all()
     reparticion = Reparticion(nombre='DGP')
     calendarios = [
@@ -37,11 +38,8 @@ def insert_test_records():
         'Matías', 'Lucrecia']
     apellidos = ['Quattrini', 'Varlotta', 'Morón', 'Valente', 'Smeriglio',
         'Zappa']
-    import random
-    from .preocupacionales.modelos import Agente, Reparticion
     reparticiones = Reparticion.query.count()
     print("Comenzando inserción de registros de prueba")
-    import sys
     for i in range(300):
         print("Insertando registro {}".format(str(i+1)), end='\r', flush=True)
         agente = Agente.con_turnos(

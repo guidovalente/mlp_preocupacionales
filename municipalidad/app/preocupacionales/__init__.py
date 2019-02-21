@@ -2,19 +2,19 @@ from flask import (
     Blueprint, render_template, url_for, redirect, flash, current_app, abort,
     request
 )
+from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
+from datetime import datetime
+from .formularios import FormularioAgente, FormularioEditarAgente
+from .modelos import db, Agente, Reparticion, Turno, Calendario
 
 bp = Blueprint('preocupacionales', __name__, url_prefix='/preocupacionales')
 
 
 @bp.route('/nuevo_agente/', methods=('GET', 'POST'))
 def nuevo_agente():
-    from .formularios import FormularioAgente
-    from .modelos import Reparticion
     form = FormularioAgente()
-
     if form.validate_on_submit():
-        from .modelos import Agente, db
         nuevo_agente = Agente.con_turnos()
         form.populate_obj(nuevo_agente)
         db.session.add(nuevo_agente)
@@ -39,16 +39,13 @@ def nuevo_agente():
 
 @bp.route('/agente/<int:id>/', methods=('GET', 'POST'))
 def editar_agente(id):
-    from .modelos import Agente
     agente = Agente.query.filter_by(id=id).first()
 
     if agente is None:
         abort(404)
 
-    from .formularios import FormularioEditarAgente
     form = FormularioEditarAgente(obj=agente)
     if request.method == 'POST':
-        from .modelos import db
         if request.form['action'] == 'guardar':
             if form.validate():
                 db.session.add(agente)
@@ -87,14 +84,12 @@ def editar_agente(id):
 
 @bp.route('/')
 def lista():
-    from .modelos import Agente
     agentes = Agente.query.all()
     return render_template('preocupacionales/lista.html', agentes=agentes)
 
 
 @bp.route('/cedula/<any("completa","psi","med"):tipo_cedula>/<int:id_agente>/')
 def cedula(tipo_cedula, id_agente):
-    from .modelos import Agente
     agente = Agente.query.filter_by(id=id_agente).first()
 
     if agente is None:
@@ -118,7 +113,6 @@ def cedula(tipo_cedula, id_agente):
             'preocupacional clínico asignado para este agente.')
     if error:
         return render_template('error.html', mensaje=error)
-    from datetime import datetime
     return render_template('preocupacionales/cedula.html', agente=agente,
         tipo_cedula=tipo_cedula, fecha=datetime.now().strftime('%d/%m/%Y'))
 
@@ -136,9 +130,6 @@ def calendario(tipo='psi'):
     porque no pudo hacerse presente en el primero y, por ende, ese espacio
     queda liberado.
     """
-    from .modelos import db, Turno, Calendario
-    from sqlalchemy import func
-
     # obtenemos los turnos, esta consulta equivale a:
     # select id, tipo, max(numero), fecha from turnos where fecha is not null
     # and tipo = (1 o 2 segun psi o med) group by agente_id, tipo

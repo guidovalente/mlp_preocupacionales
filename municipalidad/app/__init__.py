@@ -1,12 +1,17 @@
 import os
-
 from flask import (
     Flask, render_template, Blueprint, redirect, url_for
 )
-
+from datetime import timedelta
+from .modelo_base import db
+from .routes import register_routes
+from .helpers import register_commands
+from .modelos import Usuario
+from .preocupacionales.modelos import (
+    Agente, Reparticion, Turno, Calendario
+)
 
 def add_time(value, minutes=0, days=0):
-    from datetime import timedelta
     return value + timedelta(minutes=minutes, days=days)
 
 
@@ -29,19 +34,9 @@ def create_app(test_config=None):
         pass
 
     # get the database
-    from .modelo_base import db
     db.init_app(app)
-
-    # register routes with the app
-    from .routes import register_routes
     register_routes(app)
-
-    # register cli commands
-    from .helpers import register_commands
     register_commands(app)
-
-    # jinja filters
-    from datetime import timedelta
     app.jinja_env.filters['add_time'] = add_time
 
     return app
