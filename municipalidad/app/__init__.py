@@ -9,6 +9,7 @@ def add_time(value, minutes=0, days=0):
     from datetime import timedelta
     return value + timedelta(minutes=minutes, days=days)
 
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -21,37 +22,21 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-
     # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
 
+    # get the database
     from .modelo_base import db
     db.init_app(app)
 
-    from .helpers import register_commands
-    register_commands(app)
+    # register routes with the app
+    from .routes import register_routes
+    register_routes(app)
 
-    from . import preocupacionales
-    app.register_blueprint(preocupacionales.bp)
-
-    home_bp = Blueprint('home', __name__, url_prefix='')
-    @home_bp.route('/exito/<int:id>')
-    def exito(id):
-        return render_template('exito.html', id=id)
-
-    @home_bp.route('/')
-    def index():
-        return redirect(url_for('preocupacionales.lista'))
-
-    app.register_blueprint(home_bp)
-
-    @app.errorhandler(404)
-    def not_found(error):
-        return render_template('404.html'), 404
-
+    # jinja filters
     from datetime import timedelta
     app.jinja_env.filters['add_time'] = add_time
 
