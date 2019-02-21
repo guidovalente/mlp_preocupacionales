@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, url_for, render_template
 from .forms import LoginForm
-from . import preocupacionales
+from app.preocupacionales import bp as bp_preocupacionales
 
 def register_routes(app):
     """Method for registering routes.
@@ -8,6 +8,8 @@ def register_routes(app):
     This method will be imported in the factory method to register routes
     with the flask app.
     """
+    app.register_blueprint(bp_preocupacionales)
+
     home_bp = Blueprint('home', __name__, url_prefix='')
 
     @home_bp.route('/')
@@ -27,7 +29,6 @@ def register_routes(app):
 
     app.register_blueprint(home_bp)
 
-    app.register_blueprint(preocupacionales.bp)
 
     # error page
     @app.errorhandler(404)

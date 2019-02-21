@@ -4,7 +4,8 @@ from wtforms import (
     TextAreaField, ValidationError
 )
 from wtforms.validators import InputRequired, Optional
-from .modelos import Reparticion
+import datetime
+from .modelos import Reparticion, Calendario
 
 def opcion_valida(message=None):
     """
@@ -31,7 +32,6 @@ class Weekday(object):
         self.message = message
 
     def __call__(self, form, field):
-        import datetime
         if field.data.weekday() > 4:
             print(field.data.weekday())
             if self.message is None:
@@ -49,6 +49,10 @@ class FormularioAgente(FlaskForm):
     Luego será extendido por las subclases respectivas (de creación
     y de edición de agente).
     """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.reparticion_id.choices = self.opciones_reparticiones(
+        default="Elija una repartición...")
 
     class Meta:
             locales = ['es']
@@ -56,7 +60,7 @@ class FormularioAgente(FlaskForm):
             def get_translations(self, form):
                 return super(FlaskForm.Meta, self).get_translations(form)
 
-    def opciones_reparticiones(default="-"):
+    def opciones_reparticiones(self, default="-"):
         """Obtiene la lista de reparticiones de la base de datos.
 
         Esta función se utiliza para poblar el select de repartición
@@ -68,7 +72,6 @@ class FormularioAgente(FlaskForm):
         El placeholder siempre debe tener el valor cero (0) ya que luego
         será validado por el validador opcion_valida
         """
-        from .modelos import Reparticion
         reparticiones = [(0, default)] + Reparticion.query.with_entities(
             Reparticion.id,
             Reparticion.nombre
@@ -91,8 +94,7 @@ class FormularioAgente(FlaskForm):
         validators=[
             InputRequired(),
             opcion_valida(message="Debe seleccionar una repartición")
-        ],
-        choices=opciones_reparticiones(default="Elija una repartición...")
+        ]
     )
     observaciones = TextAreaField('Observaciones')
 
@@ -115,6 +117,10 @@ class FormularioEditarAgente(FormularioAgente):
         """
         self.poblar_turnos(kwargs['obj'])
         super().__init__(**kwargs)
+        self.cal_psi_1.choices = self.opciones_calendarios(1)
+        self.cal_psi_2.choices = self.opciones_calendarios(1)
+        self.cal_med_1.choices = self.opciones_calendarios(2)
+        self.cal_med_2.choices = self.opciones_calendarios(2)
 
     def populate_obj(self, obj, edicion=False):
         """Sobreescritura del método para guardado de turnos
@@ -197,14 +203,13 @@ class FormularioEditarAgente(FormularioAgente):
         agente.med_2.ausente = self.ausente_med_2.data
         agente.med_2.calendario_id = self.cal_med_2.data
 
-    def opciones_calendarios(tipo):
+    def opciones_calendarios(self, tipo):
         """Método para obtener los calendarios y mostrarlos en un SelectField
 
         TODO: debe modificarse este método para traer tuples que tenga el
         siguiente formato: (id_calendario, nombre_calendario).
         También deben tener una opción vacía adelante para la validación.
         """
-        from .modelos import Calendario
         calendarios = {
             1: Calendario.query.with_entities(Calendario.id,
                 Calendario.etiqueta).filter_by(tipo=1).all(),
@@ -222,25 +227,21 @@ class FormularioEditarAgente(FormularioAgente):
 
     turno_psi_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional(), Weekday()])
-    cal_psi_1 = SelectField(choices=opciones_calendarios(1),
-        validators=[Optional()], coerce=int)
+    cal_psi_1 = SelectField(validators=[Optional()], coerce=int)
     ausente_psi_1 = BooleanField('Ausente')
     turno_psi_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional(), Weekday()])
-    cal_psi_2 = SelectField(choices=opciones_calendarios(1),
-        validators=[Optional()], coerce=int)
+    cal_psi_2 = SelectField(validators=[Optional()], coerce=int)
     ausente_psi_2 = BooleanField('Ausente')
     apto_psi = SelectField('Apto', choices=opciones_aptitud,
         coerce=int)
     turno_med_1 = DateTimeField('1º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional(), Weekday()])
-    cal_med_1 = SelectField(choices=opciones_calendarios(2),
-        validators=[Optional()], coerce=int)
+    cal_med_1 = SelectField(validators=[Optional()], coerce=int)
     ausente_med_1 = BooleanField('Ausente')
     turno_med_2 = DateTimeField('2º Turno', format='%d/%m/%Y %H:%M',
         validators=[Optional(), Weekday()])
-    cal_med_2 = SelectField(choices=opciones_calendarios(2),
-        validators=[Optional()], coerce=int)
+    cal_med_2 = SelectField(validators=[Optional()], coerce=int)
     ausente_med_2 = BooleanField('Ausente')
     apto_med = SelectField('Apto', choices=opciones_aptitud,
         coerce=int)

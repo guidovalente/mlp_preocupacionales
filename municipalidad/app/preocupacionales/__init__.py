@@ -6,13 +6,13 @@ from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 from .modelos import db, Agente, Reparticion, Turno, Calendario
+from .formularios import FormularioAgente, FormularioEditarAgente
 
 bp = Blueprint('preocupacionales', __name__, url_prefix='/preocupacionales')
 
 
 @bp.route('/nuevo_agente/', methods=('GET', 'POST'))
 def nuevo_agente():
-    from .formularios import FormularioAgente
     form = FormularioAgente()
     if form.validate_on_submit():
         nuevo_agente = Agente.con_turnos()
@@ -44,7 +44,6 @@ def editar_agente(id):
     if agente is None:
         abort(404)
 
-    from .formularios import FormularioEditarAgente
     form = FormularioEditarAgente(obj=agente)
     if request.method == 'POST':
         if request.form['action'] == 'guardar':
