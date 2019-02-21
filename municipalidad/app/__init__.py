@@ -1,6 +1,13 @@
 import os
 
-from flask import Flask, render_template, Blueprint
+from flask import (
+    Flask, render_template, Blueprint, redirect, url_for
+)
+
+
+def add_time(value, minutes=0, days=0):
+    from datetime import timedelta
+    return value + timedelta(minutes=minutes, days=days)
 
 def create_app(test_config=None):
     # create and configure the app
@@ -42,5 +49,8 @@ def create_app(test_config=None):
     @app.errorhandler(404)
     def not_found(error):
         return render_template('404.html'), 404
+
+    from datetime import timedelta
+    app.jinja_env.filters['add_time'] = add_time
 
     return app
