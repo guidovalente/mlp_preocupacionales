@@ -136,7 +136,7 @@ def calendario(tipo='psi'):
     porque no pudo hacerse presente en el primero y, por ende, ese espacio
     queda liberado.
     """
-    from .modelos import db, Turno
+    from .modelos import db, Turno, Calendario
     from sqlalchemy import func
 
     # obtenemos los turnos, esta consulta equivale a:
@@ -147,9 +147,10 @@ def calendario(tipo='psi'):
     ).filter(
         Turno.fecha != None, Turno.tipo == (1 if tipo == 'psi' else 2)
     ).group_by(Turno.agente_id, Turno.tipo).with_entities(Turno.id).all()
-
+    calendarios = Calendario.query.filter_by(
+        tipo = (1 if tipo == 'psi' else 2)).all()
     # query equivalente:
     # select * from turnos where id in (id_turnos)
     turnos = Turno.query.filter(Turno.id.in_([id[0] for id in id_turnos]))
     return render_template('preocupacionales/calendario.html', turnos=turnos,
-        tipo=tipo)
+        tipo=tipo, calendarios=calendarios)
