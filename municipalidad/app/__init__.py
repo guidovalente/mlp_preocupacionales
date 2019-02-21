@@ -33,6 +33,10 @@ def create_app(test_config=None):
     def exito(id):
         return render_template('exito.html', id=id)
 
+    @home_bp.route('/')
+    def index():
+        return redirect(url_for('preocupacionales.lista'))
+
     app.register_blueprint(home_bp)
 
     @app.errorhandler(404)
