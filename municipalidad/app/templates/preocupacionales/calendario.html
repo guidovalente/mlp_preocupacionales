@@ -73,8 +73,11 @@
       <div class="border rounded bg-light p-2 mb-2">
         <div class="h5 text-center pl-1 text-size-small">Calendarios</div>
         <div class="btn-group-vertical btn-block">
-          <a class="btn btn-info {{ 'active' if tipo == 'psi' else ''}}" href="{{ url_for('preocupacionales.calendario', tipo='psi') }}">Turnos psicológicos</a>
-          <a class="btn btn-info {{ 'active' if tipo == 'med' else ''}}" href="{{ url_for('preocupacionales.calendario', tipo='med') }}">Turnos médicos</a>
+          <a class="btn btn-primary {{ 'active' if tipo == 'psi' else ''}}" href="{{ url_for('preocupacionales.calendario', tipo='psi') }}">Turnos psicológicos</a>
+          <a class="btn btn-primary {{ 'active' if tipo == 'med' else ''}}" href="{{ url_for('preocupacionales.calendario', tipo='med') }}">Turnos médicos</a>
+        </div>
+      </div>
+      <button id="buttonImprimir" class="btn btn-block btn-primary hidden-print"><i class="fas pr-1 fa-print"></i>Imprimir</button>
         </div>
       </div>
       <button id="buttonImprimir" class="btn btn-block btn-info hidden-print"><i class="fas pr-1 fa-print"></i>Imprimir</button>

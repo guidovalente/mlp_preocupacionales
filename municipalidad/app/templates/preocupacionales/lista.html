@@ -3,6 +3,10 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='datatables/css/dataTables.bootstrap4.min.css')}}">
 <script type="text/javascript" src="{{ url_for('static', filename='datatables/js/jquery.dataTables.min.js')}}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='datatables/js/dataTables.bootstrap4.min.js')}}"></script>
+
+<!-- Extensión de datatables para búsqueda con tildes. Descargué el plugin -->
+<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/filtering/type-based/accent-neutralise.js"></script>
+
 <script type="text/javascript" class="init">
   $(document).ready(function() {
     $('#example').DataTable( {
@@ -13,8 +17,8 @@
 {% endblock %}
 {% block contenido %}
 <div class="mt-3">
-  <a href="{{ url_for('preocupacionales.nuevo_agente') }}" class="btn btn-info"><i class="fas fa-user-plus"></i> Nuevo agente</a>
-  <a href="#" class="btn btn-info"><i class="fas fa-file-export"></i> Exportar listado</a>
+  <a href="{{ url_for('preocupacionales.nuevo_agente') }}" class="btn btn-primary"><i class="fas fa-user-plus"></i> Nuevo agente</a>
+  <a href="#" class="btn btn-primary"><i class="fas fa-file-export"></i> Exportar listado</a>
 </div>
 <div class="mt-3">
   <table id="example" class="table text-center table-striped table-bordered table-hover table-sm" width="100%">

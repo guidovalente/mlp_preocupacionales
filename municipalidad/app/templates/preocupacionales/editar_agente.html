@@ -342,9 +342,9 @@
         <div class="col">
           <div class="btn-block">
             <div class="btn-group-vertical">
-              <button class="btn btn-info" type="submit" name="action" value="guardar"><i class="fas pr-1 fa-save"></i>Guardar cambios</button>
+              <button class="btn btn-primary" type="submit" name="action" value="guardar"><i class="fas pr-1 fa-save"></i>Guardar cambios</button>
               <div class="btn-group">
-                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownCedula" data-toggle="dropdown"><i class="fas pr-1 fa-print"></i>Generar cédula</button>
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownCedula" data-toggle="dropdown"><i class="fas pr-1 fa-print"></i>Generar cédula</button>
                 <div class="dropdown-menu" aria-labelledby="dropdownCedula">
                   <a class="dropdown-item" target="_blank" href="{{ url_for('preocupacionales.cedula', tipo_cedula='completa', id_agente=id) }}">Completa</a>
                   <a class="dropdown-item" target="_blank" href="{{ url_for('preocupacionales.cedula', tipo_cedula='psi', id_agente=id) }}">Psicológico</a>
