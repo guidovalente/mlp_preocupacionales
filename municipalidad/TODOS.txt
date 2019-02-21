@@ -11,3 +11,6 @@ Modelos:
   Turno:
     -Construir UniqueConstraint para que no se repita la fecha de los turnos
       con turnos que son del mismo tipo
+Vistas:
+  Listado:
+    -Filtros por: pendientes de aptitud, pendientes de turno, aptos si/no
