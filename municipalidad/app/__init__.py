@@ -36,6 +36,10 @@ def create_app(test_config=None):
     from .routes import register_routes
     register_routes(app)
 
+    # register cli commands
+    from .helpers import register_commands
+    register_commands(app)
+
     # jinja filters
     from datetime import timedelta
     app.jinja_env.filters['add_time'] = add_time
