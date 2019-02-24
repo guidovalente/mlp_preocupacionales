@@ -5,6 +5,11 @@ from app.preocupacionales.modelos import (
 )
 import random
 from .preocupacionales.modelos import Agente, Reparticion
+from datetime import timedelta
+
+def add_time(value, minutes=0, days=0):
+    return value + timedelta(minutes=minutes, days=days)
+
 
 @click.command('init-db')
 @with_appcontext

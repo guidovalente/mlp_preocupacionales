@@ -2,7 +2,6 @@ import os
 from flask import (
     Flask, render_template, Blueprint, redirect, url_for
 )
-from datetime import timedelta
 from .modelo_base import db
 from .routes import register_routes
 from .helpers import register_commands
@@ -10,9 +9,6 @@ from .modelos import Usuario
 from .preocupacionales.modelos import (
     Agente, Reparticion, Turno, Calendario
 )
-
-def add_time(value, minutes=0, days=0):
-    return value + timedelta(minutes=minutes, days=days)
 
 
 def create_app(test_config=None):
