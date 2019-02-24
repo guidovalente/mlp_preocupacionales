@@ -6,6 +6,7 @@ from .modelo_base import db
 from .helpers import register_commands, login_manager, add_time
 from .routes import bp as bp_home
 from .auth import bp as bp_auth
+from .auth.modelos import Usuario
 from .preocupacionales import bp as bp_preocupacionales
 from .preocupacionales.modelos import (
     Agente, Reparticion, Turno, Calendario
@@ -33,9 +34,12 @@ def create_app(test_config=None):
     # initializations
     db.init_app(app) # db
     register_commands(app) # cli commands
+    login_manager.init_app(app) # flask-login
+
     # jinja filters
     app.jinja_env.filters['add_time'] = add_time
 
+    # route blueprints
     app.register_blueprint(bp_home)
     app.register_blueprint(bp_auth)
     app.register_blueprint(bp_preocupacionales)

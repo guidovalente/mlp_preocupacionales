@@ -1,14 +1,28 @@
 import click
 from flask.cli import with_appcontext
+from flask_login import LoginManager
 from app.preocupacionales.modelos import (
     Agente, Turno, Reparticion, Calendario
 )
 import random
+from .modelo_base import db
+from .auth.modelos import Usuario
 from .preocupacionales.modelos import Agente, Reparticion
 from datetime import timedelta
 
+
 def add_time(value, minutes=0, days=0):
     return value + timedelta(minutes=minutes, days=days)
+
+
+# iniciamos y configuramos flask-login
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.login_message = 'Debe ingresar para ver esta página.'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Usuario.query.get(int(user_id))
 
 
 @click.command('init-db')
@@ -35,6 +49,7 @@ def init_db_command():
     db.session.commit()
     db.session.bulk_save_objects(calendarios)
     db.session.commit()
+
 
 @click.command('insert-test-records')
 @with_appcontext
