@@ -3,9 +3,10 @@ from flask import (
     Flask, render_template, Blueprint, redirect, url_for
 )
 from .modelo_base import db
-from .routes import register_routes
-from .helpers import register_commands
-from .modelos import Usuario
+from .helpers import register_commands, login_manager, add_time
+from .routes import bp as bp_home
+from .auth import bp as bp_auth
+from .preocupacionales import bp as bp_preocupacionales
 from .preocupacionales.modelos import (
     Agente, Reparticion, Turno, Calendario
 )
@@ -29,11 +30,19 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # get the database
-    db.init_app(app)
-    register_routes(app)
-    register_commands(app)
+    # initializations
+    db.init_app(app) # db
+    register_commands(app) # cli commands
+    # jinja filters
     app.jinja_env.filters['add_time'] = add_time
+
+    app.register_blueprint(bp_home)
+    app.register_blueprint(bp_auth)
+    app.register_blueprint(bp_preocupacionales)
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return render_template('404.html'), 404
 
     # shell context
     @app.shell_context_processor
