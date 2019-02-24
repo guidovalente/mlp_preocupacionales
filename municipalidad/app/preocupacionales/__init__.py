@@ -2,6 +2,7 @@ from flask import (
     Blueprint, render_template, url_for, redirect, flash, current_app, abort,
     request
 )
+from flask_login import login_required
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
@@ -12,6 +13,7 @@ bp = Blueprint('preocupacionales', __name__, url_prefix='/preocupacionales')
 
 
 @bp.route('/nuevo_agente/', methods=('GET', 'POST'))
+@login_required
 def nuevo_agente():
     form = FormularioAgente()
     if form.validate_on_submit():
@@ -38,6 +40,7 @@ def nuevo_agente():
 
 
 @bp.route('/agente/<int:id>/', methods=('GET', 'POST'))
+@login_required
 def editar_agente(id):
     agente = Agente.query.filter_by(id=id).first()
 
@@ -83,12 +86,14 @@ def editar_agente(id):
 
 
 @bp.route('/')
+@login_required
 def lista():
     agentes = Agente.query.all()
     return render_template('preocupacionales/lista.html', agentes=agentes)
 
 
 @bp.route('/cedula/<any("completa","psi","med"):tipo_cedula>/<int:id_agente>/')
+@login_required
 def cedula(tipo_cedula, id_agente):
     agente = Agente.query.filter_by(id=id_agente).first()
 
@@ -119,6 +124,7 @@ def cedula(tipo_cedula, id_agente):
 
 @bp.route('/calendario/')
 @bp.route('/calendario/<any("psi", "med"):tipo>/')
+@login_required
 def calendario(tipo='psi'):
     """Vista de calendario
 

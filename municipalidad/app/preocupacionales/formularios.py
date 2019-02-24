@@ -42,7 +42,6 @@ class Weekday(object):
             raise ValidationError(message)
 
 
-
 class FormularioAgente(FlaskForm):
     """Formulario base para carga y actualización del agente
 
