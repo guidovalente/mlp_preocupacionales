@@ -1,16 +1,10 @@
 import os
-from flask import (
-    Flask, render_template, Blueprint, redirect, url_for
-)
+from flask import Flask, render_template, Blueprint, redirect, url_for
 from .modelo_base import db
-from .helpers import register_commands, login_manager, add_time
+from .helpers import register_commands, login_manager, add_time, get_shell
 from .routes import bp as bp_home
 from .auth import bp as bp_auth
-from .auth.modelos import Usuario
 from .preocupacionales import bp as bp_preocupacionales
-from .preocupacionales.modelos import (
-    Agente, Reparticion, Turno, Calendario
-)
 
 
 def create_app(test_config=None):
@@ -34,6 +28,7 @@ def create_app(test_config=None):
     # initializations
     db.init_app(app) # db
     register_commands(app) # cli commands
+    get_shell(app) # flask shell
     login_manager.init_app(app) # flask-login
 
     # jinja filters
@@ -47,17 +42,5 @@ def create_app(test_config=None):
     @app.errorhandler(404)
     def not_found(error):
         return render_template('404.html'), 404
-
-    # shell context
-    @app.shell_context_processor
-    def make_shell_context():
-        return {
-            'db': db,
-            'Usuario': Usuario,
-            'Agente': Agente,
-            'Reparticion': Reparticion,
-            'Turno': Turno,
-            'Calendario': Calendario
-        }
 
     return app

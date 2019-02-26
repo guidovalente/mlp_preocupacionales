@@ -6,10 +6,24 @@ from app.preocupacionales.modelos import (
 )
 import random
 from .modelo_base import db
-from .auth.modelos import Usuario
+from .auth.modelos import Usuario, Rol, Permiso
 from .preocupacionales.modelos import Agente, Reparticion
 from datetime import timedelta
 
+def get_shell(app):
+    @app.shell_context_processor
+    def make_shell_context():
+        return {
+            'db': db,
+            'Usuario': Usuario,
+            'Rol': Rol,
+            'Permiso': Permiso,
+            'Agente': Agente,
+            'Reparticion': Reparticion,
+            'Turno': Turno,
+            'Calendario': Calendario
+        }
+    return make_shell_context
 
 def add_time(value, minutes=0, days=0):
     return value + timedelta(minutes=minutes, days=days)
