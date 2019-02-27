@@ -1,7 +1,9 @@
 import os
 from flask import Flask, render_template, Blueprint, redirect, url_for
 from .modelo_base import db
-from .helpers import register_commands, login_manager, add_time, get_shell
+from .helpers import (
+    register_commands, login_manager, add_time, get_shell, migrate
+)
 from .routes import bp as bp_home
 from .auth import bp as bp_auth
 from .preocupacionales import bp as bp_preocupacionales
@@ -30,6 +32,7 @@ def create_app(test_config=None):
     register_commands(app) # cli commands
     get_shell(app) # flask shell
     login_manager.init_app(app) # flask-login
+    migrate.init_app(app, db)
 
     # jinja filters
     app.jinja_env.filters['add_time'] = add_time

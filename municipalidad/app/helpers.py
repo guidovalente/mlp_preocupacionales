@@ -1,6 +1,7 @@
 import click
 from flask.cli import with_appcontext
 from flask_login import LoginManager
+from flask_migrate import Migrate
 from app.preocupacionales.modelos import (
     Agente, Turno, Reparticion, Calendario
 )
@@ -9,6 +10,10 @@ from .modelo_base import db
 from .auth.modelos import Usuario, Rol, Permiso
 from .preocupacionales.modelos import Agente, Reparticion
 from datetime import timedelta
+
+
+migrate = Migrate()
+
 
 def get_shell(app):
     @app.shell_context_processor
