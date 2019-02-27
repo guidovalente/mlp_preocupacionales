@@ -73,10 +73,8 @@ def init_db_command():
 @click.command('insert-test-records')
 @with_appcontext
 def insert_test_records():
-    nombres = ['Pedro', 'María', 'Martina', 'Lucas', 'Victoria', 'Guido',
-        'Matías', 'Lucrecia']
-    apellidos = ['Quattrini', 'Varlotta', 'Morón', 'Valente', 'Smeriglio',
-        'Zappa']
+    nombres = ['Pedro', 'María', 'Juan', 'Pablo', 'Julieta', 'Guido']
+    apellidos = ['Pérez', 'Giménez', 'Rodríguez', 'Blanco', 'Negro']
     reparticiones = Reparticion.query.count()
     print("Comenzando inserción de registros de prueba")
     for i in range(300):
