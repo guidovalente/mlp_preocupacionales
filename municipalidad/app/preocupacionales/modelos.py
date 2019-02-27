@@ -8,6 +8,7 @@ class Agente(Base):
     """
     def __init__(self, **kwargs):
         """Inicializamos con atributos en caso de que sean indicados"""
+        super().__init__(**kwargs)
         self.__dict__.update(kwargs)
 
     __tablename__ = 'agentes'
