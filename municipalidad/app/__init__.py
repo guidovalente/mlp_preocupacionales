@@ -44,7 +44,9 @@ def create_app(test_config=None):
 
     @app.errorhandler(404)
     def not_found(error):
-        return render_template('404.html'), 404
+        return render_template('error.html',
+            mensaje=("La página buscada no existe. Si cree que esto es un "
+            "error contáctese con el administrador del sistema.")), 404
 
     @app.errorhandler(403)
     def forbidden(error):
