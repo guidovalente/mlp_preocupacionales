@@ -1,12 +1,13 @@
 from flask import (
-    Blueprint, redirect, url_for, render_template, request
+    Blueprint, redirect, url_for, render_template, request, flash
 )
 from flask_login import (
     current_user, login_user, logout_user
 )
 from werkzeug.urls import url_parse
 from .formularios import FormularioLogin, FormularioRegistro
-from .modelos import db, Usuario
+from .modelos import db, Usuario, Permiso
+from .decorators import permission_required
 
 bp = Blueprint('auth', __name__, url_prefix='')
 
@@ -28,12 +29,15 @@ def login():
         return redirect(next_page)
     return render_template('auth/login.html', title='Ingresar', form=form)
 
+
 @bp.route('/logout/')
 def logout():
     logout_user()
     return redirect(url_for('home.index'))
 
+
 @bp.route('/registro/', methods=['GET', 'POST'])
+@permission_required(Permiso.ADMIN)
 def registro():
     form = FormularioRegistro()
     if form.validate_on_submit():

@@ -8,12 +8,15 @@ from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 from .modelos import db, Agente, Reparticion, Turno, Calendario
 from .formularios import FormularioAgente, FormularioEditarAgente
+from app.auth.modelos import Permiso
+from app.auth.decorators import permission_required
 
 bp = Blueprint('preocupacionales', __name__, url_prefix='/preocupacionales')
 
 
 @bp.route('/nuevo_agente/', methods=('GET', 'POST'))
 @login_required
+@permission_required(Permiso.CREAR_AGENTE)
 def nuevo_agente():
     form = FormularioAgente()
     if form.validate_on_submit():
@@ -41,6 +44,7 @@ def nuevo_agente():
 
 @bp.route('/agente/<int:id>/', methods=('GET', 'POST'))
 @login_required
+@permission_required(Permiso.EDITAR_AGENTE)
 def editar_agente(id):
     agente = Agente.query.filter_by(id=id).first()
 
@@ -87,6 +91,7 @@ def editar_agente(id):
 
 @bp.route('/')
 @login_required
+@permission_required(Permiso.VER_AGENTES)
 def lista():
     agentes = Agente.query.all()
     return render_template('preocupacionales/lista.html', agentes=agentes)
@@ -94,6 +99,7 @@ def lista():
 
 @bp.route('/cedula/<any("completa","psi","med"):tipo_cedula>/<int:id_agente>/')
 @login_required
+@permission_required(Permiso.EDITAR_AGENTE)
 def cedula(tipo_cedula, id_agente):
     agente = Agente.query.filter_by(id=id_agente).first()
 
@@ -125,6 +131,7 @@ def cedula(tipo_cedula, id_agente):
 @bp.route('/calendario/')
 @bp.route('/calendario/<any("psi", "med"):tipo>/')
 @login_required
+@permission_required(Permiso.VER_AGENTES)
 def calendario(tipo='psi'):
     """Vista de calendario
 
