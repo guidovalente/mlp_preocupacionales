@@ -43,4 +43,9 @@ def create_app(test_config=None):
     def not_found(error):
         return render_template('404.html'), 404
 
+    @app.errorhandler(403)
+    def forbidden(error):
+        return render_template('error.html',
+            mensaje='No tiene permiso para ver esta página.')
+
     return app
