@@ -13,6 +13,6 @@ build/
 *~
 desarrollo/
 context.py
-instance/
+instance*/
 brainstorm.txt
 *.bak
