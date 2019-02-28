@@ -68,6 +68,7 @@ def init_db_command():
     db.session.commit()
     db.session.bulk_save_objects(calendarios)
     db.session.commit()
+    Rol.insertar_roles()
 
 
 @click.command('insert-test-records')
