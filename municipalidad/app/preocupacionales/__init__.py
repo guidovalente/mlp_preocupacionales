@@ -14,6 +14,12 @@ from app.auth.decorators import permission_required
 bp = Blueprint('preocupacionales', __name__, url_prefix='/preocupacionales')
 
 
+@bp.route('/')
+@login_required
+def index():
+    return redirect(url_for('preocupacionales.lista'))
+
+
 @bp.route('/nuevo_agente/', methods=('GET', 'POST'))
 @login_required
 @permission_required(Permiso.CREAR_AGENTE)
