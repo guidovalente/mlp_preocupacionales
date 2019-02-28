@@ -89,12 +89,22 @@ def editar_agente(id):
         id=id)
 
 
-@bp.route('/')
+@bp.route('/listado')
+@bp.route('/listado/<any("completo","pendientes_psi", "pendientes_med"):tipo_listado>')
 @login_required
 @permission_required(Permiso.VER_AGENTES)
-def lista():
-    agentes = Agente.query.all()
-    return render_template('preocupacionales/lista.html', agentes=agentes)
+def lista(tipo_listado='completo'):
+    if tipo_listado == 'completo':
+        agentes = Agente.query.all()
+    else:
+        from .vistas import AgentesPendientes
+        agentes = AgentesPendientes.query.filter(
+            AgentesPendientes.tipo_turno == (
+                1 if tipo_listado == 'pendientes_psi' else 2
+            )
+        )
+    return render_template('preocupacionales/lista.html', agentes=agentes,
+    tipo_listado=tipo_listado)
 
 
 @bp.route('/cedula/<any("completa","psi","med"):tipo_cedula>/<int:id_agente>/')
