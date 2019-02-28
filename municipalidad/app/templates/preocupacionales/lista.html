@@ -1,16 +1,46 @@
 {% extends "base.html" %}
 {% block extra_head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='datatables/css/dataTables.bootstrap4.min.css')}}">
-<script type="text/javascript" src="{{ url_for('static', filename='datatables/js/jquery.dataTables.min.js')}}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='datatables/js/dataTables.bootstrap4.min.js')}}"></script>
 
-<!-- Extensión de datatables para búsqueda con tildes. Descargué el plugin -->
-<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/filtering/type-based/accent-neutralise.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables/datatables.min.css')}}"/>
+<script type="text/javascript" src="{{ url_for('static', filename='datatables/datatables.min.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='datatables/accent-neutralise.min.js')}}"></script>
 
 <script type="text/javascript" class="init">
   $(document).ready(function() {
-    $('#example').DataTable( {
-      "dom": '<"row justify-content-end"<"col-1"l><"col-8"p><"col-3"f>>ti'
+    $('#listado').DataTable( {
+      responsive: true,
+      "dom": '<"row justify-content-end"<"col-1"l><"col-8"p><"col-3"f>>ti',
+      initComplete: function () {
+        this.api().columns([6, 7]).every( function () {
+          var column = this;
+          var select = $('<select class="form-control d-inline-block p-0" style="height:auto; width: auto"><option value="">Todos</option></select>')
+          .appendTo( $(column.header()) )
+          .on( 'change', function () {
+            var val = $.fn.dataTable.util.escapeRegex(
+            $(this).val()
+            );
+
+            column
+            .search( val ? '^'+val+'$' : '', true, false )
+            .draw();
+          } );
+
+          column.data().unique().sort().each( function ( d, j ) {
+            select.append( '<option value="'+d+'">'+d+'</option>' )
+          } );
+        } );
+      }
+    } );
+    var table = $('#listado').dataTable();
+
+    // Remove accented character from search input as well
+    $('#listado_filter input').keyup( function () {
+      table
+        .api()
+          .search(
+            jQuery.fn.DataTable.ext.type.search.string( this.value )
+          )
+          .draw()
     } );
   } );
 </script>
@@ -21,8 +51,8 @@
   <a href="#" class="btn btn-primary"><i class="fas fa-file-export"></i> Exportar listado</a>
 </div>
 <div class="mt-3">
-  <table id="example" class="table text-center table-striped table-bordered table-hover table-sm" width="100%">
-    <thead class="thead-light ">
+  <table id="listado" class="table text-center table-striped table-bordered table-hover table-sm" width="100%">
+    <thead class="thead-light">
       <tr>
         <th scope="col" colspan="6">Datos</th>
         <th scope="col" colspan="2">Preocupacional</th>
@@ -35,26 +65,26 @@
         <th scope="col">Teléfono</th>
         <th scope="col">Nº Legajo</th>
         <th scope="col">Repartición</th>
-        <th scope="col">Apto</th>
-        <th scope="col">Apto</th>
+        <th scope="col">Apto: </th>
+        <th scope="col">Apto: </th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       {% for agente in agentes %}
-      {% if agente.apto_psicologico == 1 %}
-      {% set apto_psicologico = 'Sí' %}
-      {% elif agente.apto_psicologico == 2 %}
-      {% set apto_psicologico = 'No' %}
+      {% if agente.apto_psi == 1 %}
+      {% set apto_psi = 'Sí' %}
+      {% elif agente.apto_psi == 2 %}
+      {% set apto_psi = 'No' %}
       {% else %}
-      {% set apto_psicologico = '-' %}
+      {% set apto_psi = 'Pendiente' %}
       {% endif %}
-      {% if agente.apto_medico == 1 %}
-      {% set apto_medico = 'Sí' %}
-      {% elif agente.apto_medico == 2 %}
-      {% set apto_medico = 'No' %}
+      {% if agente.apto_med == 1 %}
+      {% set apto_med = 'Sí' %}
+      {% elif agente.apto_med == 2 %}
+      {% set apto_med = 'No' %}
       {% else %}
-      {% set apto_medico = '-' %}
+      {% set apto_med = 'Pendiente' %}
       {% endif %}
       <tr>
         <td>{{ agente.nombre }}</td>
@@ -63,8 +93,8 @@
         <td>{{ agente.telefono or '-' }}</td>
         <td>{{ agente.legajo or '-' }}</td>
         <td>{{ agente.reparticion }}</td>
-        <td>{{ apto_psicologico }}</td>
-        <td>{{ apto_medico }}</td>
+        <td>{{ apto_psi }}</td>
+        <td>{{ apto_med }}</td>
         <td><a class="text-body" href="{{ url_for('preocupacionales.editar_agente', id=agente.id) }}"><i class="fas fa-eye"></i></a></td>
       </tr>
       {% endfor %}
